@@ -2,7 +2,7 @@ import cv2
 import pytesseract as pt
 def scan_chars(image_path):
   
-    print("el path es: "+image_path)
+    #print("el path es: "+image_path)
     image = cv2.imread(image_path)
 
     if image is None:
