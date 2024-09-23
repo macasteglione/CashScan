@@ -1,3 +1,4 @@
+import os
 import cv2
 import numpy as np
 
@@ -23,35 +24,32 @@ def resize_image(image, max_size):
         # Si la imagen ya es más pequeña que el tamaño máximo, devolver la imagen original
         return image
 
+def cut_image(image_path, filename):
+    image = cv2.imread(image_path)
+    if image is None:
+        print(f"Error al cargar la imagen: {image_path}")
+        exit(1)
 
-iname = "imgb-1000-8"
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    edges = cv2.Canny(blurred, 100, 200)
+    #50-150
 
-image = cv2.imread('src/data/ResultadosBll1000/'+iname+'.jpg')
-#image = cv2.imread('src/data/RecursosBll1000/'+iname+'.jpg')
+    contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cv2.drawContours(image, contours, -1, (0, 255, 0), 2)
 
-# Convertir a escala de grises
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    max_size = 800
+    resized_image = resize_image(image, max_size)
 
-# Aplicar desenfoque para reducir ruido
-blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    # Verifica si la carpeta de destino existe, si no, créala
+    output_dir = './venv/src/data/RecortesBll1000/'
+    os.makedirs(output_dir, exist_ok=True)
 
-# Usar la detección de bordes Canny
-edges = cv2.Canny(blurred, 50, 150)
+    filename_without_ext = os.path.splitext(filename)[0]
+    output_path = os.path.join(output_dir, f'{filename_without_ext}-REC.jpg')
+    success = cv2.imwrite(output_path, resized_image)
 
-# Encontrar contornos
-contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-# Dibujar los contornos en la imagen original
-cv2.drawContours(image, contours, -1, (0, 255, 0), 2)
-
-max_size = 800
-resized_image = resize_image(image, max_size)
-
-
-# Mostrar el resultado
-cv2.imwrite('src/data/ResultadosBll1000/'+ iname + '-REC.jpg', resized_image)
-"""
-cv2.imshow('Resized Image', resized_image)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-"""
+    if success:
+        print(f"Imagen guardada exitosamente en: {output_path}")
+    else:
+        print("Error al guardar la imagen.")

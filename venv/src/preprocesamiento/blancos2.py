@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import os
 
 def gray_world_white_balance(image):
     image_float = image.astype(np.float32)
@@ -37,19 +38,26 @@ def resize_image(image, max_width):
     return resized_image
 
 
-iname = "imgb-1000-8"
-image_path = 'src/data/RecursosBll1000/' + iname + '.jpg'
+def white_balance(full_path, filename):
+    image = cv2.imread(full_path)
 
-image = cv2.imread(image_path)
+    if image is None:
+        print(f"Error al cargar la imagen: {full_path}")
+        exit(1)
 
-if image is None:
-    print(f"Error al cargar la imagen: {image_path}")
-    exit(1)
+    balanced_image = gray_world_white_balance(image)
 
-balanced_image = gray_world_white_balance(image)
+    max_width = 800
+    resized_image = resize_image(balanced_image, max_width)
 
-max_width = 800
-resized_image = resize_image(balanced_image, max_width)
+    output_dir = './venv/src/data/ResultadosBll1000/'
+    os.makedirs(output_dir, exist_ok=True)
+    filename_without_ext = os.path.splitext(filename)[0]
+    # Guardar la imagen y verificar si fue exitosa
+    output_path = os.path.join(output_dir, f'{filename_without_ext}-EBA.jpg')
+    success = cv2.imwrite(output_path, resized_image)
 
-output_path = f'src/data/ResultadosBll1000/{iname}-EBA.jpg'
-cv2.imwrite(output_path, resized_image)
+    if success:
+        print(f"Imagen guardada exitosamente en: {output_path}")
+    else:
+        print("Error al guardar la imagen.")

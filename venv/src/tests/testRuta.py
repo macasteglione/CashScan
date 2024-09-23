@@ -2,7 +2,7 @@ import cv2
 import os
 
 # Ruta al directorio de imágenes
-ruta_directorio = "./venv/src/data"
+ruta_directorio = "./venv/src/data/RecursosBll1000"
 
 # Crear la ruta completa a una imagen
 ruta_imagen = os.path.join(ruta_directorio, "imgb-1000-3.jpg")

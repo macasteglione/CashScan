@@ -14,6 +14,6 @@ def rename_files_in_directory(directory):
         os.rename(src, dst)
         print(f"Renombrado: {filename} -> {new_name}")
 
-directory = './src/data/RecursosBll1000/' 
+directory = './venv/src/data/RecursosBll1000/' 
 
 rename_files_in_directory(directory)
