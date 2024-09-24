@@ -53,3 +53,23 @@ def cut_image(image_path, filename):
         print(f"Imagen guardada exitosamente en: {output_path}")
     else:
         print("Error al guardar la imagen.")
+
+    mask = np.zeros_like(gray)
+
+    # Rellenar la máscara con los contornos
+    cv2.drawContours(mask, contours, -1, (255), thickness=cv2.FILLED)
+
+    # Crear una imagen donde todo lo fuera de los contornos será negro (usando la máscara)
+    result = cv2.bitwise_and(image, image, mask=mask)
+
+    # Redimensionar la nueva imagen recortada si es necesario
+    resized_result = resize_image(result, max_size)
+
+    # Guardar la imagen recortada con el sufijo -REC2
+    output_path_rec2 = os.path.join(output_dir, f'{filename_without_ext}-REC2.jpg')
+    success_rec2 = cv2.imwrite(output_path_rec2, resized_result)
+
+    if success_rec2:
+        print(f"Imagen recortada y guardada exitosamente en: {output_path_rec2}")
+    else:
+        print("Error al guardar la imagen recortada.")
