@@ -13,7 +13,7 @@ def resize_image(image, max_size):
         else:
             scale = max_size / height
 
-        # Calcular las nuevas dimensiones
+        # Nuevas dimensiones
         new_width = int(width * scale)
         new_height = int(height * scale)
 
@@ -21,7 +21,7 @@ def resize_image(image, max_size):
         resized_image = cv2.resize(image, (new_width, new_height))
         return resized_image
     else:
-        # Si la imagen ya es más pequeña que el tamaño máximo, devolver la imagen original
+        # Imagen muy pequeñas como para redimensionar
         return image
 
 def cut_image(image_path, filename):
@@ -62,10 +62,9 @@ def cut_image(image_path, filename):
     # Crear una imagen donde todo lo fuera de los contornos será negro (usando la máscara)
     result = cv2.bitwise_and(image, image, mask=mask)
 
-    # Redimensionar la nueva imagen recortada si es necesario
+    # Redimensionar la nueva imagen recortada
     resized_result = resize_image(result, max_size)
 
-    # Guardar la imagen recortada con el sufijo -REC2
     output_path_rec2 = os.path.join(output_dir, f'{filename_without_ext}-REC2.jpg')
     success_rec2 = cv2.imwrite(output_path_rec2, resized_result)
 

@@ -53,7 +53,8 @@ def white_balance(full_path, filename):
     output_dir = './venv/src/data/ResultadosBll1000/'
     os.makedirs(output_dir, exist_ok=True)
     filename_without_ext = os.path.splitext(filename)[0]
-    # Guardar la imagen y verificar si fue exitosa
+    
+    # Guardar la imagen
     output_path = os.path.join(output_dir, f'{filename_without_ext}-EBA.jpg')
     success = cv2.imwrite(output_path, resized_image)
 
