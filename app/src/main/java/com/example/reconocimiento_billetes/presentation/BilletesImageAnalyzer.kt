@@ -12,7 +12,7 @@ class BilletesImageAnalyzer (
 ): ImageAnalysis.Analyzer {
 
     private var frameSkipCounter = 0
-    private val frameInterval = 10
+    private val frameInterval = 60
 
     override fun analyze(image: ImageProxy) {
         Log.d("Analyzer", "Processing frame")
@@ -27,7 +27,5 @@ class BilletesImageAnalyzer (
             onResults(results)
         }
         frameSkipCounter++
-
-        image.close()
     }
 }

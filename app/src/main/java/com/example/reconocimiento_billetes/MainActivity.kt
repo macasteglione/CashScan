@@ -33,6 +33,8 @@ import com.example.reconocimiento_billetes.data.TfLiteBilletesClassifier
 import com.example.reconocimiento_billetes.domain.Classification
 import com.example.reconocimiento_billetes.presentation.BilletesImageAnalyzer
 import com.example.reconocimiento_billetes.presentation.CameraPreview
+import com.example.reconocimiento_billetes.presentation.CombinedImageAnalyzer
+import com.example.reconocimiento_billetes.presentation.LuminosityAnalyzer
 import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
 
 class MainActivity : ComponentActivity() {
@@ -50,8 +52,7 @@ class MainActivity : ComponentActivity() {
                 var showCamera by remember { mutableStateOf(false) }
                 var classifications by remember { mutableStateOf(emptyList<Classification>()) }
 
-                // Image Analyzer setup
-                val analyzer = remember {
+                val billetesAnalyzer = remember {
                     BilletesImageAnalyzer(
                         classifier = TfLiteBilletesClassifier(
                             context = applicationContext
@@ -62,22 +63,37 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-                val controller = remember {
+                val cameraController = remember {
                     LifecycleCameraController(applicationContext).apply {
                         setEnabledUseCases(CameraController.IMAGE_ANALYSIS)
-                        setImageAnalysisAnalyzer(
-                            ContextCompat.getMainExecutor(applicationContext),
-                            analyzer
-                        )
                     }
                 }
+
+                val lightAnalyzer = remember {
+                    LuminosityAnalyzer { isLowLight ->
+                        if (isLowLight) {
+                            cameraController.enableTorch(true)
+                        } else {
+                            cameraController.enableTorch(false)
+                        }
+                    }
+                }
+
+                val combinedAnalyzer = remember {
+                    CombinedImageAnalyzer(billetesAnalyzer, lightAnalyzer)
+                }
+
+                cameraController.setImageAnalysisAnalyzer(
+                    ContextCompat.getMainExecutor(applicationContext),
+                    combinedAnalyzer
+                )
 
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
                     if (showCamera) {
-                        CameraPreview(controller, Modifier.fillMaxSize())
+                        CameraPreview(cameraController, Modifier.fillMaxSize())
                     } else {
                         Button(
                             onClick = { showCamera = true },
@@ -87,28 +103,28 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    // Mostrar el billete reconocido en la parte superior
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(MaterialTheme.colorScheme.primaryContainer)
-                                .align(Alignment.TopCenter)
-                        ) {
-                            classifications.forEach {
-                                val labels = loadLabels(applicationContext)
-                                val label = if (it.index < labels.size) labels[it.index] else "Desconocido"
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.primaryContainer)
+                            .align(Alignment.TopCenter)
+                    ) {
+                        classifications.forEach {
+                            val labels = loadLabels(applicationContext)
+                            val label =
+                                if (it.index < labels.size) labels[it.index] else "Desconocido"
 
-                                Text(
-                                    text = label,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(0.dp, 40.dp, 0.dp, 16.dp),
-                                    fontSize = 20.sp,
-                                    color = Color.White,
-                                    textAlign = TextAlign.Center,
-                                )
-                            }
+                            Text(
+                                text = label,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 40.dp, 0.dp, 16.dp),
+                                fontSize = 20.sp,
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                            )
                         }
+                    }
                 }
             }
         }
