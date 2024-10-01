@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">reconocimiento-billetes</string>
+    <string name="title_activity_count_bills">CountBillsActivity</string>
+    <string name="title_activity_count_bill">CountBillActivity</string>
 </resources>
