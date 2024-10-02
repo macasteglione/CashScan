@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,7 @@ import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,6 +42,9 @@ import com.example.reconocimiento_billetes.presentation.CameraPreview
 import com.example.reconocimiento_billetes.presentation.CombinedImageAnalyzer
 import com.example.reconocimiento_billetes.presentation.LuminosityAnalyzer
 import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
 
@@ -51,7 +57,6 @@ class MainActivity : ComponentActivity() {
                 this, arrayOf(Manifest.permission.CAMERA), 0
             )
         setContent {
-
             ReconocimientobilletesTheme {
                 var showCamera by remember { mutableStateOf(false) }
                 var classifications by remember { mutableStateOf(emptyList<Classification>()) }
@@ -130,7 +135,13 @@ class MainActivity : ComponentActivity() {
                         }
 
                     }
-                    botonCountBill()
+                    Column (
+                        modifier = Modifier.fillMaxWidth()
+                    ){
+                        BotonCountBill()
+                        BotonDate()
+                    }
+
 
                 }
             }
@@ -140,7 +151,7 @@ class MainActivity : ComponentActivity() {
 
     @Preview(showBackground = true)
     @Composable
-    private fun botonCountBill(){
+    private fun BotonCountBill(){
     Box(modifier = Modifier
     .fillMaxWidth()){
         Button(
@@ -149,13 +160,40 @@ class MainActivity : ComponentActivity() {
                 startActivity(intent)
             },
             modifier = Modifier
-                .align(Alignment.BottomCenter) // Uso correcto de align dentro del Box
+                .align(Alignment.BottomCenter)
                 .padding(16.dp)
         ) {
             Text(text = "Ir a Historial de Billetes")
         }
     }
     }
+
+    @Preview(showBackground = true)
+    @Composable
+    private fun BotonDate(){
+        val context = LocalContext.current
+        Box(modifier = Modifier
+            .fillMaxWidth()){
+            Button(onClick ={
+                val currentTime = getCurrentTime() // Obtiene la hora actual
+                Toast.makeText(context, "Hora actual: $currentTime", Toast.LENGTH_SHORT).show()
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+            ) {
+                Text(text = "Fecha actual")
+            }
+        }
+    }
+
+
+    private fun getCurrentTime(): String {
+        val currentTime = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        return dateFormat.format(currentTime)
+    }
+
 
     private fun hasCameraPermission() = ContextCompat.checkSelfPermission(
         this, Manifest.permission.CAMERA

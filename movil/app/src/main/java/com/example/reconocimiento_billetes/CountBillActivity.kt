@@ -17,31 +17,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 private data class Bill(val name: String, val date: String)
 
 class CountBillActivity : ComponentActivity() {
-    private val bills = listOf(
-        Bill("1000", "01/10/2024"),
-        Bill("500", "02/10/2024"),
-        Bill("200", "03/10/2024"),
-        Bill("100", "04/10/2024")
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            app(onDoubleTap = { finish() })
+            App(onDoubleTap = { finish() })
         }
     }
 }
 
 @Composable
-fun app(onDoubleTap: () -> Unit) {
+fun App(onDoubleTap: () -> Unit) {
     val bills = listOf(
         Bill("1000", "01/10/2024"),
         Bill("500", "02/10/2024"),
