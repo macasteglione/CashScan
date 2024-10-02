@@ -11,9 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -43,6 +41,7 @@ import com.example.reconocimiento_billetes.presentation.LuminosityAnalyzer
 import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -129,11 +128,33 @@ class MainActivity : ComponentActivity() {
                                 textAlign = TextAlign.Center,
                             )
                         }
+
                     }
+                    botonCountBill()
+
                 }
             }
 
         }
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    private fun botonCountBill(){
+    Box(modifier = Modifier
+    .fillMaxWidth()){
+        Button(
+            onClick = {
+                val intent = Intent(this@MainActivity, CountBillActivity::class.java)
+                startActivity(intent)
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter) // Uso correcto de align dentro del Box
+                .padding(16.dp)
+        ) {
+            Text(text = "Ir a Historial de Billetes")
+        }
+    }
     }
 
     private fun hasCameraPermission() = ContextCompat.checkSelfPermission(
