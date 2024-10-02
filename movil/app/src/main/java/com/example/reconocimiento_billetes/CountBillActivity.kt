@@ -40,7 +40,6 @@ class CountBillActivity : ComponentActivity() {
     }
 }
 
-//@Preview(showBackground = true)
 @Composable
 fun app(onDoubleTap: () -> Unit) {
     val bills = listOf(
