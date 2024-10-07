@@ -9,13 +9,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+//import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,9 +25,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.reconocimiento_billetes.data.TfLiteBilletesClassifier
 import com.example.reconocimiento_billetes.domain.Classification
@@ -40,6 +43,10 @@ class ScanBillActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        if (!hasCameraPermission())
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.CAMERA), 0
+            )
         setContent {
             ReconocimientobilletesTheme {
             App()
@@ -88,10 +95,10 @@ class ScanBillActivity : ComponentActivity() {
             ContextCompat.getMainExecutor(applicationContext),
             combinedAnalyzer
         )
-        Column(
+        /*Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)) {
+                .padding(16.dp)) {*/
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -106,8 +113,31 @@ class ScanBillActivity : ComponentActivity() {
                         Text(text = "Abrir Cámara")
                     }
                 }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .align(Alignment.TopCenter)
+                ) {
+                    classifications.forEach {
+                        val labels = loadLabels(applicationContext)
+                        val label =
+                            if (it.index < labels.size) labels[it.index] else "Desconocido"
+
+                        Text(
+                            text = label,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp, 40.dp, 0.dp, 16.dp),
+                            fontSize = 20.sp,
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+
+                }
             }
-        }
+        //}
 
     }
     private fun hasCameraPermission() = ContextCompat.checkSelfPermission(
