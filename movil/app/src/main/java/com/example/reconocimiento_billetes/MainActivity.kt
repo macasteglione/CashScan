@@ -157,7 +157,8 @@ class MainActivity : ComponentActivity() {
         Box(modifier = Modifier.fillMaxWidth()) {
             Button(
                 onClick = {
-
+                    val intent = Intent(this@MainActivity, ScanBillActivity::class.java)
+                    startActivity(intent)
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)

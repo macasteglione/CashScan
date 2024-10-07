@@ -19,9 +19,6 @@
         android:theme="@style/Theme.Reconocimientobilletes"
         tools:targetApi="31">
         <activity
-            android:name=".ScanBillActivity2"
-            android:exported="false" />
-        <activity
             android:name=".ScanBillActivity"
             android:exported="false"
             android:label="@string/title_activity_scan_bill"
@@ -30,11 +27,6 @@
             android:name=".CountBillActivity"
             android:exported="false"
             android:label="@string/title_activity_count_bill"
-            android:theme="@style/Theme.Reconocimientobilletes" />
-        <activity
-            android:name=".CountBillsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_count_bills"
             android:theme="@style/Theme.Reconocimientobilletes" />
         <activity
             android:name=".MainActivity"
