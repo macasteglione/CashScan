@@ -47,6 +47,7 @@ class ScanBillActivity : ComponentActivity() {
     }
 }
 
+
     @Composable
     private fun App() {
         var showCamera by remember { mutableStateOf(false) }
