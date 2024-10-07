@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -135,11 +136,12 @@ class MainActivity : ComponentActivity() {
                         }
 
                     }
-                    Column (
+                    Column(
                         modifier = Modifier.fillMaxWidth()
-                    ){
+                    ) {
                         BotonCountBill()
                         BotonDate()
+                        PlaySound(this@MainActivity)
                     }
 
 
@@ -149,49 +151,80 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Preview(showBackground = true)
+    //@Preview(showBackground = true)
     @Composable
-    private fun BotonCountBill(){
-    Box(modifier = Modifier
-    .fillMaxWidth()){
-        Button(
-            onClick = {
-                val intent = Intent(this@MainActivity, CountBillActivity::class.java)
-                startActivity(intent)
-            },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(16.dp)
-        ) {
-            Text(text = "Ir a Historial de Billetes")
-        }
-    }
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    private fun BotonDate(){
-        val context = LocalContext.current
-        Box(modifier = Modifier
-            .fillMaxWidth()){
-            Button(onClick ={
-                val currentTime = getCurrentTime() // Obtiene la hora actual
-                Toast.makeText(context, "Hora actual: $currentTime", Toast.LENGTH_SHORT).show()
+    private fun PlaySound(context: Context) {
+        val mp: MediaPlayer = MediaPlayer.create(context, R.raw.campana)
+        /*
+        detener mediaPlayer en caso de cerrar la actividad(sólo utilizar en actividades fuera del main)
+        mediaPlayer?.release()
+        mediaPlayer = null
+         */
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = {
+                    mp.start()
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(16.dp)
             ) {
-                Text(text = "Fecha actual")
+                Text(text = "Reproducir Sonido")
             }
         }
     }
 
+    @Preview(showBackground = true)
+    @Composable
+    private fun BotonCountBill() {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Button(
+                onClick = {
+                    val intent = Intent(this@MainActivity, CountBillActivity::class.java)
+                    startActivity(intent)
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+            ) {
+                Text(text = "Ir a Historial de Billetes")
+            }
+        }
+    }
 
-    private fun getCurrentTime(): String {
-        val currentTime = Calendar.getInstance().time
-        val dateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-        return dateFormat.format(currentTime)
+    @Preview(showBackground = true)
+    @Composable
+    private fun BotonDate() {
+        val context = LocalContext.current
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Button(
+                onClick = {
+                    val currentDateTime = getCurrentDateTime()
+                    Toast.makeText(
+                        context,
+                        "Fecha y hora actual:  \n $currentDateTime",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+            ) {
+                Text(text = "Fecha y hora actual")
+            }
+        }
+    }
+
+    private fun getCurrentDateTime(): String {
+        val currentDateTime = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+        return dateFormat.format(currentDateTime)
     }
 
 
