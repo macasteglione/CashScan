@@ -2,4 +2,5 @@
     <string name="app_name">reconocimiento-billetes</string>
     <string name="title_activity_count_bills">CountBillsActivity</string>
     <string name="title_activity_count_bill">CountBillActivity</string>
+    <string name="title_activity_scan_bill">ScanBillActivity</string>
 </resources>

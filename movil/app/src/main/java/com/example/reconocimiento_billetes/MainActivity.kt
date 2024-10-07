@@ -141,7 +141,8 @@ class MainActivity : ComponentActivity() {
                     ) {
                         BotonCountBill()
                         BotonDate()
-                        PlaySound(this@MainActivity)
+                        BotonPlaySound(this@MainActivity)
+                        BotonScanBill()
                     }
 
 
@@ -151,9 +152,25 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    private fun BotonScanBill(){
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = {
+
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+            ) {
+                Text(text = "Escanear Billete")
+            }
+        }
+    }
+
     //@Preview(showBackground = true)
     @Composable
-    private fun PlaySound(context: Context) {
+    private fun BotonPlaySound(context: Context) {
         val mp: MediaPlayer = MediaPlayer.create(context, R.raw.campana)
         /*
         detener mediaPlayer en caso de cerrar la actividad(sólo utilizar en actividades fuera del main)
