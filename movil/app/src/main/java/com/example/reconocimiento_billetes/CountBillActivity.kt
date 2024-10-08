@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,7 +41,7 @@ class CountBillActivity : ComponentActivity() {
 
 @Composable
 fun App(closeAct: () -> Unit) {
-    var offsetX by remember { mutableStateOf(0f) }
+    var offsetX by remember { mutableFloatStateOf(0f) }
     val bills = listOf(
         Bill("1000", "01/10/2024"),
         Bill("500", "02/10/2024"),
@@ -57,16 +58,15 @@ fun App(closeAct: () -> Unit) {
                         closeAct()
                     }
                 )
-            }.pointerInput(Unit) {
                 detectDragGestures { change, dragAmount ->
-                    offsetX += dragAmount.x}
-                if (offsetX < -50f) {
-                    closeAct()
+                    offsetX += dragAmount.x
+                    if (offsetX < -50f) {
+                        closeAct()
+                    }
                 }
             }
     ) {
 
-        // Texto del encabezado
         Text(
             text = "Historial de Billetes",
             fontSize = 32.sp,

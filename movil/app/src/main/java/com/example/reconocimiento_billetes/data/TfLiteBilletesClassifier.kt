@@ -55,7 +55,17 @@ class TfLiteBilletesClassifier(
 
         val results = classifier?.classify(tensorImage, imageProcessingOptions)
         Log.d("ClassifierResults", results.toString())
-
+        /*
+        if (results.isNullOrEmpty()) {
+            return listOf(
+                Classification(
+                    name = "No se detectó ningún billete",
+                    score = 0f,
+                    index = -1
+                )
+            )
+        }
+        */
         return results?.flatMap { classifications ->
             classifications.categories.map { category ->
                 Classification(
