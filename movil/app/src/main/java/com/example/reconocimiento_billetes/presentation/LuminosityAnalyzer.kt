@@ -26,7 +26,5 @@ class LuminosityAnalyzer(
             onLowLightDetected(luminance < 50)
             lastTorchToggleTime = currentTime
         }
-
-        image.close()
     }
 }
