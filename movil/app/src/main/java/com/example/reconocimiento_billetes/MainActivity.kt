@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -80,22 +82,29 @@ class MainActivity : ComponentActivity() {
     //@Preview(showBackground = true)
     @Composable
     private fun BotonPlaySound(context: Context) {
-        val mp: MediaPlayer = MediaPlayer.create(context, R.raw.campana)
-        /*
-        detener mediaPlayer en caso de cerrar la actividad(sólo utilizar en actividades fuera del main)
-        mediaPlayer?.release()
-        mediaPlayer = null
-         */
+        val mp: MediaPlayer = remember {
+            MediaPlayer.create(context, R.raw.campana)
+        }
+
         Box(modifier = Modifier.fillMaxWidth()) {
             Button(
                 onClick = {
-                    mp.start()
+                    if (!mp.isPlaying) {
+                        mp.start()
+                    }
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(16.dp)
             ) {
                 Text(text = "Reproducir Sonido")
+            }
+        }
+
+        // Liberar el MediaPlayer cuando ya no sea necesario
+        DisposableEffect(Unit) {
+            onDispose {
+                mp.release()
             }
         }
     }
@@ -157,7 +166,7 @@ class MainActivity : ComponentActivity() {
     private fun hasCameraPermission() = ContextCompat.checkSelfPermission(
         this, Manifest.permission.CAMERA
     ) == PackageManager.PERMISSION_GRANTED
-
+    /*
     private fun loadLabels(context: Context): List<String> {
         val labels = mutableListOf<String>()
         val inputStream = context.assets.open("labels.txt")
@@ -165,5 +174,5 @@ class MainActivity : ComponentActivity() {
             lines.forEach { labels.add(it) }
         }
         return labels
-    }
+    }*/
 }

@@ -11,11 +11,9 @@ import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-//import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,7 +55,7 @@ class ScanBillActivity : ComponentActivity() {
 
     @Composable
     private fun App() {
-        var showCamera by remember { mutableStateOf(false) }
+        //var showCamera by remember { mutableStateOf(false) }
         var classifications by remember { mutableStateOf(emptyList<Classification>()) }
 
         val billetesAnalyzer = remember {
@@ -103,6 +101,7 @@ class ScanBillActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+                /*
                 if (showCamera) {
                     CameraPreview(cameraController, Modifier.fillMaxSize())
                 } else {
@@ -112,7 +111,10 @@ class ScanBillActivity : ComponentActivity() {
                     ) {
                         Text(text = "Abrir Cámara")
                     }
-                }
+                }*/
+
+                CameraPreview(cameraController, Modifier.fillMaxSize())
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
