@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,10 +48,10 @@ class ScanBillActivity : ComponentActivity() {
             )
         setContent {
             ReconocimientobilletesTheme {
-            App()
+                App()
+            }
         }
     }
-}
 
 
     @Composable
@@ -74,6 +75,12 @@ class ScanBillActivity : ComponentActivity() {
                 setEnabledUseCases(CameraController.IMAGE_ANALYSIS)
             }
         }
+        //sujeto a cambios
+        DisposableEffect(Unit) {
+            onDispose {
+                cameraController.unbind()
+            }
+        }
 
         val lightAnalyzer = remember {
             LuminosityAnalyzer { isLowLight ->
@@ -84,6 +91,11 @@ class ScanBillActivity : ComponentActivity() {
                 }
             }
         }
+        /*
+        val latestClassifications by rememberUpdatedState(newValue = classifications)
+        LaunchedEffect(latestClassifications) {
+            //no descomentar ni borrar
+        }*/
 
         val combinedAnalyzer = remember {
             CombinedImageAnalyzer(billetesAnalyzer, lightAnalyzer)
@@ -93,55 +105,40 @@ class ScanBillActivity : ComponentActivity() {
             ContextCompat.getMainExecutor(applicationContext),
             combinedAnalyzer
         )
-        /*Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)) {*/
+        ) {
+            CameraPreview(cameraController, Modifier.fillMaxSize())
+
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .align(Alignment.TopCenter)
             ) {
-                /*
-                if (showCamera) {
-                    CameraPreview(cameraController, Modifier.fillMaxSize())
-                } else {
-                    Button(
-                        onClick = { showCamera = true },
-                        modifier = Modifier.align(Alignment.Center)
-                    ) {
-                        Text(text = "Abrir Cámara")
-                    }
-                }*/
+                classifications.forEach {
+                    val labels = loadLabels(applicationContext)
+                    val label =
+                        if (it.index < labels.size) labels[it.index] else "Desconocido"
 
-                CameraPreview(cameraController, Modifier.fillMaxSize())
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primaryContainer)
-                        .align(Alignment.TopCenter)
-                ) {
-                    classifications.forEach {
-                        val labels = loadLabels(applicationContext)
-                        val label =
-                            if (it.index < labels.size) labels[it.index] else "Desconocido"
-
-                        Text(
-                            text = label,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(0.dp, 40.dp, 0.dp, 16.dp),
-                            fontSize = 20.sp,
-                            color = Color.White,
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-
+                    Text(
+                        text = label,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(0.dp, 40.dp, 0.dp, 16.dp),
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                    )
                 }
+
             }
+        }
         //}
 
     }
+
     private fun hasCameraPermission() = ContextCompat.checkSelfPermission(
         this, Manifest.permission.CAMERA
     ) == PackageManager.PERMISSION_GRANTED
