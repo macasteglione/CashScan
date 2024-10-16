@@ -15,7 +15,7 @@ class BilletesImageAnalyzer (
     private val frameInterval = 20
 
     override fun analyze(image: ImageProxy) {
-        Log.d("Analyzer", "Processing frame")
+        Log.d("BilletesAnalyzer", "Processing frame number: $frameSkipCounter")
 
         if (frameSkipCounter % frameInterval == 0) {
             val rotationDegree = image.imageInfo.rotationDegrees
@@ -24,8 +24,14 @@ class BilletesImageAnalyzer (
                 .centerCrop(256, 256)
 
             val results = classifier.classify(bitmap, rotationDegree)
+
+            results.forEach { classification ->
+                Log.d("BilletesAnalyzer", "Resultado: Etiqueta: ${classification.name}, Confianza: ${classification.score}")
+            }
+
             onResults(results)
         }
+
         frameSkipCounter++
     }
 }
