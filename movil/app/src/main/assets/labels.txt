@@ -1,10 +1,10 @@
-0 10
-1 20
-2 50
-3 100
-4 200
-5 500
-6 1000
-7 2000
-8 10000
-9 No es un billete
+10 ARS
+20 ARS
+50 ARS
+100 ARS
+200 ARS
+500 ARS
+1000 ARS
+2000 ARS
+10000 ARS
+No es un billete

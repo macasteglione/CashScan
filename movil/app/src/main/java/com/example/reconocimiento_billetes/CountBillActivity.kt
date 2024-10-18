@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,29 +25,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-private data class Bill(val name: String, val date: String)
+import com.example.reconocimiento_billetes.data.SQLiteHelper
+import com.example.reconocimiento_billetes.domain.BillData
 
 class CountBillActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val db = SQLiteHelper(this)
+        var bills = db.getAllBills()
+
         setContent {
-            App(closeAct = { finish() })
+            App(
+                bills = bills,
+                onClearHistory = {
+                    db.deleteAllBills()
+                    bills = db.getAllBills()
+                },
+                closeAct = { finish() }
+            )
         }
     }
 }
 
 @Composable
-fun App(closeAct: () -> Unit) {
+fun App(bills: List<BillData>, onClearHistory: () -> Unit, closeAct: () -> Unit) {
     var offsetX by remember { mutableFloatStateOf(0f) }
-    val bills = listOf(
-        Bill("1000", "01/10/2024"),
-        Bill("500", "02/10/2024"),
-        Bill("200", "03/10/2024"),
-        Bill("100", "04/10/2024")
-    )
 
     Column(
         modifier = Modifier
@@ -71,11 +77,10 @@ fun App(closeAct: () -> Unit) {
             fontSize = 32.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp), // Agrega un espacio debajo del título
+                .padding(bottom = 16.dp),
             style = MaterialTheme.typography.titleLarge
         )
 
-        // Header de la tabla
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -93,14 +98,13 @@ fun App(closeAct: () -> Unit) {
             )
         }
 
-        // Lista de billetes
         LazyColumn(modifier = Modifier.weight(1f)) {
             items(bills) { bill ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 2.dp)
-                ) { // Espacio entre filas
+                ) {
                     Text(
                         text = bill.name,
                         modifier = Modifier.weight(1f)
@@ -113,11 +117,11 @@ fun App(closeAct: () -> Unit) {
             }
         }
 
-        // Total
-        Text(
-            text = "Total: $${bills.sumOf { it.name.toInt() }}",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(top = 16.dp) // Espacio superior para el total
-        )
+        Button(
+            onClick = { onClearHistory() },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text(text = "Borrar Historial")
+        }
     }
 }
