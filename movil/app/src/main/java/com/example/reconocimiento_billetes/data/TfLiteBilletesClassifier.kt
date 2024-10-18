@@ -14,17 +14,13 @@ import org.tensorflow.lite.task.core.vision.ImageProcessingOptions
 
 class TfLiteBilletesClassifier(
     private val context: Context,
-    private val threshold: Float = 0.5f,
+    private val threshold: Float = 0.90f,
     private val maxResults: Int = 1,
 ): BilletesClassifier {
 
-    private var classifier: ImageClassifier? = null
-
-    private fun setupClassifier() {
-        val baseOptions = BaseOptions.builder()
-            .setNumThreads(2)
-            .build()
-
+    // Lazy initialization del clasificador
+    private val classifier: ImageClassifier by lazy {
+        val baseOptions = BaseOptions.builder().setNumThreads(2).build()
         val options = ImageClassifier.ImageClassifierOptions.builder()
             .setBaseOptions(baseOptions)
             .setMaxResults(maxResults)
@@ -32,19 +28,18 @@ class TfLiteBilletesClassifier(
             .build()
 
         try {
-            classifier = ImageClassifier.createFromFileAndOptions(
+            ImageClassifier.createFromFileAndOptions(
                 context,
                 "model.tflite",
                 options
             )
         } catch (e: IllegalStateException) {
             e.printStackTrace()
+            throw e // Asegura que si ocurre un error al cargar el modelo, este se propague.
         }
     }
 
     override fun classify(bitmap: Bitmap, rotation: Int): List<Classification> {
-        if (classifier == null)
-            setupClassifier()
 
         val imageProcessor = ImageProcessor.Builder().build()
         val tensorImage = imageProcessor.process(TensorImage.fromBitmap(bitmap))
@@ -53,20 +48,10 @@ class TfLiteBilletesClassifier(
             .setOrientation(getOrientationFromRotation(rotation))
             .build()
 
-        val results = classifier?.classify(tensorImage, imageProcessingOptions)
+        val results = classifier.classify(tensorImage, imageProcessingOptions)
         Log.d("ClassifierResults", results.toString())
-        /*
-        if (results.isNullOrEmpty()) {
-            return listOf(
-                Classification(
-                    name = "No se detectó ningún billete",
-                    score = 0f,
-                    index = -1
-                )
-            )
-        }
-        */
-        return results?.flatMap { classifications ->
+
+        return results.flatMap { classifications ->
             classifications.categories.map { category ->
                 Classification(
                     name = category.displayName,
@@ -74,7 +59,7 @@ class TfLiteBilletesClassifier(
                     index = category.index
                 )
             }
-        }?.distinctBy { it.name } ?: emptyList()
+        }.distinctBy { it.name } ?: emptyList()
     }
 
     private fun getOrientationFromRotation(rotation: Int): ImageProcessingOptions.Orientation {
