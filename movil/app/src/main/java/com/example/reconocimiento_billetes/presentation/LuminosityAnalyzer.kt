@@ -9,7 +9,7 @@ class LuminosityAnalyzer(
 ) : ImageAnalysis.Analyzer {
 
     private var lastTorchToggleTime: Long = 0
-    private val torchToggleThreshold: Long = 8000
+    private val torchToggleThreshold: Long = 9000
 
     override fun analyze(image: ImageProxy) {
         val buffer = image.planes[0].buffer
@@ -23,7 +23,8 @@ class LuminosityAnalyzer(
 
         // Verificar si han pasado al menos 2 segundos desde el último cambio de linterna
         if (currentTime - lastTorchToggleTime >= torchToggleThreshold) {
-            onLowLightDetected(luminance < 50)
+            //onLowLightDetected(luminance < 50)
+            onLowLightDetected(luminance < 25)
             lastTorchToggleTime = currentTime
         }
     }
