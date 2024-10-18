@@ -65,7 +65,7 @@ class BilletesImageAnalyzer(
         val classificationCount = allResults.groupingBy { it.name }.eachCount()
 
         // Filtrar resultados que aparecen al menos 5 veces
-        val frequentResults = classificationCount.filter { it.value >= 5 }.keys
+        val frequentResults = classificationCount.filter { it.value >= 6 }.keys
 
         // Devolver los resultados únicos con 5 o más ocurrencias
         val finalResults = allResults.filter { it.name in frequentResults }.distinctBy { it.name }
