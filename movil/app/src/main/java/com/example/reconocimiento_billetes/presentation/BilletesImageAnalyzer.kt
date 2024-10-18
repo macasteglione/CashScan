@@ -1,7 +1,6 @@
 package com.example.reconocimiento_billetes.presentation
 
 import android.graphics.Bitmap
-import android.os.Handler
 import android.util.Log
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -13,13 +12,13 @@ class BilletesImageAnalyzer(
     private val onResults: (List<Classification>) -> Unit
 ): ImageAnalysis.Analyzer {
 
-    private val bufferSize = 8
+    private val bufferSize = 9
     private val imageBuffer = mutableListOf<Bitmap>()
     private var frameSkipCounter = 0
     private val frameInterval = 20
 
     // Variables para controlar el proceso
-    private val handler = Handler()
+    //private val handler = Handler(Looper.getMainLooper())
     private var analysisActive = true
 
     override fun analyze(image: ImageProxy) {
@@ -40,8 +39,9 @@ class BilletesImageAnalyzer(
             // Si el buffer está lleno, procesar imágenes en lote
             if (imageBuffer.size >= bufferSize) {
                 val results = processBufferedImages(rotationDegree)
-                onResults(results)
-
+                if (results.isNotEmpty()) {
+                    onResults(results)
+                }
                 // Vaciar el buffer después de procesar
                 imageBuffer.clear()
             }
@@ -54,26 +54,39 @@ class BilletesImageAnalyzer(
 
     private fun processBufferedImages(rotationDegree: Int): List<Classification> {
 
-        // Acumulamos los los resultados de cada imagen en el buffer
         val allResults = mutableListOf<Classification>()
 
         imageBuffer.forEach { bitmap ->
             val results = classifier.classify(bitmap, rotationDegree)
             allResults.addAll(results)
         }
-        // Filtrar resultados repetidos por nombre de clasificación
-        val uniqueResults = allResults.distinctBy { it.name }
+
+        // Contar cuántas veces aparece cada clasificación
+        val classificationCount = allResults.groupingBy { it.name }.eachCount()
+
+        // Filtrar resultados que aparecen al menos 5 veces
+        val frequentResults = classificationCount.filter { it.value >= 5 }.keys
+
+        // Devolver los resultados únicos con 5 o más ocurrencias
+        val finalResults = allResults.filter { it.name in frequentResults }.distinctBy { it.name }
 
         // debug
-        if (uniqueResults.isNotEmpty()) {
-            uniqueResults.forEach { classification ->
+        if (finalResults.isNotEmpty()) {
+            finalResults.forEach { classification ->
                 Log.d("BilletesDetection", "Etiqueta: ${classification.name}, Confianza: ${classification.score}")
             }
         } else {
-            Log.d("BilletesDetection", "No se detectó ningún billete")
+            Log.d("BilletesDetection", "No se detectó ningún billete con suficiente frecuencia")
         }
 
         // Filtrado de resultados repetidos por nombre de clasificación
         return allResults.distinctBy { it.name }
     }
+    /*
+    private fun pauseAnalysis(duration: Long) {
+        analysisActive = false
+        handler.postDelayed({
+            analysisActive = true  // Reactivar el análisis después de 10 segundos
+        }, duration)
+    }*/
 }
