@@ -15,10 +15,5 @@ class CombinedImageAnalyzer(
         } finally {
             image.close()
         }
-        /*
-        luminosityAnalyzer.analyze(image)
-        billetesAnalyzer.analyze(image)
-
-        image.close()*/
     }
 }

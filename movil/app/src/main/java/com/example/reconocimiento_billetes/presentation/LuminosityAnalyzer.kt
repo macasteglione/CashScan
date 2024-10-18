@@ -23,7 +23,6 @@ class LuminosityAnalyzer(
 
         // Verificar si han pasado al menos 2 segundos desde el último cambio de linterna
         if (currentTime - lastTorchToggleTime >= torchToggleThreshold) {
-            //onLowLightDetected(luminance < 50)
             onLowLightDetected(luminance < 25)
             lastTorchToggleTime = currentTime
         }

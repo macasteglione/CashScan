@@ -10,7 +10,7 @@ import com.example.reconocimiento_billetes.domain.Classification
 class BilletesImageAnalyzer(
     private val classifier: BilletesClassifier,
     private val onResults: (List<Classification>) -> Unit
-): ImageAnalysis.Analyzer {
+) : ImageAnalysis.Analyzer {
 
     private val bufferSize = 9
     private val imageBuffer = mutableListOf<Bitmap>()
@@ -27,7 +27,6 @@ class BilletesImageAnalyzer(
             image.close()
             return
         }
-
 
         if (frameSkipCounter % frameInterval == 0) {
             val rotationDegree = image.imageInfo.rotationDegrees
@@ -73,7 +72,10 @@ class BilletesImageAnalyzer(
         // debug
         if (finalResults.isNotEmpty()) {
             finalResults.forEach { classification ->
-                Log.d("BilletesDetection", "Etiqueta: ${classification.name}, Confianza: ${classification.score}")
+                Log.d(
+                    "BilletesDetection",
+                    "Etiqueta: ${classification.name}, Confianza: ${classification.score}"
+                )
             }
         } else {
             Log.d("BilletesDetection", "No se detectó ningún billete con suficiente frecuencia")
@@ -82,11 +84,13 @@ class BilletesImageAnalyzer(
         // Filtrado de resultados repetidos por nombre de clasificación
         return allResults.distinctBy { it.name }
     }
+
     /*
     private fun pauseAnalysis(duration: Long) {
         analysisActive = false
         handler.postDelayed({
             analysisActive = true  // Reactivar el análisis después de 10 segundos
         }, duration)
-    }*/
+    }
+    */
 }

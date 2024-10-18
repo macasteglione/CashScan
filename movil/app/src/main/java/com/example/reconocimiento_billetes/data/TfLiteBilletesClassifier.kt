@@ -16,7 +16,7 @@ class TfLiteBilletesClassifier(
     private val context: Context,
     private val threshold: Float = 0.90f,
     private val maxResults: Int = 1,
-): BilletesClassifier {
+) : BilletesClassifier {
 
     // Lazy initialization del clasificador
     private val classifier: ImageClassifier by lazy {
@@ -63,7 +63,7 @@ class TfLiteBilletesClassifier(
     }
 
     private fun getOrientationFromRotation(rotation: Int): ImageProcessingOptions.Orientation {
-        return when(rotation) {
+        return when (rotation) {
             Surface.ROTATION_270 -> ImageProcessingOptions.Orientation.BOTTOM_RIGHT
             Surface.ROTATION_90 -> ImageProcessingOptions.Orientation.TOP_LEFT
             Surface.ROTATION_180 -> ImageProcessingOptions.Orientation.RIGHT_BOTTOM

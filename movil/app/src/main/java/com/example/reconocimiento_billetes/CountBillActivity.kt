@@ -47,6 +47,7 @@ fun App(closeAct: () -> Unit) {
         Bill("200", "03/10/2024"),
         Bill("100", "04/10/2024")
     )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +58,7 @@ fun App(closeAct: () -> Unit) {
                         closeAct()
                     }
                 )
-                detectDragGestures { change, dragAmount ->
+                detectDragGestures { _, dragAmount ->
                     offsetX += dragAmount.x
                     if (offsetX < -50f) {
                         closeAct()
@@ -65,7 +66,6 @@ fun App(closeAct: () -> Unit) {
                 }
             }
     ) {
-
         Text(
             text = "Historial de Billetes",
             fontSize = 32.sp,
@@ -76,9 +76,11 @@ fun App(closeAct: () -> Unit) {
         )
 
         // Header de la tabla
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 8.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+        ) {
             Text(
                 text = "Billete",
                 modifier = Modifier.weight(1f),
@@ -118,10 +120,4 @@ fun App(closeAct: () -> Unit) {
             modifier = Modifier.padding(top = 16.dp) // Espacio superior para el total
         )
     }
-
-
 }
-
-
-
-

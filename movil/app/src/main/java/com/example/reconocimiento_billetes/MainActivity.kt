@@ -69,7 +69,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    //@Preview(showBackground = true)
     @Composable
     private fun BotonPlaySound(context: Context) {
         val mp: MediaPlayer = remember {
@@ -91,7 +90,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // Liberar el MediaPlayer cuando ya no sea necesario
         DisposableEffect(Unit) {
             onDispose {
                 mp.release()
@@ -151,20 +149,4 @@ class MainActivity : ComponentActivity() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
         return dateFormat.format(currentDateTime)
     }
-
-    /*
-    private fun hasCameraPermission() = ContextCompat.checkSelfPermission(
-        this, Manifest.permission.CAMERA
-    ) == PackageManager.PERMISSION_GRANTED
-    */
-    /*
-
-    private fun loadLabels(context: Context): List<String> {
-        val labels = mutableListOf<String>()
-        val inputStream = context.assets.open("labels.txt")
-        inputStream.bufferedReader().useLines { lines ->
-            lines.forEach { labels.add(it) }
-        }
-        return labels
-    }*/
 }
