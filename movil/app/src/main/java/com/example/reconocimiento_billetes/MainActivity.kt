@@ -60,9 +60,9 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun FondoImagen() {
         Image(
-            painter = painterResource(id = R.drawable.logo), // Coloca aquí tu imagen
+            painter = painterResource(id = R.drawable.logo2), // Coloca aquí tu imagen
             contentDescription = null,
-            contentScale = ContentScale.Crop, // Para que ocupe toda la pantalla
+            contentScale = ContentScale.Fit, // Ajustar la imagen manteniendo su proporción
             modifier = Modifier
                 .fillMaxSize()
                 .zIndex(0f)

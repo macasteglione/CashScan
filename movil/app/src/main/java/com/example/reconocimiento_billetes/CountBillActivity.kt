@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,22 +58,20 @@ class CountBillActivity : ComponentActivity() {
 @Composable
 fun App(bills: List<BillData>, totalAmount: Int, onClearHistory: () -> Unit, closeAct: () -> Unit) {
     var offsetX by remember { mutableFloatStateOf(0f) }
-    val minDragSensitivityDp = 16.dp
-    val minDragSensitivityPx = with(LocalDensity.current) { minDragSensitivityDp.toPx() }
+
+    // Obtener el ancho de la pantalla
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val percentage = 0.45f // Ajustar a 45%
+    val thresholdWidth = with(LocalDensity.current) { screenWidth.toPx() * percentage }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
             .pointerInput(Unit) {
-                detectTapGestures(
-                    onDoubleTap = {
-                        closeAct()
-                    }
-                )
                 detectDragGestures { _, dragAmount ->
                     offsetX += dragAmount.x
-                    if (offsetX < -50f) {
+                    if (offsetX < -thresholdWidth) {
                         closeAct()
                     }
                 }
