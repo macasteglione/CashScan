@@ -3,7 +3,6 @@ package com.example.reconocimiento_billetes
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.icu.text.SimpleDateFormat
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Vibrator
