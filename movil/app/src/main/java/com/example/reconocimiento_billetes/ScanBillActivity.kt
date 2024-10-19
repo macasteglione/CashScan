@@ -14,7 +14,6 @@ import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -48,10 +47,10 @@ import com.example.reconocimiento_billetes.presentation.CombinedImageAnalyzer
 import com.example.reconocimiento_billetes.presentation.LuminosityAnalyzer
 import com.example.reconocimiento_billetes.presentation.getCurrentDateTime
 import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
-import java.util.Locale
+
 
 private var mediaPlayer: MediaPlayer? = null
-
+private var canVibrate = false
 class ScanBillActivity : ComponentActivity() {
 
     private lateinit var vibrator: Vibrator
@@ -66,6 +65,7 @@ class ScanBillActivity : ComponentActivity() {
             )
 
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        canVibrate = vibrator.hasVibrator()
 
         setContent {
             ReconocimientobilletesTheme {
@@ -232,9 +232,9 @@ class ScanBillActivity : ComponentActivity() {
                     if (it.index != ultimoBillete) {
                         ultimoBillete = it.index
                         reproducirAudio(it.index)
+                        vibrateDevice(300)
                         guardarBaseDeDatos(Integer.parseInt(label))
-
-                        if (vibrator.hasVibrator()) vibrator.vibrate(200)
+                        //vibrateDevice(200)
                     }
 
                     Text(
@@ -248,6 +248,11 @@ class ScanBillActivity : ComponentActivity() {
                     )
                 }
             }
+        }
+    }
+    private fun vibrateDevice(duration: Long = 200L) {
+        if (canVibrate) {
+            vibrator.vibrate(duration)
         }
     }
 }
