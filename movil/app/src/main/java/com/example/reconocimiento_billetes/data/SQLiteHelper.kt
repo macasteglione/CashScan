@@ -46,7 +46,7 @@ class SQLiteHelper(context: Context) :
         val billList = mutableListOf<BillData>()
         val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM $TABLE_BILLS", null)
-        if (cursor.moveToFirst()) {
+        if (cursor.moveToFirst())
             do {
                 val bill = BillData(
                     name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_BILL)),
@@ -54,7 +54,6 @@ class SQLiteHelper(context: Context) :
                 )
                 billList.add(bill)
             } while (cursor.moveToNext())
-        }
         cursor.close()
         db.close()
         return billList
@@ -64,5 +63,17 @@ class SQLiteHelper(context: Context) :
         val db = this.writableDatabase
         db.execSQL("DELETE FROM $TABLE_BILLS")
         db.close()
+    }
+
+    fun getTotalAmount(): Int {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT SUM(amount) FROM bills", null)
+        var total = 0
+
+        if (cursor.moveToFirst())
+            total = cursor.getInt(0)
+
+        cursor.close()
+        return total
     }
 }

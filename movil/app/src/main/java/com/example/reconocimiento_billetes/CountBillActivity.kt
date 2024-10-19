@@ -36,22 +36,25 @@ class CountBillActivity : ComponentActivity() {
 
         val db = SQLiteHelper(this)
         var bills = db.getAllBills()
+        var totalAmount = db.getTotalAmount()
 
         setContent {
             App(
                 bills = bills,
+                closeAct = { finish() },
+                totalAmount = totalAmount,
                 onClearHistory = {
                     db.deleteAllBills()
                     bills = db.getAllBills()
-                },
-                closeAct = { finish() }
+                    totalAmount = db.getTotalAmount()
+                }
             )
         }
     }
 }
 
 @Composable
-fun App(bills: List<BillData>, onClearHistory: () -> Unit, closeAct: () -> Unit) {
+fun App(bills: List<BillData>, totalAmount: Int, onClearHistory: () -> Unit, closeAct: () -> Unit) {
     var offsetX by remember { mutableFloatStateOf(0f) }
 
     Column(
@@ -116,6 +119,15 @@ fun App(bills: List<BillData>, onClearHistory: () -> Unit, closeAct: () -> Unit)
                 }
             }
         }
+
+        Text(
+            text = "Total: $$totalAmount",
+            fontSize = 24.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            style = MaterialTheme.typography.bodyLarge
+        )
 
         Button(
             onClick = { onClearHistory() },
