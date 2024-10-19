@@ -43,7 +43,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     FondoImagen()
                     Column(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .zIndex(1f)
                             .align(Alignment.Center)
                     ) {
@@ -56,6 +57,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
     @Preview(showBackground = true)
     @Composable
     private fun FondoImagen() {
@@ -95,9 +97,7 @@ class MainActivity : ComponentActivity() {
         Box(modifier = Modifier.fillMaxWidth()) {
             Button(
                 onClick = {
-                    if (!mp.isPlaying) {
-                        mp.start()
-                    }
+                    if (!mp.isPlaying) mp.start()
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)

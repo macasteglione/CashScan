@@ -84,9 +84,7 @@ class ScanBillActivity : ComponentActivity() {
 
         audioResId?.let {
             mediaPlayer?.let { mp ->
-                if (mp.isPlaying)
-                    mp.stop()
-
+                if (mp.isPlaying) mp.stop()
                 mp.release()
             }
 
@@ -160,11 +158,8 @@ class ScanBillActivity : ComponentActivity() {
 
         val lightAnalyzer = remember {
             LuminosityAnalyzer { isLowLight ->
-                if (isLowLight) {
-                    cameraController.enableTorch(true)
-                } else {
-                    cameraController.enableTorch(false)
-                }
+                if (isLowLight) cameraController.enableTorch(true)
+                else cameraController.enableTorch(false)
             }
         }
 
@@ -205,12 +200,11 @@ class ScanBillActivity : ComponentActivity() {
                         reproducirAudio(it.index)
                         guardarBaseDeDatos(Integer.parseInt(label))
 
-                        if (vibrator.hasVibrator())
-                            vibrator.vibrate(200)
+                        if (vibrator.hasVibrator()) vibrator.vibrate(200)
                     }
 
                     Text(
-                        text = "Billete de $label",
+                        text = "Billete de $$label",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(0.dp, 40.dp, 0.dp, 16.dp),
