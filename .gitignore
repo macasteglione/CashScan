@@ -1,1 +1,36 @@
 movil/local.properties
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos generados de compilación
+/build/
+/app/build/
+
+# Archivos de configuración local de Android Studio
+.idea/
+.gradle/
+local.properties
+
+# Archivos de configuración de entorno
+*.iml
+*.hprof
+
+# Cachés de Gradle
+.gradle/
+**/build/
+
+# Dependencias de Android
+/captures/
+/.externalNativeBuild/
+/cxx/
+/outputs/
+/navigation/
+
+# Datos de emuladores
+*.log
+*.key
+
+# Archivos de firma (si se manejan de forma privada)
+signing.properties
+keystore.jks
