@@ -9,6 +9,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,11 +19,17 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,9 +44,42 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ReconocimientobilletesTheme {
+                var offsetX by remember { mutableFloatStateOf(0f) }
+
+                val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+                val percentage = 0.45f
+                val thresholdWidth = with(LocalDensity.current) { screenWidth.toPx() * percentage }
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
+                        .pointerInput(Unit) {
+                            detectDragGestures(
+                                onDragEnd = {
+                                    if (offsetX in -thresholdWidth..thresholdWidth) {
+                                        offsetX = 0f
+                                    }
+                                },
+                                onDragCancel = {
+                                    offsetX = 0f
+                                }
+                            ) { _, dragAmount ->
+                                offsetX += dragAmount.x
+
+                                when {
+                                    offsetX < -thresholdWidth -> {
+                                        offsetX = 0f
+                                        val intent = Intent(this@MainActivity, CountBillActivity::class.java)
+                                        startActivity(intent)
+                                    }
+                                    offsetX > thresholdWidth -> {
+                                        offsetX = 0f
+                                        val intent = Intent(this@MainActivity, ScanBillActivity::class.java)
+                                        startActivity(intent)
+                                    }
+                                }
+                            }
+                        }
                 ) {
                     FondoImagen()
                     Column(

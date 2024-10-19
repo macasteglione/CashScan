@@ -127,9 +127,20 @@ fun App(
             .fillMaxSize()
             .padding(16.dp)
             .pointerInput(Unit) {
-                detectDragGestures { _, dragAmount ->
+                detectDragGestures(
+                    onDragEnd = {
+                        if (offsetX > -thresholdWidth) {
+                            offsetX = 0f
+                        }
+                    },
+                    onDragCancel = {
+                        offsetX = 0f
+                    }
+                ) { _, dragAmount ->
                     offsetX += dragAmount.x
-                    if (offsetX < -thresholdWidth) closeAct()
+                    if (offsetX < -thresholdWidth) {
+                        closeAct()
+                    }
                 }
             }
     ) {
