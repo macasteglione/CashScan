@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,14 +21,14 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.example.reconocimiento_billetes.presentation.getCurrentDateTime
 import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class MainActivity : ComponentActivity() {
 
@@ -40,8 +41,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
+                    FondoImagen()
                     Column(
                         modifier = Modifier.fillMaxWidth()
+                            .zIndex(1f)
+                            .align(Alignment.Center)
                     ) {
                         BotonCountBill()
                         BotonDate()
@@ -51,6 +55,18 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+    @Preview(showBackground = true)
+    @Composable
+    private fun FondoImagen() {
+        Image(
+            painter = painterResource(id = R.drawable.logo), // Coloca aquí tu imagen
+            contentDescription = null,
+            contentScale = ContentScale.Crop, // Para que ocupe toda la pantalla
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(0f)
+        )
     }
 
     @Composable

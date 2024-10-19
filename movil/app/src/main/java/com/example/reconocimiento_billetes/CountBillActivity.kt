@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.reconocimiento_billetes.data.SQLiteHelper
@@ -56,6 +57,8 @@ class CountBillActivity : ComponentActivity() {
 @Composable
 fun App(bills: List<BillData>, totalAmount: Int, onClearHistory: () -> Unit, closeAct: () -> Unit) {
     var offsetX by remember { mutableFloatStateOf(0f) }
+    val minDragSensitivityDp = 16.dp
+    val minDragSensitivityPx = with(LocalDensity.current) { minDragSensitivityDp.toPx() }
 
     Column(
         modifier = Modifier
