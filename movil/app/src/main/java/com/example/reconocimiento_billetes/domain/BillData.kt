@@ -1,6 +1,6 @@
 package com.example.reconocimiento_billetes.domain
 
 data class BillData(
-    val name: String,
+    val value: Int,
     val date: String
 )

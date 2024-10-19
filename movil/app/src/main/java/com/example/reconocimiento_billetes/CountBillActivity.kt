@@ -109,7 +109,7 @@ fun App(bills: List<BillData>, totalAmount: Int, onClearHistory: () -> Unit, clo
                         .padding(vertical = 2.dp)
                 ) {
                     Text(
-                        text = bill.name,
+                        text = "$" + bill.value,
                         modifier = Modifier.weight(1f)
                     )
                     Text(

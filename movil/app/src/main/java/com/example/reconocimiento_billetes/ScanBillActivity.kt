@@ -108,7 +108,7 @@ class ScanBillActivity : ComponentActivity() {
         }
     }
 
-    private fun guardarBaseDeDatos(billete: String) {
+    private fun guardarBaseDeDatos(billete: Int) {
         val db = SQLiteHelper(this)
         db.insertBill(billete, getCurrentDateTime())
     }
@@ -203,14 +203,14 @@ class ScanBillActivity : ComponentActivity() {
                     if (it.index != ultimoBillete) {
                         ultimoBillete = it.index
                         reproducirAudio(it.index)
-                        guardarBaseDeDatos(label)
+                        guardarBaseDeDatos(Integer.parseInt(label))
 
                         if (vibrator.hasVibrator())
                             vibrator.vibrate(200)
                     }
 
                     Text(
-                        text = label,
+                        text = "Billete de $label",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(0.dp, 40.dp, 0.dp, 16.dp),

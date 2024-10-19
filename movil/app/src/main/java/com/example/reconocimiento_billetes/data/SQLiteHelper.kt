@@ -21,7 +21,7 @@ class SQLiteHelper(context: Context) :
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable = ("CREATE TABLE " + TABLE_BILLS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + KEY_BILL + " TEXT,"
+                + KEY_BILL + " INTEGER,"
                 + KEY_DATE + " TEXT" + ")")
         db?.execSQL(createTable)
     }
@@ -31,10 +31,10 @@ class SQLiteHelper(context: Context) :
         onCreate(db)
     }
 
-    fun insertBill(bill: String, date: String): Long {
+    fun insertBill(value: Int, date: String): Long {
         val db = this.writableDatabase
         val contentValues = ContentValues().apply {
-            put(KEY_BILL, bill)
+            put(KEY_BILL, value)
             put(KEY_DATE, date)
         }
         val success = db.insert(TABLE_BILLS, null, contentValues)
@@ -49,7 +49,7 @@ class SQLiteHelper(context: Context) :
         if (cursor.moveToFirst())
             do {
                 val bill = BillData(
-                    name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_BILL)),
+                    value = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_BILL)),
                     date = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE))
                 )
                 billList.add(bill)
@@ -67,7 +67,7 @@ class SQLiteHelper(context: Context) :
 
     fun getTotalAmount(): Int {
         val db = readableDatabase
-        val cursor = db.rawQuery("SELECT SUM(amount) FROM bills", null)
+        val cursor = db.rawQuery("SELECT SUM($KEY_BILL) FROM $TABLE_BILLS", null)
         var total = 0
 
         if (cursor.moveToFirst())
