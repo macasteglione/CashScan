@@ -228,14 +228,20 @@ class ScanBillActivity : ComponentActivity() {
                 classifications.forEach {
                     val labels = loadLabels()
                     val label = if (it.index < labels.size) labels[it.index] else "Desconocido"
-
+                    /*
                     if (it.index != ultimoBillete) {
                         ultimoBillete = it.index
                         reproducirAudio(it.index)
-                        vibrateDevice(300)
+                        vibrateDevice()
                         guardarBaseDeDatos(Integer.parseInt(label))
                         //vibrateDevice(200)
-                    }
+                    }*/
+
+                    ultimoBillete = it.index
+                    reproducirAudio(it.index)
+                    vibrateDevice()
+                    guardarBaseDeDatos(Integer.parseInt(label))
+                    //vibrateDevice(200)
 
                     Text(
                         text = "Billete de $$label",
@@ -250,7 +256,7 @@ class ScanBillActivity : ComponentActivity() {
             }
         }
     }
-    private fun vibrateDevice(duration: Long = 200L) {
+    private fun vibrateDevice(duration: Long = 300L) {
         if (canVibrate) {
             vibrator.vibrate(duration)
         }

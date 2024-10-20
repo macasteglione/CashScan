@@ -12,18 +12,15 @@ class BilletesImageAnalyzer(
     private val onResults: (List<Classification>) -> Unit
 ) : ImageAnalysis.Analyzer {
 
-    private val bufferSize = 9
+    private val bufferSize = 10
     private val imageBuffer = mutableListOf<Bitmap>()
     private var frameSkipCounter = 0
-    private val frameInterval = 20
+    private val frameInterval = 15
 
-    // Variables para controlar el proceso
-    //private val handler = Handler(Looper.getMainLooper())
     private var analysisActive = true
 
     override fun analyze(image: ImageProxy) {
         if (!analysisActive) {
-            // Si el análisis no está activo, se cierra la imagen y se retorna
             image.close()
             return
         }
@@ -31,7 +28,6 @@ class BilletesImageAnalyzer(
         if (frameSkipCounter % frameInterval == 0) {
             val rotationDegree = image.imageInfo.rotationDegrees
             val bitmap = image.toBitmap().centerCrop(256, 256)
-
             // Agregar imagen al buffer
             imageBuffer.add(bitmap)
 
@@ -40,14 +36,13 @@ class BilletesImageAnalyzer(
                 val results = processBufferedImages(rotationDegree)
                 if (results.isNotEmpty()) {
                     onResults(results)
+                    //analysisActive = false
                 }
-                // Vaciar el buffer después de procesar
                 imageBuffer.clear()
             }
         }
         frameSkipCounter++
 
-        // Cerrar la imagen después de procesar
         image.close()
     }
 
@@ -63,7 +58,7 @@ class BilletesImageAnalyzer(
         // Contar cuántas veces aparece cada clasificación
         val classificationCount = allResults.groupingBy { it.name }.eachCount()
 
-        // Filtrar resultados que aparecen al menos 5 veces
+        // Filtrar resultados que aparecen al menos 6 veces
         val frequentResults = classificationCount.filter { it.value >= 6 }.keys
 
         // Devolver los resultados únicos con 5 o más ocurrencias
@@ -85,12 +80,12 @@ class BilletesImageAnalyzer(
         return allResults.distinctBy { it.name }
     }
 
-    /*
-    private fun pauseAnalysis(duration: Long) {
+    private fun pauseAnalysis() {
         analysisActive = false
-        handler.postDelayed({
-            analysisActive = true  // Reactivar el análisis después de 10 segundos
-        }, duration)
     }
-    */
+
+    // Método público para reactivar el análisis desde la UI
+    fun resumeAnalysis() {
+        analysisActive = true
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.reconocimiento_billetes.presentation
 
+import android.util.Log
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 
@@ -12,6 +13,8 @@ class CombinedImageAnalyzer(
         try {
             luminosityAnalyzer.analyze(image)
             billetesAnalyzer.analyze(image)
+        }catch(ex: Exception){
+            Log.d("Scanner", "hubo un error trabajando las imagenes")
         } finally {
             image.close()
         }
