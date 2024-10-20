@@ -9,7 +9,7 @@ import com.example.reconocimiento_billetes.domain.Classification
 
 class BilletesImageAnalyzer(
     private val classifier: BilletesClassifier,
-    private val onResults: (List<Classification>) -> Unit
+    private val onResult: (Classification?) -> Unit // Cambiar de List a un único Classification
 ) : ImageAnalysis.Analyzer {
 
     private val bufferSize = 10
@@ -33,21 +33,17 @@ class BilletesImageAnalyzer(
 
             // Si el buffer está lleno, procesar imágenes en lote
             if (imageBuffer.size >= bufferSize) {
-                val results = processBufferedImages(rotationDegree)
-                if (results.isNotEmpty()) {
-                    onResults(results)
-                    //analysisActive = false
-                }
-                imageBuffer.clear()
+                val result = processBufferedImages(rotationDegree)
+                // Pasar solo un resultado, o null si no hay
+                onResult(result)
+                clearBuffer()
             }
         }
         frameSkipCounter++
-
         image.close()
     }
 
-    private fun processBufferedImages(rotationDegree: Int): List<Classification> {
-
+    private fun processBufferedImages(rotationDegree: Int): Classification? {
         val allResults = mutableListOf<Classification>()
 
         imageBuffer.forEach { bitmap ->
@@ -58,26 +54,24 @@ class BilletesImageAnalyzer(
         // Contar cuántas veces aparece cada clasificación
         val classificationCount = allResults.groupingBy { it.name }.eachCount()
 
-        // Filtrar resultados que aparecen al menos 6 veces
-        val frequentResults = classificationCount.filter { it.value >= 6 }.keys
+        // Filtrar el resultado que aparece más veces (mayor frecuencia)
+        val mostFrequentResult = classificationCount.maxByOrNull { it.value }?.key
 
-        // Devolver los resultados únicos con 5 o más ocurrencias
-        val finalResults = allResults.filter { it.name in frequentResults }.distinctBy { it.name }
+        // Si encontramos un resultado frecuente, devolverlo
+        val finalResult = allResults.firstOrNull { it.name == mostFrequentResult }
 
-        // debug
-        if (finalResults.isNotEmpty()) {
-            finalResults.forEach { classification ->
-                Log.d(
-                    "BilletesDetection",
-                    "Etiqueta: ${classification.name}, Confianza: ${classification.score}"
-                )
-            }
+        // Log para debug
+        if (finalResult != null) {
+            Log.d(
+                "BilletesDetection",
+                "Etiqueta: ${finalResult.name}, Confianza: ${finalResult.score}"
+            )
         } else {
             Log.d("BilletesDetection", "No se detectó ningún billete con suficiente frecuencia")
         }
 
-        // Filtrado de resultados repetidos por nombre de clasificación
-        return allResults.distinctBy { it.name }
+        // Devolver un único resultado, o null si no hay resultados
+        return finalResult
     }
 
     private fun pauseAnalysis() {
@@ -87,5 +81,9 @@ class BilletesImageAnalyzer(
     // Método público para reactivar el análisis desde la UI
     fun resumeAnalysis() {
         analysisActive = true
+    }
+
+    private fun clearBuffer() {
+        imageBuffer.clear()
     }
 }

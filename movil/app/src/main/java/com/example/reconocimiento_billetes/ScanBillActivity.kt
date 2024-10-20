@@ -162,8 +162,7 @@ class ScanBillActivity : ComponentActivity() {
 
     @Composable
     private fun App() {
-        //var showCamera by remember { mutableStateOf(false) }
-        var classifications by remember { mutableStateOf(emptyList<Classification>()) }
+        var classification by remember { mutableStateOf<Classification?>(null) }
         var ultimoBillete by remember { mutableIntStateOf(-1) }
 
         val billetesAnalyzer = remember {
@@ -171,8 +170,8 @@ class ScanBillActivity : ComponentActivity() {
                 classifier = TfLiteBilletesClassifier(
                     context = this
                 ),
-                onResults = {
-                    classifications = it
+                onResult = { result ->
+                    classification = result // Puede ser null si no hay resultados
                 }
             )
         }
@@ -183,7 +182,6 @@ class ScanBillActivity : ComponentActivity() {
             }
         }
 
-        //sujeto a cambios
         DisposableEffect(Unit) {
             onDispose {
                 cameraController.unbind()
@@ -196,13 +194,6 @@ class ScanBillActivity : ComponentActivity() {
                 else cameraController.enableTorch(false)
             }
         }
-
-        /*
-        val latestClassifications by rememberUpdatedState(newValue = classifications)
-        LaunchedEffect(latestClassifications) {
-            //no descomentar ni borrar
-        }
-        */
 
         val combinedAnalyzer = remember {
             CombinedImageAnalyzer(billetesAnalyzer, lightAnalyzer)
@@ -219,32 +210,17 @@ class ScanBillActivity : ComponentActivity() {
         ) {
             CameraPreview(cameraController, Modifier.fillMaxSize())
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.primaryContainer)
-                    .align(Alignment.TopCenter)
-            ) {
-                classifications.forEach {
-                    val labels = loadLabels()
-                    val label = if (it.index < labels.size) labels[it.index] else "Desconocido"
-                    /*
-                    if (it.index != ultimoBillete) {
-                        ultimoBillete = it.index
-                        reproducirAudio(it.index)
-                        vibrateDevice()
-                        guardarBaseDeDatos(Integer.parseInt(label))
-                        //vibrateDevice(200)
-                    }*/
-
-                    ultimoBillete = it.index
-                    reproducirAudio(it.index)
-                    vibrateDevice()
-                    guardarBaseDeDatos(Integer.parseInt(label))
-                    //vibrateDevice(200)
-
+            // Verificar si classification es null
+            if (classification == null) {
+                // Mostrar un mensaje indicando que no se detectó nada
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .align(Alignment.TopCenter)
+                ) {
                     Text(
-                        text = "Billete de $$label",
+                        text = "No se ha detectado ningún billete.",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(0.dp, 40.dp, 0.dp, 16.dp),
@@ -252,6 +228,36 @@ class ScanBillActivity : ComponentActivity() {
                         color = Color.White,
                         textAlign = TextAlign.Center,
                     )
+                }
+            } else {
+                // Si classification no es null, mostrar el billete detectado
+                classification?.let { result ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.primaryContainer)
+                            .align(Alignment.TopCenter)
+                    ) {
+                        val labels = loadLabels()
+                        val label = if (result.index < labels.size) labels[result.index] else "Desconocido"
+
+                        if (result.index != ultimoBillete) {
+                            ultimoBillete = result.index
+                            reproducirAudio(result.index)
+                            vibrateDevice()
+                            guardarBaseDeDatos(Integer.parseInt(label))
+                        }
+
+                        Text(
+                            text = "Billete de $$label",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp, 40.dp, 0.dp, 16.dp),
+                            fontSize = 20.sp,
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
                 }
             }
         }
