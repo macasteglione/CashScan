@@ -178,7 +178,6 @@ class ScanBillActivity : ComponentActivity() {
     @Composable
     private fun App() {
         var classification by remember { mutableStateOf<Classification?>(null) }
-        var ultimoBillete by remember { mutableIntStateOf(-1) }
 
         val billetesAnalyzer = remember {
             BilletesImageAnalyzer(
@@ -259,12 +258,10 @@ class ScanBillActivity : ComponentActivity() {
                         val labels = loadLabels()
                         val label = if (result.index < labels.size) labels[result.index] else "Desconocido"
 
-                        if (result.index != ultimoBillete) {
-                            ultimoBillete = result.index
+
                             reproducirAudio(result.index)
                             vibrateDevice()
                             guardarBaseDeDatos(Integer.parseInt(label))
-                        }
 
                         Text(
                             text = "Billete de $$label",
