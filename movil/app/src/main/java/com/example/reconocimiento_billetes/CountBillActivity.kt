@@ -42,7 +42,7 @@ class CountBillActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val db = SQLiteHelper(this)
-        var bills = db.getAllBills()
+        var bills = db.getAllBills().reversed()
         var totalAmount = db.getTotalAmount()
 
         setContent {
@@ -52,7 +52,7 @@ class CountBillActivity : ComponentActivity() {
                 totalAmount = totalAmount,
                 onClearHistory = {
                     db.deleteAllBills()
-                    bills = db.getAllBills()
+                    bills = db.getAllBills().reversed()
                     totalAmount = db.getTotalAmount()
                     recreate()
                 },

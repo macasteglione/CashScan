@@ -102,6 +102,12 @@ class ScanBillActivity : ComponentActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
     private fun reproducirAudio(billete: Int) {
         val audioResId = when (billete) {
             0 -> R.raw.answer_10
@@ -137,6 +143,15 @@ class ScanBillActivity : ComponentActivity() {
                     true
                 }
             }
+        }
+    }
+
+    private fun playLowLightSound() {
+        if (mediaPlayer == null) mediaPlayer = MediaPlayer.create(this, R.raw.campana)
+
+        // Reproducir el sonido si no se está reproduciendo actualmente
+        mediaPlayer?.let {
+            if (!it.isPlaying) it.start()
         }
     }
 
@@ -190,7 +205,10 @@ class ScanBillActivity : ComponentActivity() {
 
         val lightAnalyzer = remember {
             LuminosityAnalyzer { isLowLight ->
-                if (isLowLight) cameraController.enableTorch(true)
+                if (isLowLight) {
+                    cameraController.enableTorch(true)
+                    playLowLightSound()
+                }
                 else cameraController.enableTorch(false)
             }
         }
@@ -262,6 +280,7 @@ class ScanBillActivity : ComponentActivity() {
             }
         }
     }
+
     private fun vibrateDevice(duration: Long = 300L) {
         if (canVibrate) {
             vibrator.vibrate(duration)
