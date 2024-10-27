@@ -31,6 +31,33 @@ local.properties
 *.log
 *.key
 
+movil/.gradle
+
 # Archivos de firma (si se manejan de forma privada)
 signing.properties
 keystore.jks
+
+# Ignorar solo la carpeta de librerías dentro de env
+env/Lib/
+env/Lib/
+
+# Ignorar la carpeta data dentro de env
+Clasificador/env/Data/
+
+# Ignorar la carpeta dataResults
+DataResults/
+
+# Archivos temporales de Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Configuración de IDEs (opcional, si usas algún IDE)
+.vscode/
+.idea/
+
+# Archivos de sistema (opcional)
+.DS_Store
+Thumbs.db
+
+Clasificador/env/Lib/
