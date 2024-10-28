@@ -2,12 +2,16 @@ package com.example.reconocimiento_billetes
 
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,9 +41,20 @@ import java.io.FileOutputStream
 
 class CountBillActivity : ComponentActivity() {
 
+    private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var deleteSoundPlayer: MediaPlayer
+
+    private var tapCount = 0
+    private val tapTimeout = 500L // Tiempo en ms para reiniciar el conteo de toques
+    private val handler = Handler(Looper.getMainLooper())
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.historial_billetes)
+        deleteSoundPlayer = MediaPlayer.create(this, R.raw.borrar_historial)
+        mediaPlayer.start()
 
         val db = SQLiteHelper(this)
         var bills = db.getAllBills().reversed()
@@ -54,14 +69,35 @@ class CountBillActivity : ComponentActivity() {
                     db.deleteAllBills()
                     bills = db.getAllBills().reversed()
                     totalAmount = db.getTotalAmount()
+                    mediaPlayer.release()
+                    deleteSoundPlayer.start()
                     recreate()
                 },
                 onSaveAndShareHistory = {
                     val file = saveHistoryToFile(this, bills, totalAmount)
                     if (file != null) shareHistoryFile(this, file)
-                }
+                },
+                onScreenTap = { handleTap(db) }
             )
         }
+    }
+
+    private fun handleTap(db: SQLiteHelper) {
+        tapCount++
+        handler.removeCallbacksAndMessages(null)
+
+        if (tapCount >= 5) {
+            db.deleteAllBills()
+            recreate()
+            tapCount = 0
+        } else handler.postDelayed({ tapCount = 0 }, tapTimeout)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
+        deleteSoundPlayer.release()
+        handler.removeCallbacksAndMessages(null)
     }
 
     private fun saveHistoryToFile(
@@ -113,7 +149,8 @@ fun App(
     totalAmount: Int,
     onClearHistory: () -> Unit,
     closeAct: () -> Unit,
-    onSaveAndShareHistory: () -> Unit
+    onSaveAndShareHistory: () -> Unit,
+    onScreenTap: () -> Unit
 ) {
     var offsetX by remember { mutableFloatStateOf(0f) }
 
@@ -127,89 +164,98 @@ fun App(
             .fillMaxSize()
             .padding(16.dp)
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragEnd = {
-                        if (offsetX > -thresholdWidth) {
-                            offsetX = 0f
-                        }
-                    },
-                    onDragCancel = {
-                        offsetX = 0f
-                    }
-                ) { _, dragAmount ->
-                    offsetX += dragAmount.x
-                    if (offsetX < -thresholdWidth) {
-                        closeAct()
-                    }
-                }
+                detectTapGestures(onTap = { onScreenTap() })
             }
     ) {
-        Text(
-            text = "Historial de Billetes",
-            fontSize = 32.sp,
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
+                .fillMaxSize()
+                .padding(16.dp)
+                .pointerInput(Unit) {
+                    detectDragGestures(
+                        onDragEnd = {
+                            if (offsetX > -thresholdWidth) {
+                                offsetX = 0f
+                            }
+                        },
+                        onDragCancel = {
+                            offsetX = 0f
+                        }
+                    ) { _, dragAmount ->
+                        offsetX += dragAmount.x
+                        if (offsetX < -thresholdWidth) {
+                            closeAct()
+                        }
+                    }
+                }
         ) {
             Text(
-                text = "Billete",
-                modifier = Modifier.weight(1f),
-                style = MaterialTheme.typography.titleMedium
+                text = "Historial de Billetes",
+                fontSize = 32.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                style = MaterialTheme.typography.titleLarge
             )
-            Text(
-                text = "Fecha",
-                modifier = Modifier.weight(1f),
-                style = MaterialTheme.typography.titleMedium
-            )
-        }
 
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            items(bills) { bill ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 2.dp)
-                ) {
-                    Text(
-                        text = "$" + bill.value,
-                        modifier = Modifier.weight(1f)
-                    )
-                    Text(
-                        text = bill.date,
-                        modifier = Modifier.weight(1f)
-                    )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            ) {
+                Text(
+                    text = "Billete",
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = "Fecha",
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+
+            LazyColumn(modifier = Modifier.weight(1f)) {
+                items(bills) { bill ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 2.dp)
+                    ) {
+                        Text(
+                            text = "$" + bill.value,
+                            modifier = Modifier.weight(1f)
+                        )
+                        Text(
+                            text = bill.date,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
-        }
 
-        Text(
-            text = "Total: $$totalAmount",
-            fontSize = 24.sp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            style = MaterialTheme.typography.bodyLarge
-        )
+            Text(
+                text = "Total: $$totalAmount",
+                fontSize = 24.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                style = MaterialTheme.typography.bodyLarge
+            )
 
-        Button(
-            onClick = { onClearHistory() },
-            modifier = Modifier.padding(top = 16.dp)
-        ) {
-            Text(text = "Borrar Historial")
-        }
+            Button(
+                onClick = { onClearHistory() },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(text = "Borrar Historial")
+            }
 
-        Button(
-            onClick = { onSaveAndShareHistory() },
-            modifier = Modifier.padding(top = 16.dp)
-        ) {
-            Text(text = "Guardar y Compartir Historial")
+            Button(
+                onClick = { onSaveAndShareHistory() },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(text = "Guardar y Compartir Historial")
+            }
         }
     }
 }

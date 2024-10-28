@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -48,9 +47,9 @@ import com.example.reconocimiento_billetes.presentation.LuminosityAnalyzer
 import com.example.reconocimiento_billetes.presentation.getCurrentDateTime
 import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
 
-
 private var mediaPlayer: MediaPlayer? = null
 private var canVibrate = false
+
 class ScanBillActivity : ComponentActivity() {
 
     private lateinit var vibrator: Vibrator
@@ -58,6 +57,9 @@ class ScanBillActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.escaneo_billetes)
+        mediaPlayer?.start()
 
         if (!hasCameraPermission())
             ActivityCompat.requestPermissions(
@@ -106,6 +108,10 @@ class ScanBillActivity : ComponentActivity() {
         super.onDestroy()
         mediaPlayer?.release()
         mediaPlayer = null
+    }
+
+    private fun vibrateDevice(duration: Long = 300L) {
+        if (canVibrate) vibrator.vibrate(duration)
     }
 
     private fun reproducirAudio(billete: Int) {
@@ -258,10 +264,9 @@ class ScanBillActivity : ComponentActivity() {
                         val labels = loadLabels()
                         val label = if (result.index < labels.size) labels[result.index] else "Desconocido"
 
-
-                            reproducirAudio(result.index)
-                            vibrateDevice()
-                            guardarBaseDeDatos(Integer.parseInt(label))
+                        reproducirAudio(result.index)
+                        vibrateDevice()
+                        guardarBaseDeDatos(Integer.parseInt(label))
 
                         Text(
                             text = "Billete de $$label",
@@ -275,12 +280,6 @@ class ScanBillActivity : ComponentActivity() {
                     }
                 }
             }
-        }
-    }
-
-    private fun vibrateDevice(duration: Long = 300L) {
-        if (canVibrate) {
-            vibrator.vibrate(duration)
         }
     }
 }

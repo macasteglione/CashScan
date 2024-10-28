@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Surface
 import com.example.reconocimiento_billetes.domain.BilletesClassifier
 import com.example.reconocimiento_billetes.domain.Classification
+import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.vision.classifier.ImageClassifier
@@ -41,7 +42,7 @@ class TfLiteBilletesClassifier(
 
     override fun classify(bitmap: Bitmap, rotation: Int): List<Classification> {
 
-        val imageProcessor = ImageProcessor.Builder().build()
+        val imageProcessor = ImageProcessor.Builder().add(NormalizeOp(0f, 1f)).build()
         val tensorImage = imageProcessor.process(TensorImage.fromBitmap(bitmap))
 
         val imageProcessingOptions = ImageProcessingOptions.builder()
