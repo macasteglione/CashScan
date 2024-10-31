@@ -27,7 +27,7 @@ class BilletesImageAnalyzer(
 
         if (frameSkipCounter % frameInterval == 0) {
             val rotationDegree = image.imageInfo.rotationDegrees
-            val bitmap = image.toBitmap().centerCrop(256, 256)
+            val bitmap = image.toBitmap().centerCrop(224, 224)
             // Agregar imagen al buffer
             imageBuffer.add(bitmap)
 
