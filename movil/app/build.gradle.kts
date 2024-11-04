@@ -70,6 +70,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.accompanist.pager)
 
     // The following line is optional, as the core library is included indirectly by camera-camera2
     implementation(libs.androidx.camera.core)

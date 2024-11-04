@@ -74,15 +74,6 @@ class BilletesImageAnalyzer(
         return finalResult
     }
 
-    private fun pauseAnalysis() {
-        analysisActive = false
-    }
-
-    // Método público para reactivar el análisis desde la UI
-    fun resumeAnalysis() {
-        analysisActive = true
-    }
-
     private fun clearBuffer() {
         imageBuffer.clear()
     }

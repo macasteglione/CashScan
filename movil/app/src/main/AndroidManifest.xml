@@ -17,7 +17,7 @@
         android:label="CashScan"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Reconocimientobilletes"
+        android:theme="@style/Theme.AppCompat.Light"
         tools:targetApi="31">
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -32,43 +32,21 @@
         <activity
             android:name=".ScanBillActivity"
             android:exported="false"
-            android:label="@string/title_activity_scan_bill"
-            android:theme="@style/Theme.Reconocimientobilletes" />
+            android:label="@string/title_activity_scan_bill" />
         <activity
             android:name=".CountBillActivity"
             android:exported="false"
-            android:label="@string/title_activity_count_bill"
-            android:theme="@style/Theme.Reconocimientobilletes" />
+            android:label="@string/title_activity_count_bill" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Reconocimientobilletes">
+            android:exported="true" />
+        <activity
+            android:name=".IntroActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="reconocimiento-de-billetes.vercel.app"
-                    android:scheme="https" />
-            </intent-filter>
-
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="reconocimiento-de-billetes.vercel.app"
-                    android:scheme="http" />
             </intent-filter>
         </activity>
     </application>

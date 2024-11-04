@@ -30,31 +30,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.reconocimiento_billetes.CountBillActivity
+import com.example.reconocimiento_billetes.IntroActivity
 import com.example.reconocimiento_billetes.R
 import com.example.reconocimiento_billetes.ScanBillActivity
 import com.example.reconocimiento_billetes.presentation.getCurrentDateTime
-
-@Composable
-private fun BotonPlaySound(context: Context) {
-    val mp: MediaPlayer = remember {
-        MediaPlayer.create(context, R.raw.campana)
-    }
-
-    Box(modifier = Modifier.fillMaxWidth()) {
-        Button(
-            onClick = { if (!mp.isPlaying) mp.start() },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(16.dp)
-        ) {
-            Text(text = "Reproducir Sonido")
-        }
-    }
-
-    DisposableEffect(Unit) {
-        onDispose { mp.release() }
-    }
-}
 
 @Composable
 private fun BotonCountBill(context: Context) {
@@ -77,36 +56,11 @@ private fun BotonCountBill(context: Context) {
 }
 
 @Composable
-private fun BotonDate() {
-    val context = LocalContext.current
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Button(
-            onClick = {
-                val currentDateTime = getCurrentDateTime()
-                Toast.makeText(
-                    context,
-                    "Fecha y hora actual:  \n $currentDateTime",
-                    Toast.LENGTH_SHORT
-                ).show()
-            },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(16.dp)
-        ) {
-            Text(text = "Fecha y hora actual")
-        }
-    }
-}
-
-@Composable
 private fun FondoImagen() {
     Image(
-        painter = painterResource(id = R.drawable.logo2), // Coloca aquí tu imagen
+        painter = painterResource(id = R.drawable.logo),
         contentDescription = null,
-        contentScale = ContentScale.Fit, // Ajustar la imagen manteniendo su proporción
+        contentScale = ContentScale.Fit,
         modifier = Modifier
             .fillMaxSize()
             .zIndex(0f)
@@ -126,6 +80,23 @@ private fun BotonScanBill(context: Context) {
                 .padding(16.dp)
         ) {
             Text(text = "Escanear Billete")
+        }
+    }
+}
+
+@Composable
+private fun BotonTutorial(context: Context) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Button(
+            onClick = {
+                val intent = Intent(context, IntroActivity::class.java)
+                context.startActivity(intent)
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(16.dp)
+        ) {
+            Text(text = "Tutorial")
         }
     }
 }
@@ -174,9 +145,8 @@ fun MainActivityTheme(context: Context) {
                 .align(Alignment.Center)
         ) {
             BotonCountBill(context)
-            BotonDate()
-            BotonPlaySound(context)
             BotonScanBill(context)
+            //BotonTutorial(context)
         }
     }
 }

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.Surface
 import com.example.reconocimiento_billetes.domain.BilletesClassifier
 import com.example.reconocimiento_billetes.domain.Classification
-import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.vision.classifier.ImageClassifier
@@ -31,7 +30,7 @@ class TfLiteBilletesClassifier(
         try {
             ImageClassifier.createFromFileAndOptions(
                 context,
-                "model.tflite",
+                "model_unquant.tflite",
                 options
             )
         } catch (e: IllegalStateException) {
