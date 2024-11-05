@@ -2,8 +2,6 @@ package com.example.reconocimiento_billetes.ui.theme
 
 import android.content.Context
 import android.content.Intent
-import android.media.MediaPlayer
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -24,16 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.reconocimiento_billetes.CountBillActivity
-import com.example.reconocimiento_billetes.IntroActivity
 import com.example.reconocimiento_billetes.R
 import com.example.reconocimiento_billetes.ScanBillActivity
-import com.example.reconocimiento_billetes.presentation.getCurrentDateTime
+import com.example.reconocimiento_billetes.TutorialActivity
 
 @Composable
 private fun BotonCountBill(context: Context) {
@@ -85,12 +80,13 @@ private fun BotonScanBill(context: Context) {
 }
 
 @Composable
-private fun BotonTutorial(context: Context) {
+private fun BotonTutorial(context: Context, closeAct: () -> Unit) {
     Box(modifier = Modifier.fillMaxWidth()) {
         Button(
             onClick = {
-                val intent = Intent(context, IntroActivity::class.java)
+                val intent = Intent(context, TutorialActivity::class.java)
                 context.startActivity(intent)
+                closeAct()
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -102,12 +98,16 @@ private fun BotonTutorial(context: Context) {
 }
 
 @Composable
-fun MainActivityTheme(context: Context) {
+fun MainActivityTheme(context: Context, closeAct: () -> Unit) {
     var offsetX by remember { mutableFloatStateOf(0f) }
+    var offsetY by remember { mutableFloatStateOf(0f) }
 
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val percentage = 0.45f
-    val thresholdWidth = with(LocalDensity.current) { screenWidth.toPx() * percentage }
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val percentageX = 0.45f
+    val percentageY = 0.25f
+    val thresholdWidth = with(LocalDensity.current) { screenWidth.toPx() * percentageX }
+    val thresholdHeight = with(LocalDensity.current) { screenHeight.toPx() * percentageY }
 
     Box(
         modifier = Modifier
@@ -116,10 +116,15 @@ fun MainActivityTheme(context: Context) {
                 detectDragGestures(
                     onDragEnd = {
                         if (offsetX in -thresholdWidth..thresholdWidth) offsetX = 0f
+                        if (offsetY in -thresholdHeight..thresholdHeight) offsetY = 0f
                     },
-                    onDragCancel = { offsetX = 0f }
+                    onDragCancel = {
+                        offsetX = 0f
+                        offsetY = 0f
+                    }
                 ) { _, dragAmount ->
                     offsetX += dragAmount.x
+                    offsetY += dragAmount.y
 
                     when {
                         offsetX < -thresholdWidth -> {
@@ -132,6 +137,13 @@ fun MainActivityTheme(context: Context) {
                             offsetX = 0f
                             val intent = Intent(context, ScanBillActivity::class.java)
                             context.startActivity(intent)
+                        }
+
+                        offsetY < -thresholdHeight -> {
+                            offsetY = 0f
+                            val intent = Intent(context, TutorialActivity::class.java)
+                            context.startActivity(intent)
+                            closeAct()
                         }
                     }
                 }
@@ -146,7 +158,7 @@ fun MainActivityTheme(context: Context) {
         ) {
             BotonCountBill(context)
             BotonScanBill(context)
-            //BotonTutorial(context)
+            BotonTutorial(context, closeAct)
         }
     }
 }

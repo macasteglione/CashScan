@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ReconocimientobilletesTheme {
-                MainActivityTheme(this)
+                MainActivityTheme(this, closeAct = { finish() })
             }
         }
     }

@@ -41,6 +41,9 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
+            android:name=".TutorialActivity"
+            android:exported="true" />
+        <activity
             android:name=".IntroActivity"
             android:exported="true">
             <intent-filter>
