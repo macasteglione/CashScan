@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Vibrator
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -175,6 +176,8 @@ class ScanBillActivity : ComponentActivity() {
         val combinedAnalyzer = remember {
             CombinedImageAnalyzer(billetesAnalyzer, lightAnalyzer)
         }
+
+        Log.d("Scanner","Iniciando el escaneo")
 
         cameraController.setImageAnalysisAnalyzer(
             ContextCompat.getMainExecutor(this@ScanBillActivity),

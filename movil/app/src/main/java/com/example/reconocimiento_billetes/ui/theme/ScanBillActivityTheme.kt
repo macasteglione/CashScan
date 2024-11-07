@@ -39,7 +39,7 @@ fun ScanBillActivityTheme(
     var offsetX by remember { mutableFloatStateOf(0f) }
 
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val percentage = 0.45f
+    val percentage = 0.37f
     val thresholdWidth = with(LocalDensity.current) { screenWidth.toPx() * percentage }
 
     Box(
