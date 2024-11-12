@@ -7,6 +7,8 @@ import android.os.SystemClock
 class LuminosityAnalyzer(
     val onLowLightDetected: (Boolean) -> Unit
 ) : ImageAnalysis.Analyzer {
+    
+    private val UMBRAL_LUMINANCIA: Int = 25
 
     private var lastTorchToggleTime: Long = 0
     private val torchToggleThreshold: Long = 9000
@@ -23,7 +25,7 @@ class LuminosityAnalyzer(
 
         // Verificar si han pasado al menos 2 segundos desde el último cambio de linterna
         if (currentTime - lastTorchToggleTime >= torchToggleThreshold) {
-            onLowLightDetected(luminance < 25)
+            onLowLightDetected(luminance < UMBRAL_LUMINANCIA)
             lastTorchToggleTime = currentTime
         }
     }

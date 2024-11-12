@@ -179,9 +179,17 @@ class ScanBillActivity : ComponentActivity() {
 
         Log.d("Scanner","Iniciando el escaneo")
 
+        //ya no analiza luminosidad
+
         cameraController.setImageAnalysisAnalyzer(
             ContextCompat.getMainExecutor(this@ScanBillActivity),
-            combinedAnalyzer
+            lightAnalyzer
+        )
+
+
+        cameraController.setImageAnalysisAnalyzer(
+            ContextCompat.getMainExecutor(this@ScanBillActivity),
+            billetesAnalyzer
         )
 
         ScanBillActivityTheme(
