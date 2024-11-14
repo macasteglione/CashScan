@@ -89,6 +89,8 @@ fun ScanBillActivityTheme(
                         .align(Alignment.TopCenter)
                 ) {
                     reproducirAudio(result.index)
+
+                    //invertir flujo pendiente
                     vibrateDevice()
                     guardarBaseDeDatos(getLabelFromIndex(result.index).toInt())
 

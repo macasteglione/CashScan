@@ -39,7 +39,7 @@ def predecir_todas_imagenes(carpeta_imagenes, interpreter, input_details, output
 
 # Ruta al modelo y carpeta de imágenes
 ruta_modelo_tflite = 'modelo_billetes.tflite' 
-carpeta_imagenes_prueba = r'D:\IA-32\env\Data\2000'
+carpeta_imagenes_prueba = r'D:\IA-32\env\Data\10'
 
 # Carga de modelo
 interpreter, input_details, output_details = cargar_modelo_tflite(ruta_modelo_tflite)

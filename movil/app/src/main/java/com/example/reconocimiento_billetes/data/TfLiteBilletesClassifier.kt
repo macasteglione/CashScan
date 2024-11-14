@@ -27,6 +27,10 @@ class TfLiteBilletesClassifier(
             .setScoreThreshold(threshold)
             .build()
 
+
+        //intercambiar modelo.
+
+
         try {
             ImageClassifier.createFromFileAndOptions(
                 context,

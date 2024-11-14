@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.camera.core.ImageAnalysis.Analyzer
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.runtime.Composable
@@ -173,24 +174,19 @@ class ScanBillActivity : ComponentActivity() {
             }
         }
 
+        /*
         val combinedAnalyzer = remember {
             CombinedImageAnalyzer(billetesAnalyzer, lightAnalyzer)
         }
-
+        */
         Log.d("Scanner","Iniciando el escaneo")
 
         //ya no analiza luminosidad
 
-        cameraController.setImageAnalysisAnalyzer(
-            ContextCompat.getMainExecutor(this@ScanBillActivity),
-            lightAnalyzer
-        )
+        analizar(cameraController, lightAnalyzer);
 
+        analizar(cameraController, billetesAnalyzer)
 
-        cameraController.setImageAnalysisAnalyzer(
-            ContextCompat.getMainExecutor(this@ScanBillActivity),
-            billetesAnalyzer
-        )
 
         ScanBillActivityTheme(
             classification,
@@ -202,4 +198,12 @@ class ScanBillActivity : ComponentActivity() {
             onFinish = { finish() }
         )
     }
+
+    private fun analizar(cameraController: CameraController, analyzer:Analyzer){
+        cameraController.setImageAnalysisAnalyzer(
+            ContextCompat.getMainExecutor(this@ScanBillActivity),
+            analyzer
+        )
+    }
+
 }

@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -31,26 +28,6 @@ import com.example.reconocimiento_billetes.ScanBillActivity
 import com.example.reconocimiento_billetes.TutorialActivity
 
 @Composable
-private fun BotonCountBill(context: Context) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Button(
-            onClick = {
-                val intent = Intent(context, CountBillActivity::class.java)
-                context.startActivity(intent)
-            },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(16.dp)
-        ) {
-            Text(text = "Ir a Historial de Billetes")
-        }
-    }
-}
-
-@Composable
 private fun FondoImagen() {
     Image(
         painter = painterResource(id = R.drawable.logo),
@@ -60,41 +37,6 @@ private fun FondoImagen() {
             .fillMaxSize()
             .zIndex(0f)
     )
-}
-
-@Composable
-private fun BotonScanBill(context: Context) {
-    Box(modifier = Modifier.fillMaxWidth()) {
-        Button(
-            onClick = {
-                val intent = Intent(context, ScanBillActivity::class.java)
-                context.startActivity(intent)
-            },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(16.dp)
-        ) {
-            Text(text = "Escanear Billete")
-        }
-    }
-}
-
-@Composable
-private fun BotonTutorial(context: Context, closeAct: () -> Unit) {
-    Box(modifier = Modifier.fillMaxWidth()) {
-        Button(
-            onClick = {
-                val intent = Intent(context, TutorialActivity::class.java)
-                context.startActivity(intent)
-                closeAct()
-            },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(16.dp)
-        ) {
-            Text(text = "Tutorial")
-        }
-    }
 }
 
 @Composable
@@ -156,9 +98,6 @@ fun MainActivityTheme(context: Context, closeAct: () -> Unit) {
                 .zIndex(1f)
                 .align(Alignment.Center)
         ) {
-            BotonCountBill(context)
-            BotonScanBill(context)
-            BotonTutorial(context, closeAct)
         }
     }
 }
