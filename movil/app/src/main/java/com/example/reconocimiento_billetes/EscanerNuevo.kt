@@ -52,7 +52,6 @@ import com.example.reconocimiento_billetes.presentation.getCurrentDateTime
 import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import kotlin.math.min
 
 class EscanerNuevo : AppCompatActivity() {
@@ -176,7 +175,7 @@ class EscanerNuevo : AppCompatActivity() {
         controller: LifecycleCameraController
     ) {
         controller.enableTorch(true)
-        SystemClock.sleep(2000);
+        SystemClock.sleep(2000)
 
         controller.takePicture(
             ContextCompat.getMainExecutor(this),
@@ -214,7 +213,7 @@ class EscanerNuevo : AppCompatActivity() {
 
                         val py = Python.getInstance()
                         val myModule = py.getModule("main")
-                        val classifyImage = myModule.get("classify_image")
+                        val classifyImage = myModule["classify_image"]
 
                         val pyResult = classifyImage?.call(filePath)
 
@@ -223,11 +222,13 @@ class EscanerNuevo : AppCompatActivity() {
                             showResultDialog("Billete detectado: $$pyResult")
                             playSound(pyResult.toString())
                             guardarBaseDeDatos(pyResult.toString())
-                        } else
+                        } else {
                             showResultDialog("No se detectó ningun billete en la imagen.")
+                            playSound(pyResult.toString())
+                        }
 
                         tempFile.delete()
-                    } catch (e: IOException) {
+                    } catch (e: Exception) {
                         e.printStackTrace()
                         scanningDialog?.dismiss()
                         showResultDialog("Error al procesar la imagen.")
@@ -252,6 +253,9 @@ class EscanerNuevo : AppCompatActivity() {
 
         scanningDialog = dialogBuilder.create()
         scanningDialog?.show()
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.escaneando)
+        mediaPlayer?.start()
     }
 
     private fun guardarBaseDeDatos(billete: String) {
@@ -277,10 +281,10 @@ class EscanerNuevo : AppCompatActivity() {
             1000 -> R.raw.answer_1000
             2000 -> R.raw.answer_2000
             10000 -> R.raw.answer_10000
-            else -> null
+            else -> R.raw.no_se_detecto
         }
 
-        audioResId?.let {
+        audioResId.let {
             mediaPlayer?.release()
             mediaPlayer = MediaPlayer.create(this, it)
             mediaPlayer?.start()

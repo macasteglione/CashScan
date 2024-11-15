@@ -15,7 +15,7 @@ def classify_image(image_path):
 
     if response.status_code == 200:
         result = response.json()
-        if result["predictions"]:
+        if result["predictions"] and result["predictions"][0]["confidence"] > .8:
             return result["predictions"][0]["class"]
         else:
             return None

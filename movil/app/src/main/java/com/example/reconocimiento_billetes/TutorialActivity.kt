@@ -62,11 +62,13 @@ class TutorialActivity : AppCompatActivity() {
             ),
             ScreenItem(
                 "Escaner de Billetes",
-                "¡Muy bien! En Cash Scan puedes escanear un billete en tiempo real " +
-                        "usando la cámara de su celular. Cuando sientas que el celular vibre, " +
-                        "te diré el valor del billete. Cada vez que desees acceder a esta " +
-                        "herramienta, simplemente desliza el dedo hacia la derecha en el menú " +
-                        "principal. Deslize a la izquierda para continuar.",
+                "¡Muy bien! En Cash Scan, puedes identificar un billete usando la " +
+                        "cámara de tu celular. Para comenzar el escaneo, presiona el botón de " +
+                        "bajar volumen. Cuando sientas que el celular vibra, te diré el valor del " +
+                        "billete detectado. Si deseas escanear otro billete, simplemente toca " +
+                        "cualquier parte de la pantalla y repite los pasos. Cada vez que quieras " +
+                        "acceder a esta herramienta, desliza tu dedo hacia la derecha desde el " +
+                        "menú principal. Desliza hacia la izquierda para continuar.",
                 R.raw.intro_2
             ),
             ScreenItem(
