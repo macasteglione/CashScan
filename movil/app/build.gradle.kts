@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.chaquo.python")
 }
 
 android {
@@ -18,6 +19,16 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        ndk {
+            abiFilters += listOf("arm64-v8a", "x86_64")
+        }
+    }
+
+    flavorDimensions += "pyVersion"
+    productFlavors {
+        create("py310") { dimension = "pyVersion" }
+        create("py311") { dimension = "pyVersion" }
     }
 
     buildTypes {
@@ -46,6 +57,28 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+}
+
+chaquopy {
+    defaultConfig {
+        buildPython("/usr/bin/python3")
+        version = "3.8"
+
+        pip {
+            install("requests")
+        }
+    }
+
+    sourceSets {
+        getByName("main") {
+            srcDir("src/main/python")
+        }
+    }
+
+    productFlavors {
+        getByName("py310") { version = "3.10" }
+        getByName("py311") { version = "3.11" }
     }
 }
 

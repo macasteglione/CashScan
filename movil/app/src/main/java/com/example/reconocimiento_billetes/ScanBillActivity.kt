@@ -10,7 +10,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.camera.core.ImageAnalysis.Analyzer
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.runtime.Composable
@@ -32,7 +31,7 @@ import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
 import com.example.reconocimiento_billetes.ui.theme.ScanBillActivityTheme
 
 private var mediaPlayer: MediaPlayer? = null
-private var canVibrate = false
+var canVibrate = false
 
 class ScanBillActivity : ComponentActivity() {
 
@@ -72,15 +71,15 @@ class ScanBillActivity : ComponentActivity() {
 
     private fun reproducirAudio(billete: Int) {
         val audioResId = when (billete) {
-            8 -> R.raw.answer_10
-            7 -> R.raw.answer_20
-            6 -> R.raw.answer_50
-            5 -> R.raw.answer_100
-            4 -> R.raw.answer_200
-            3 -> R.raw.answer_500
-            2 -> R.raw.answer_1000
-            1 -> R.raw.answer_2000
-            0 -> R.raw.answer_10000
+            13 -> R.raw.answer_10000
+            12 -> R.raw.answer_2000
+            11 -> R.raw.answer_1000
+            10 -> R.raw.answer_500
+            9 -> R.raw.answer_200
+            6, 7, 8 -> R.raw.answer_100
+            3, 4, 5 -> R.raw.answer_50
+            1, 2 -> R.raw.answer_20
+            0 -> R.raw.answer_10
             else -> null
         }
 
@@ -174,19 +173,16 @@ class ScanBillActivity : ComponentActivity() {
             }
         }
 
-        /*
         val combinedAnalyzer = remember {
             CombinedImageAnalyzer(billetesAnalyzer, lightAnalyzer)
         }
-        */
+
         Log.d("Scanner","Iniciando el escaneo")
 
-        //ya no analiza luminosidad
-
-        analizar(cameraController, lightAnalyzer);
-
-        analizar(cameraController, billetesAnalyzer)
-
+        cameraController.setImageAnalysisAnalyzer(
+            ContextCompat.getMainExecutor(this),
+            combinedAnalyzer
+        )
 
         ScanBillActivityTheme(
             classification,
@@ -198,12 +194,4 @@ class ScanBillActivity : ComponentActivity() {
             onFinish = { finish() }
         )
     }
-
-    private fun analizar(cameraController: CameraController, analyzer:Analyzer){
-        cameraController.setImageAnalysisAnalyzer(
-            ContextCompat.getMainExecutor(this@ScanBillActivity),
-            analyzer
-        )
-    }
-
 }
