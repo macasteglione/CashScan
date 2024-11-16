@@ -1,8 +1,13 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.chaquo.python")
 }
+
+val api_key = gradleLocalProperties(rootDir, providers).getProperty("API_KEY", "")
+val api_url = gradleLocalProperties(rootDir, providers).getProperty("API_URL", "")
 
 android {
     namespace = "com.example.reconocimiento_billetes"
@@ -19,6 +24,17 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        resValue(
+            "string",
+            "API_KEY",
+            "\"" + api_key + "\""
+        )
+        resValue(
+            "string",
+            "API_URL",
+            "\"" + api_url + "\""
+        )
 
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")

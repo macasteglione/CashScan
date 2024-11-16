@@ -36,9 +36,8 @@ fun CountBillActivityTheme(
 ) {
     var offsetX by remember { mutableFloatStateOf(0f) }
 
-    // Obtener el ancho de la pantalla
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val percentage = 0.45f // Ajustar a 45%
+    val percentage = 0.45f
     val thresholdWidth = with(LocalDensity.current) { screenWidth.toPx() * percentage }
 
     Column(
@@ -65,8 +64,16 @@ fun CountBillActivityTheme(
                         }
                     ) { _, dragAmount ->
                         offsetX += dragAmount.x
-                        if (offsetX < -thresholdWidth) {
-                            closeAct()
+                        when {
+                            offsetX < -thresholdWidth -> {
+                                offsetX = 0f
+                                closeAct()
+                            }
+
+                            offsetX > thresholdWidth -> {
+                                offsetX = 0f
+                                onSaveAndShareHistory()
+                            }
                         }
                     }
                 }

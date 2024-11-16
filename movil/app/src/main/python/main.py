@@ -1,21 +1,22 @@
 import requests
 
-API_URL = "https://detect.roboflow.com/guidobilletes/1"
-API_KEY = "V0JV6bkDyq6us26QOomX"
 
-def classify_image(image_path):
+def classify_image(image_path, env_variables):
+    api_url = env_variables.get("API_URL")
+    api_key = env_variables.get("API_KEY")
+
     with open(image_path, "rb") as image_file:
         image_data = image_file.read()
 
     params = {
-        "api_key": API_KEY,
+        "api_key": api_key,
     }
 
-    response = requests.post(API_URL, params=params, files={"file": image_data})
+    response = requests.post(api_url, params=params, files={"file": image_data})
 
     if response.status_code == 200:
         result = response.json()
-        if result["predictions"] and result["predictions"][0]["confidence"] > .8:
+        if result["predictions"] and result["predictions"][0]["confidence"] > .85:
             return result["predictions"][0]["class"]
         else:
             return None

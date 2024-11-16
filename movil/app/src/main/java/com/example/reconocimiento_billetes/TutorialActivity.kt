@@ -74,11 +74,12 @@ class TutorialActivity : AppCompatActivity() {
             ScreenItem(
                 "Historial de Billetes",
                 "Además, puedes acceder al historial de billetes escaneados, donde " +
-                        "encontraras el valor y la fecha de cada escaneo. Para abrir el " +
-                        "historial, desliza el dedo hacia la izquierda en el menú principal. " +
-                        "Si deseas borrar el historial, solo toca la pantalla cinco veces. Desde " +
-                        "el historial también puedes compartir un archivo de texto con todos los " +
-                        "billetes que has escaneado. Deslize a la izquierda para continuar.",
+                        "encontraras el valor y la fecha de cada escaneo. Para abrir el historial, " +
+                        "desliza el dedo hacia la izquierda en el menú principal. Si deseas borrar " +
+                        "el historial, solo toca la pantalla cinco veces. Desde el historial " +
+                        "también puedes compartir un archivo de texto con todos los billetes que " +
+                        "has escaneado simplemente deslizando hacia la derecha. " +
+                        "Deslize a la izquierda para continuar.",
                 R.raw.intro_3
             ),
             ScreenItem(
@@ -86,7 +87,9 @@ class TutorialActivity : AppCompatActivity() {
                 "¡Genial! Ahora conoces cómo navegar entre las herramientas de esta " +
                         "aplicación. Para retroceder en cualquier momento, simplemente desliza " +
                         "el dedo hacia la izquierda. Si alguna vez necesitas un repaso, puedes " +
-                        "volver al tutorial desde el menú principal deslizando hacia arriba. " +
+                        "volver al tutorial desde el menú principal deslizando hacia arriba." +
+                        "Si quieres compartir tu opinión sobre la aplicación o sugerir nuevas " +
+                        "herramientas, contáctanos deslizando hacia abajo. " +
                         "¡Ya estamos preparados! Toque dos veces para empezar.",
                 R.raw.intro_4
             )

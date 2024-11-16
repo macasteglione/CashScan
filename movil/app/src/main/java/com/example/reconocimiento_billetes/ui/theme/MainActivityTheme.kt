@@ -2,6 +2,7 @@ package com.example.reconocimiento_billetes.ui.theme
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
@@ -25,11 +26,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.core.content.ContextCompat.startActivity
 import com.example.reconocimiento_billetes.CountBillActivity
 import com.example.reconocimiento_billetes.EscanerNuevo
 import com.example.reconocimiento_billetes.R
-import com.example.reconocimiento_billetes.ScanBillActivity
 import com.example.reconocimiento_billetes.TutorialActivity
+
 
 @Composable
 private fun BotonCountBill(context: Context) {
@@ -99,6 +101,27 @@ private fun BotonTutorial(context: Context, closeAct: () -> Unit) {
 }
 
 @Composable
+private fun BotonFeedback(context: Context) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Button(
+            onClick = {
+                val intent = Intent(Intent.ACTION_SENDTO)
+                val UriText = "mailto:" + Uri.encode("matiascasteglione2002@gmail.com") +
+                        "?subject=" + Uri.encode("Feedback") + "\$body=" + Uri.encode("")
+                val uri = Uri.parse(UriText)
+                intent.setData(uri)
+                context.startActivity(Intent.createChooser(intent, "send email"))
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(16.dp)
+        ) {
+            Text(text = "Feedback")
+        }
+    }
+}
+
+@Composable
 fun MainActivityTheme(context: Context, closeAct: () -> Unit) {
     var offsetX by remember { mutableFloatStateOf(0f) }
     var offsetY by remember { mutableFloatStateOf(0f) }
@@ -146,6 +169,17 @@ fun MainActivityTheme(context: Context, closeAct: () -> Unit) {
                             context.startActivity(intent)
                             closeAct()
                         }
+
+                        offsetY > thresholdHeight -> {
+                            offsetY = 0f
+                            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                data = Uri.parse(
+                                    "mailto:${Uri.encode("matiascasteglione2002@gmail.com")}" +
+                                            "?subject=${Uri.encode("Feedback")}&body=${Uri.encode("")}"
+                                )
+                            }
+                            context.startActivity(Intent.createChooser(intent, "Enviar correo"))
+                        }
                     }
                 }
             }
@@ -160,6 +194,7 @@ fun MainActivityTheme(context: Context, closeAct: () -> Unit) {
             BotonCountBill(context)
             BotonScanBill(context)
             BotonTutorial(context, closeAct)
+            BotonFeedback(context)
         }
     }
 }

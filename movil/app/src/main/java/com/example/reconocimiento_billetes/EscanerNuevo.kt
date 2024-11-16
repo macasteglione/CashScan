@@ -78,7 +78,6 @@ class EscanerNuevo : AppCompatActivity() {
             Python.start(AndroidPlatform(this))
 
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        canVibrate = vibrator.hasVibrator()
 
         controller = LifecycleCameraController(this).apply {
             setEnabledUseCases(
@@ -215,7 +214,12 @@ class EscanerNuevo : AppCompatActivity() {
                         val myModule = py.getModule("main")
                         val classifyImage = myModule["classify_image"]
 
-                        val pyResult = classifyImage?.call(filePath)
+                        val pyResult = classifyImage?.call(
+                            filePath, hashMapOf(
+                                "API_URL" to getString(R.string.API_URL),
+                                "API_KEY" to getString(R.string.API_KEY)
+                            )
+                        )
 
                         scanningDialog?.dismiss()
                         if (pyResult != null) {
@@ -231,7 +235,7 @@ class EscanerNuevo : AppCompatActivity() {
                     } catch (e: Exception) {
                         e.printStackTrace()
                         scanningDialog?.dismiss()
-                        showResultDialog("Error al procesar la imagen.")
+                        errorMsg()
                     } finally {
                         image.close()
                     }
@@ -240,8 +244,14 @@ class EscanerNuevo : AppCompatActivity() {
         )
     }
 
+    private fun errorMsg() {
+        showResultDialog("Error al procesar la imagen.")
+        mediaPlayer = MediaPlayer.create(this, R.raw.error)
+        mediaPlayer?.start()
+    }
+
     private fun vibrateDevice(duration: Long = 300L) {
-        if (canVibrate) vibrator.vibrate(duration)
+        if (vibrator.hasVibrator()) vibrator.vibrate(duration)
     }
 
     private fun showScanningDialog() {
