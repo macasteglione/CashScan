@@ -3,7 +3,6 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.chaquo.python")
 }
 
 val api_key = gradleLocalProperties(rootDir, providers).getProperty("API_KEY", "")
@@ -65,6 +64,7 @@ android {
     }
     buildFeatures {
         compose = true
+        mlModelBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -76,27 +76,7 @@ android {
     }
 }
 
-chaquopy {
-    defaultConfig {
-        buildPython("/usr/bin/python3")
-        version = "3.8"
 
-        pip {
-            install("requests")
-        }
-    }
-
-    sourceSets {
-        getByName("main") {
-            srcDir("src/main/python")
-        }
-    }
-
-    productFlavors {
-        getByName("py310") { version = "3.10" }
-        getByName("py311") { version = "3.11" }
-    }
-}
 
 dependencies {
 
@@ -112,6 +92,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -26,10 +26,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.core.content.ContextCompat.startActivity
 import com.example.reconocimiento_billetes.CountBillActivity
-import com.example.reconocimiento_billetes.EscanerNuevo
 import com.example.reconocimiento_billetes.R
+import com.example.reconocimiento_billetes.ScanBillActivity
+import com.example.reconocimiento_billetes.ScannerNuevo
 import com.example.reconocimiento_billetes.TutorialActivity
 
 
@@ -70,7 +70,7 @@ private fun BotonScanBill(context: Context) {
     Box(modifier = Modifier.fillMaxWidth()) {
         Button(
             onClick = {
-                val intent = Intent(context, EscanerNuevo::class.java)
+                val intent = Intent(context, ScannerNuevo::class.java)
                 context.startActivity(intent)
             },
             modifier = Modifier
@@ -128,7 +128,7 @@ fun MainActivityTheme(context: Context, closeAct: () -> Unit) {
 
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val percentageX = 0.45f
+    val percentageX = 0.25f
     val percentageY = 0.25f
     val thresholdWidth = with(LocalDensity.current) { screenWidth.toPx() * percentageX }
     val thresholdHeight = with(LocalDensity.current) { screenHeight.toPx() * percentageY }
@@ -159,7 +159,7 @@ fun MainActivityTheme(context: Context, closeAct: () -> Unit) {
 
                         offsetX > thresholdWidth -> {
                             offsetX = 0f
-                            val intent = Intent(context, EscanerNuevo::class.java)
+                            val intent = Intent(context, ScanBillActivity::class.java)
                             context.startActivity(intent)
                         }
 
