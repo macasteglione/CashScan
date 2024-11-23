@@ -33,23 +33,22 @@
         <activity
             android:name=".ScanBillActivity"
             android:exported="false"
-            android:label="@string/title_activity_scan_bill" />
+            android:label="Escanear Billete" />
         <activity
             android:name=".CountBillActivity"
-            android:exported="false"
-            android:label="@string/title_activity_count_bill" />
+            android:exported="true"
+            android:label="Historial de Billetes" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".EscanerNuevo"
-            android:exported="true" />
-        <activity
             android:name=".TutorialActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Tutorial" />
         <activity
             android:name=".IntroActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.SlashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

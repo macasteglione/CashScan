@@ -3,6 +3,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.chaquo.python")
 }
 
 val api_key = gradleLocalProperties(rootDir, providers).getProperty("API_KEY", "")
@@ -76,7 +77,27 @@ android {
     }
 }
 
+chaquopy {
+    defaultConfig {
+        buildPython("/usr/bin/python3")
+        version = "3.8"
 
+        pip {
+            install("requests")
+        }
+    }
+
+    sourceSets {
+        getByName("main") {
+            srcDir("src/main/python")
+        }
+    }
+
+    productFlavors {
+        getByName("py310") { version = "3.10" }
+        getByName("py311") { version = "3.11" }
+    }
+}
 
 dependencies {
 
@@ -102,6 +123,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.accompanist.pager)
+    implementation(libs.androidx.core.splashscreen)
 
     // The following line is optional, as the core library is included indirectly by camera-camera2
     implementation(libs.androidx.camera.core)
@@ -114,10 +136,4 @@ dependencies {
     implementation(libs.androidx.camera.extensions)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-    // TensorFlow Lite
-    implementation(libs.tensorflow.lite)
-    implementation(libs.tensorflow.lite.task.vision)
-    implementation(libs.tensorflow.lite.gpu.delegate.plugin)
-    implementation(libs.tensorflow.lite.gpu)
 }
