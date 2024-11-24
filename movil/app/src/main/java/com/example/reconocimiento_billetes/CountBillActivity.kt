@@ -7,10 +7,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -29,18 +29,19 @@ class CountBillActivity : AppCompatActivity() {
     private lateinit var deleteSoundPlayer: MediaPlayer
     private lateinit var billsAdapter: BillsAdapter
     private lateinit var db: SQLiteHelper
-    private lateinit var gestureDetector: GestureDetector
 
     private var tapCount = 0
     private val tapTimeout = 500L
     private val handler = Handler(Looper.getMainLooper())
+
+    private var x1: Float = 0f
+    private val swipeThreshold = 100
 
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_count_bill)
 
-        initGestureDetector()
         initializeComponents()
 
         val recyclerView = findViewById<RecyclerView>(R.id.billsRecyclerView)
@@ -51,54 +52,43 @@ class CountBillActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.deleteButton).setOnClickListener {
-            db.deleteAllBills()
-            updateUI()
-            deleteSoundPlayer.start()
+            borrarHistorial()
         }
 
         findViewById<Button>(R.id.shareButton).setOnClickListener {
             shareHistory()
         }
 
-        val rootView = findViewById<View>(android.R.id.content)
-        rootView.setOnTouchListener { _, event ->
+        val touchListener = View.OnTouchListener { v, event ->
+            v.performClick()
             when (event.action) {
-                MotionEvent.ACTION_DOWN -> handleTap()
+                MotionEvent.ACTION_DOWN -> {
+                    x1 = event.x
+                    handleTap()
+                    true
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    val x2 = event.x
+                    val xDiff = x2 - x1
+
+                    if (abs(xDiff) > swipeThreshold) {
+                        if (xDiff > 0)
+                            shareHistory()
+                        else finish()
+                    }
+                    true
+                }
+
+                else -> false
             }
-            gestureDetector.onTouchEvent(event)
-            true
         }
+
+        findViewById<RecyclerView>(R.id.billsRecyclerView).setOnTouchListener(touchListener)
 
         val bills = db.getAllBills().reversed()
         billsAdapter.updateBills(bills)
         findViewById<TextView>(R.id.totalTextView).text = "Total: $${db.getTotalAmount()}"
-    }
-
-    private fun initGestureDetector() {
-        gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onFling(
-                e1: MotionEvent?,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
-                if (e1 == null) return false
-
-                val diffX = e2.x - e1.x
-                val diffY = e2.y - e1.y
-
-                if (abs(diffX) > abs(diffY)) {
-                    if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffX > 0)
-                            shareHistory()
-                        else
-                            finish()
-                        return true
-                    }
-                }
-                return false
-            }
-        })
     }
 
     private fun initializeComponents() {
@@ -107,6 +97,12 @@ class CountBillActivity : AppCompatActivity() {
         mediaPlayer.start()
 
         db = SQLiteHelper(this)
+    }
+
+    private fun borrarHistorial() {
+        db.deleteAllBills()
+        updateUI()
+        deleteSoundPlayer.start()
     }
 
     @SuppressLint("SetTextI18n")
@@ -121,8 +117,7 @@ class CountBillActivity : AppCompatActivity() {
         handler.removeCallbacksAndMessages(null)
 
         if (tapCount >= 5) {
-            db.deleteAllBills()
-            updateUI()
+            borrarHistorial()
             tapCount = 0
         } else {
             handler.postDelayed({ tapCount = 0 }, tapTimeout)
@@ -142,11 +137,6 @@ class CountBillActivity : AppCompatActivity() {
         mediaPlayer.release()
         deleteSoundPlayer.release()
         handler.removeCallbacksAndMessages(null)
-    }
-
-    companion object {
-        private const val SWIPE_THRESHOLD = 100
-        private const val SWIPE_VELOCITY_THRESHOLD = 100
     }
 
     private fun saveHistoryToFile(
