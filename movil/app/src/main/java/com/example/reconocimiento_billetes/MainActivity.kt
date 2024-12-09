@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
                             "?subject=${Uri.encode("Feedback")}"
                 )
             }
-            startActivity(Intent.createChooser(intent, "Enviar correo"))
+            startActivity(Intent.createChooser(intent, getString(R.string.enviarCorreo)))
         }
 
         val touchListener = View.OnTouchListener { _, event ->
@@ -74,7 +74,12 @@ class MainActivity : ComponentActivity() {
                                         "?subject=${Uri.encode("Feedback")}"
                             )
                         }
-                        startActivity(Intent.createChooser(intent, "Enviar correo"))
+                        startActivity(
+                            Intent.createChooser(
+                                intent,
+                                getString(R.string.enviarCorreo)
+                            )
+                        )
                     } else if (deltaY < -thresholdHeight)
                         startActivity(Intent(this, TutorialActivity::class.java))
                 }

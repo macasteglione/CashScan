@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">CashScan</string>
+    <string name="title_activity_count_bills">CountBillsActivity</string>
+    <string name="title_activity_count_bill">CountBillActivity</string>
+    <string name="title_activity_scan_bill">ScanBillActivity</string>
+
+    <!-- Manifest -->
+    <string name="escanearBilletes">नोट स्कैन करें</string>
+    <string name="historialDeBilletes">नोट इतिहास</string>
+    <string name="tutorial">ट्यूटोरियल</string>
+
+    <!-- activityCount -->
+    <string name="billete">नोट</string>
+    <string name="fecha">तारीख</string>
+    <string name="borrar_historial">इतिहास हटाएं</string>
+    <string name="guardar_y_compartir_historial">इतिहास सहेजें और साझा करें</string>
+
+    <!-- activityIntro -->
+    <string name="siguiente">आगे</string>
+    <string name="empezar">शुरू करें</string>
+    <string name="saltar">छोड़ें</string>
+
+    <!-- activityMain -->
+    <string name="escanear">स्कैन करें</string>
+    <string name="historial">इतिहास</string>
+    <string name="feedback">प्रतिक्रिया</string>
+    <string name="menu_principal">मुख्य मेनू</string>
+
+    <!-- CountBillActivity -->
+    <string name="totalBilletes">कुल: ₹</string>
+    <string name="totalBilletesArchivo">कुल नोट्स: ₹</string>
+    <string name="valorBillete">नोट: ₹</string>
+    <string name="fechaBillete">तारीख: </string>
+    <string name="compartirHistorial">नोट्स का इतिहास साझा करें</string>
+
+    <!-- MainActivity -->
+    <string name="enviarCorreo">ईमेल भेजें</string>
+
+    <!-- ScanBillActivity -->
+    <string name="billeteDetectado">नोट पहचाना गया: ₹</string>
+    <string name="noSeDetectoBillete">चित्र में कोई नोट नहीं पहचाना गया।</string>
+    <string name="errorProcesarImagen">चित्र प्रोसेस करते समय त्रुटि।</string>
+    <string name="escaneando">स्कैन कर रहा है…</string>
+    <string name="esperaProcesoImagen">कृपया प्रतीक्षा करें, चित्र प्रोसेस हो रहा है।</string>
+    <string name="resultadoClasificacion">वर्गीकरण का परिणाम</string>
+
+    <!-- TutorialActivity -->
+    <string name="intro1">यह ऐप आपको नोट्स को जल्दी और आसानी से पहचानने और व्यवस्थित करने में मदद करने के लिए डिज़ाइन किया गया है। शुरू करने से पहले, मैं आपको दिखाना चाहता हूं कि केवल इशारों का उपयोग करके ऐप को कैसे नेविगेट करें, ताकि आप इसकी सभी विशेषताओं का सहजता से लाभ उठा सकें। जारी रखने के लिए बाएं स्वाइप करें।</string>
+    <string name="intro2">बहुत अच्छा! Cash Scan में, आप अपने फोन के कैमरे का उपयोग करके नोट की पहचान कर सकते हैं। स्कैनिंग शुरू करने के लिए, वॉल्यूम घटाने का बटन दबाएं। जब आपका फोन कंपन करे, तो मैं आपको पहचाने गए नोट का मूल्य बताऊंगा। यदि आप एक और नोट स्कैन करना चाहते हैं, तो स्क्रीन के किसी भी भाग को टैप करें और चरणों को दोहराएं। जब भी आप इस टूल का उपयोग करना चाहें, मुख्य मेनू से दाएं स्वाइप करें। जारी रखने के लिए बाएं स्वाइप करें।</string>
+    <string name="intro3">इसके अलावा, आप स्कैन किए गए नोट्स के इतिहास तक पहुंच सकते हैं, जहां आपको प्रत्येक स्कैन का मूल्य और तारीख मिलेगी। इतिहास खोलने के लिए, मुख्य मेनू में बाएं स्वाइप करें। यदि आप इतिहास हटाना चाहते हैं, तो स्क्रीन को पाँच बार टैप करें। इतिहास से, आप सभी स्कैन किए गए नोट्स की एक टेक्स्ट फ़ाइल साझा भी कर सकते हैं, बस दाएं स्वाइप करें। जारी रखने के लिए बाएं स्वाइप करें।</string>
+    <string name="intro4">बहुत बढ़िया! अब आप जानते हैं कि इस ऐप के टूल्स के बीच कैसे नेविगेट करें। किसी भी समय वापस जाने के लिए, बाएं स्वाइप करें। यदि आपको दोबारा सीखने की आवश्यकता है, तो आप मुख्य मेनू से ऊपर स्वाइप करके ट्यूटोरियल पर वापस जा सकते हैं। यदि आप ऐप के बारे में अपनी राय साझा करना चाहते हैं या नई सुविधाओं का सुझाव देना चाहते हैं, तो हमसे संपर्क करने के लिए नीचे स्वाइप करें। हम तैयार हैं! शुरू करने के लिए दो बार टैप करें।</string>
+    <string name="intro1Title">स्वागत है!</string>
+    <string name="intro2Title">नोट स्कैनर</string>
+    <string name="intro4Title">तैयार!</string>
+</resources>

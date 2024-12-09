@@ -1,6 +1,55 @@
 <resources>
-    <string name="app_name">reconocimiento-billetes</string>
+    <string name="app_name">CashScan</string>
     <string name="title_activity_count_bills">CountBillsActivity</string>
     <string name="title_activity_count_bill">CountBillActivity</string>
     <string name="title_activity_scan_bill">ScanBillActivity</string>
+
+    <!-- Manifest -->
+    <string name="escanearBilletes">Scan Bills</string>
+    <string name="historialDeBilletes">Bill History</string>
+    <string name="tutorial">Tutorial</string>
+
+    <!-- activityCount -->
+    <string name="billete">Bill</string>
+    <string name="fecha">Date</string>
+    <string name="borrar_historial">Clear History</string>
+    <string name="guardar_y_compartir_historial">Save and Share History</string>
+
+    <!-- activityIntro -->
+    <string name="siguiente">Next</string>
+    <string name="empezar">Start</string>
+    <string name="saltar">Skip</string>
+
+    <!-- activityMain -->
+    <string name="escanear">Scan</string>
+    <string name="historial">History</string>
+    <string name="feedback">Feedback</string>
+    <string name="menu_principal">Main Menu</string>
+
+    <!-- CountBillActivity -->
+    <string name="totalBilletes">Total: $</string>
+    <string name="totalBilletesArchivo">Total Bills: $</string>
+    <string name="valorBillete">Bill: $</string>
+    <string name="fechaBillete">Date: </string>
+    <string name="compartirHistorial">Share bill history</string>
+
+    <!-- MainActivity -->
+    <string name="enviarCorreo">Send Email</string>
+
+    <!-- ScanBillActivity -->
+    <string name="billeteDetectado">Bill detected: $</string>
+    <string name="noSeDetectoBillete">No bill detected in the image.</string>
+    <string name="errorProcesarImagen">Error processing the image.</string>
+    <string name="escaneando">Scanning…</string>
+    <string name="esperaProcesoImagen">Please wait while the image is processed.</string>
+    <string name="resultadoClasificacion">Classification Result</string>
+
+    <!-- TutorialActivity -->
+    <string name="intro1">This app is designed to help you identify and organize bills quickly and easily. Before you start, I\'d like to show you how to navigate the app using only gestures, so you can take full advantage of its features intuitively. Swipe left to continue.</string>
+    <string name="intro2">Great! In Cash Scan, you can identify a bill using your phone\'s camera. To start scanning, press the volume-down button. When you feel the phone vibrate, I\'ll tell you the value of the detected bill. If you want to scan another bill, just tap anywhere on the screen and repeat the steps. Whenever you want to access this tool, swipe right from the main menu. Swipe left to continue.</string>
+    <string name="intro3">Additionally, you can access the history of scanned bills, where you\'ll find the value and date of each scan. To open the history, swipe left in the main menu. If you want to clear the history, just tap the screen five times. From the history, you can also share a text file with all the scanned bills by simply swiping right. Swipe left to continue.</string>
+    <string name="intro4">Awesome! Now you know how to navigate through the tools of this app. To go back at any time, just swipe left. If you ever need a refresher, you can return to the tutorial from the main menu by swiping up. If you\'d like to share your feedback about the app or suggest new tools, contact us by swiping down. We\'re all set! Double-tap to start.</string>
+    <string name="intro1Title">Welcome!</string>
+    <string name="intro2Title">Bill Scanner</string>
+    <string name="intro4Title">Ready!</string>
 </resources>

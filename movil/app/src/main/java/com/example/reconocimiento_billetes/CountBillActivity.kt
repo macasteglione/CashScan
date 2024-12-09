@@ -10,7 +10,6 @@ import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -88,7 +87,8 @@ class CountBillActivity : AppCompatActivity() {
 
         val bills = db.getAllBills().reversed()
         billsAdapter.updateBills(bills)
-        findViewById<TextView>(R.id.totalTextView).text = "Total: $${db.getTotalAmount()}"
+        findViewById<TextView>(R.id.totalTextView).text =
+            "${getString(R.string.totalBilletes)}${db.getTotalAmount()}"
     }
 
     private fun initializeComponents() {
@@ -109,7 +109,8 @@ class CountBillActivity : AppCompatActivity() {
     private fun updateUI() {
         val bills = db.getAllBills().reversed()
         billsAdapter.updateBills(bills)
-        findViewById<TextView>(R.id.totalTextView).text = "Total: $${db.getTotalAmount()}"
+        findViewById<TextView>(R.id.totalTextView).text =
+            "${getString(R.string.totalBilletes)}${db.getTotalAmount()}"
     }
 
     private fun handleTap() {
@@ -128,8 +129,7 @@ class CountBillActivity : AppCompatActivity() {
         val bills = db.getAllBills().reversed()
         val totalAmount = db.getTotalAmount()
         val file = saveHistoryToFile(bills, totalAmount)
-        if (file != null)
-            shareHistoryFile(file)
+        if (file != null) shareHistoryFile(file)
     }
 
     override fun onDestroy() {
@@ -143,16 +143,17 @@ class CountBillActivity : AppCompatActivity() {
         bills: List<BillData>,
         totalAmount: Int
     ): File? {
-        val fileName = "historial_billetes.txt"
+        val fileName = "cashScan.txt"
         val file = File(this.filesDir, fileName)
 
         try {
             FileOutputStream(file).use { output ->
-                output.write("Total de Billetes: $$totalAmount\n\n".toByteArray())
-                output.write("Historial de Billetes:\n".toByteArray())
+                output.write("${getString(R.string.totalBilletesArchivo)}$totalAmount\n\n".toByteArray())
+                output.write("${getString(R.string.historialDeBilletes)}:\n".toByteArray())
 
                 for (bill in bills) {
-                    val line = "Billete: $${bill.value}, Fecha: ${bill.date}\n"
+                    val line =
+                        "${getString(R.string.valorBillete)}${bill.value}, ${getString(R.string.fechaBillete)}${bill.date}\n"
                     output.write(line.toByteArray())
                 }
             }
@@ -177,6 +178,6 @@ class CountBillActivity : AppCompatActivity() {
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
 
-        startActivity(Intent.createChooser(intent, "Compartir historial de billetes"))
+        startActivity(Intent.createChooser(intent, getString(R.string.compartirHistorial)))
     }
 }

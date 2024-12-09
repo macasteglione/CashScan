@@ -33,18 +33,18 @@
         <activity
             android:name=".ScanBillActivity"
             android:exported="false"
-            android:label="Escanear Billete" />
+            android:label="@string/escanearBilletes" />
         <activity
             android:name=".CountBillActivity"
             android:exported="true"
-            android:label="Historial de Billetes" />
+            android:label="@string/historialDeBilletes" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".TutorialActivity"
             android:exported="true"
-            android:label="Tutorial" />
+            android:label="@string/tutorial" />
         <activity
             android:name=".IntroActivity"
             android:exported="true"

@@ -79,7 +79,7 @@ android {
 
 chaquopy {
     defaultConfig {
-        buildPython("/usr/bin/python3")
+        buildPython("C:\\Users\\maty\\AppData\\Local\\Programs\\Python\\Python313\\python.exe")
         version = "3.8"
 
         pip {

@@ -20,14 +20,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Billete" />
+            android:text="@string/billete" />
 
         <TextView
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Fecha" />
+            android:text="@string/fecha" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/shareButton"
         android:layout_marginTop="16dp"
-        android:text="Borrar Historial" />
+        android:text="@string/borrar_historial" />
 
     <Button
         android:id="@+id/shareButton"
@@ -61,6 +61,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="16dp"
-        android:text="Guardar y Compartir Historial" />
+        android:text="@string/guardar_y_compartir_historial" />
 
 </RelativeLayout>

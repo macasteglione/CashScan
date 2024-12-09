@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">CashScan</string>
+    <string name="title_activity_count_bills">CountBillsActivity</string>
+    <string name="title_activity_count_bill">CountBillActivity</string>
+    <string name="title_activity_scan_bill">ScanBillActivity</string>
+
+    <!-- Manifest -->
+    <string name="escanearBilletes">扫描钞票</string>
+    <string name="historialDeBilletes">钞票历史记录</string>
+    <string name="tutorial">教程</string>
+
+    <!-- activityCount -->
+    <string name="billete">钞票</string>
+    <string name="fecha">日期</string>
+    <string name="borrar_historial">清除历史记录</string>
+    <string name="guardar_y_compartir_historial">保存并分享历史记录</string>
+
+    <!-- activityIntro -->
+    <string name="siguiente">下一步</string>
+    <string name="empezar">开始</string>
+    <string name="saltar">跳过</string>
+
+    <!-- activityMain -->
+    <string name="escanear">扫描</string>
+    <string name="historial">历史记录</string>
+    <string name="feedback">反馈</string>
+    <string name="menu_principal">主菜单</string>
+
+    <!-- CountBillActivity -->
+    <string name="totalBilletes">总计: ¥</string>
+    <string name="totalBilletesArchivo">钞票总额: ¥</string>
+    <string name="valorBillete">钞票: ¥</string>
+    <string name="fechaBillete">日期: </string>
+    <string name="compartirHistorial">分享钞票历史记录</string>
+
+    <!-- MainActivity -->
+    <string name="enviarCorreo">发送邮件</string>
+
+    <!-- ScanBillActivity -->
+    <string name="billeteDetectado">检测到钞票: ¥</string>
+    <string name="noSeDetectoBillete">未在图片中检测到钞票。</string>
+    <string name="errorProcesarImagen">处理图片时出错。</string>
+    <string name="escaneando">正在扫描…</string>
+    <string name="esperaProcesoImagen">请稍候，正在处理图片。</string>
+    <string name="resultadoClasificacion">分类结果</string>
+
+    <!-- TutorialActivity -->
+    <string name="intro1">此应用旨在帮助您快速轻松地识别和整理钞票。在开始之前，我将向您展示如何仅使用手势来操作应用，这样您可以直观地享受所有功能。向左滑动以继续。</string>
+    <string name="intro2">很好！在 Cash Scan 中，您可以使用手机的摄像头识别钞票。要开始扫描，请按下音量减小按钮。当手机震动时，我会告诉您检测到的钞票面值。如果想扫描另一张钞票，只需点击屏幕上的任意位置并重复步骤。每当您想访问此工具时，从主菜单向右滑动即可。向左滑动以继续。</string>
+    <string name="intro3">此外，您可以访问已扫描钞票的历史记录，其中包含每次扫描的面值和日期。要打开历史记录，请在主菜单中向左滑动。如果想清除历史记录，只需点击屏幕五次。在历史记录中，您还可以通过向右滑动分享包含所有扫描钞票的文本文件。向左滑动以继续。</string>
+    <string name="intro4">太棒了！现在您知道如何使用此应用的工具了。随时向左滑动即可返回。如果需要复习，可以从主菜单向上滑动回到教程。如果您想分享对应用的意见或建议新功能，请向下滑动联系我们。我们准备好了！双击开始。</string>
+    <string name="intro1Title">欢迎！</string>
+    <string name="intro2Title">钞票扫描器</string>
+    <string name="intro4Title">准备好了！</string>
+</resources>

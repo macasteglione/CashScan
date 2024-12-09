@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">CashScan</string>
+    <string name="title_activity_count_bills">CountBillsActivity</string>
+    <string name="title_activity_count_bill">CountBillActivity</string>
+    <string name="title_activity_scan_bill">ScanBillActivity</string>
+
+    <!-- Manifest -->
+    <string name="escanearBilletes">Escanear Notas</string>
+    <string name="historialDeBilletes">Histórico de Notas</string>
+    <string name="tutorial">Tutorial</string>
+
+    <!-- activityCount -->
+    <string name="billete">Nota</string>
+    <string name="fecha">Data</string>
+    <string name="borrar_historial">Apagar Histórico</string>
+    <string name="guardar_y_compartir_historial">Salvar e Compartilhar Histórico</string>
+
+    <!-- activityIntro -->
+    <string name="siguiente">Próximo</string>
+    <string name="empezar">Começar</string>
+    <string name="saltar">Pular</string>
+
+    <!-- activityMain -->
+    <string name="escanear">Escanear</string>
+    <string name="historial">Histórico</string>
+    <string name="feedback">Feedback</string>
+    <string name="menu_principal">Menu Principal</string>
+
+    <!-- CountBillActivity -->
+    <string name="totalBilletes">Total: R$</string>
+    <string name="totalBilletesArchivo">Total de Notas: R$</string>
+    <string name="valorBillete">Nota: R$</string>
+    <string name="fechaBillete">Data: </string>
+    <string name="compartirHistorial">Compartilhar histórico de notas</string>
+
+    <!-- MainActivity -->
+    <string name="enviarCorreo">Enviar Email</string>
+
+    <!-- ScanBillActivity -->
+    <string name="billeteDetectado">Nota detectada: R$</string>
+    <string name="noSeDetectoBillete">Nenhuma nota detectada na imagem.</string>
+    <string name="errorProcesarImagen">Erro ao processar a imagem.</string>
+    <string name="escaneando">Escaneando…</string>
+    <string name="esperaProcesoImagen">Por favor, aguarde enquanto a imagem é processada.</string>
+    <string name="resultadoClasificacion">Resultado da Classificação</string>
+
+    <!-- TutorialActivity -->
+    <string name="intro1">Este aplicativo foi desenvolvido para ajudá-lo a identificar e organizar notas de maneira rápida e fácil. Antes de começar, gostaria de mostrar como navegar no aplicativo usando apenas gestos, para que você possa aproveitar todas as funcionalidades de forma intuitiva. Deslize para a esquerda para continuar.</string>
+    <string name="intro2">Muito bem! No Cash Scan, você pode identificar uma nota usando a câmera do seu celular. Para iniciar a digitalização, pressione o botão de diminuir o volume. Quando sentir o celular vibrar, direi o valor da nota detectada. Se quiser escanear outra nota, basta tocar em qualquer parte da tela e repetir os passos. Sempre que quiser acessar essa ferramenta, deslize o dedo para a direita no menu principal. Deslize para a esquerda para continuar.</string>
+    <string name="intro3">Além disso, você pode acessar o histórico de notas escaneadas, onde encontrará o valor e a data de cada escaneamento. Para abrir o histórico, deslize o dedo para a esquerda no menu principal. Se quiser apagar o histórico, basta tocar na tela cinco vezes. No histórico, você também pode compartilhar um arquivo de texto com todas as notas escaneadas simplesmente deslizando para a direita. Deslize para a esquerda para continuar.</string>
+    <string name="intro4">Ótimo! Agora você sabe como navegar pelas ferramentas deste aplicativo. Para voltar a qualquer momento, basta deslizar o dedo para a esquerda. Se precisar de uma revisão, pode voltar ao tutorial no menu principal deslizando para cima. Se quiser compartilhar sua opinião sobre o aplicativo ou sugerir novas ferramentas, entre em contato deslizando para baixo. Estamos prontos! Toque duas vezes para começar.</string>
+    <string name="intro1Title">Bem-vindo!</string>
+    <string name="intro2Title">Scanner de Notas</string>
+    <string name="intro4Title">Pronto!</string>
+</resources>

@@ -1,6 +1,6 @@
 [versions]
 accompanistPager = "0.27.0"
-agp = "8.6.0"
+agp = "8.7.3"
 cameraCore = "1.5.0-alpha01"
 cameraExtensions = "1.3.4"
 coreSplashscreen = "1.0.1"

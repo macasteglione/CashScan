@@ -10,7 +10,6 @@ import android.media.ThumbnailUtils
 import android.os.Bundle
 import android.os.SystemClock
 import android.os.Vibrator
-import android.util.Log
 import android.view.KeyEvent
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
@@ -232,11 +231,11 @@ class ScanBillActivity : AppCompatActivity() {
 
                         scanningDialog?.dismiss()
                         if (result != null) {
-                            showResultDialog("Billete detectado: $$result")
+                            showResultDialog("${getString(R.string.billeteDetectado)}$result")
                             playSound(result.toString())
                             guardarBaseDeDatos(result.toString())
                         } else {
-                            showResultDialog("No se detectó ningun billete en la imagen.")
+                            showResultDialog(getString(R.string.noSeDetectoBillete))
                             playSound(result.toString())
                         }
 
@@ -292,14 +291,12 @@ class ScanBillActivity : AppCompatActivity() {
             arrayOf("10000", "2000", "1000", "500", "200", "100", "50", "20", "10").reversed()
         model.close()
 
-        Log.d("modelo", classes[maxPos] + " " + maxConfidence)
-
         return if (maxConfidence >= .85) classes[maxPos]
         else return null
     }
 
     private fun errorMsg() {
-        showResultDialog("Error al procesar la imagen.")
+        showResultDialog(getString(R.string.errorProcesarImagen))
         mediaPlayer = MediaPlayer.create(this, R.raw.error)
         mediaPlayer?.start()
     }
@@ -311,8 +308,8 @@ class ScanBillActivity : AppCompatActivity() {
     private fun showScanningDialog() {
         vibrateDevice()
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setTitle("Escaneando...")
-        dialogBuilder.setMessage("Por favor espera mientras se procesa la imagen.")
+        dialogBuilder.setTitle(getString(R.string.escaneando))
+        dialogBuilder.setMessage(getString(R.string.esperaProcesoImagen))
         dialogBuilder.setCancelable(false)
 
         scanningDialog = dialogBuilder.create()
@@ -335,7 +332,7 @@ class ScanBillActivity : AppCompatActivity() {
 
     private fun showResultDialog(resultText: String) {
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setTitle("Resultado de la Clasificación")
+        dialogBuilder.setTitle(getString(R.string.resultadoClasificacion))
         dialogBuilder.setMessage(resultText)
         dialogBuilder.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
 

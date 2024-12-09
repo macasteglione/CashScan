@@ -12,6 +12,8 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.viewpager.widget.ViewPager
 import com.example.reconocimiento_billetes.domain.ScreenItem
 import com.example.reconocimiento_billetes.presentation.IntroViewPagerAdapter
@@ -43,45 +45,23 @@ class TutorialActivity : AppCompatActivity() {
 
         val mList = listOf(
             ScreenItem(
-                "¡Bienvenido!",
-                "Esta aplicacion está diseñada para ayudarte a identificar y organizar " +
-                        "billetes de manera rápida y sencilla. Antes de que comiences, " +
-                        "me gustaría mostrarte cómo navegar en la aplicación usando solo " +
-                        "gestos, para que puedas aprovechar todas sus funciones de forma intuitiva. " +
-                        "Deslize a la izquierda para continuar.",
+                getString(R.string.intro1Title),
+                getString(R.string.intro1),
                 R.raw.intro_1
             ),
             ScreenItem(
-                "Escaner de Billetes",
-                "¡Muy bien! En Cash Scan, puedes identificar un billete usando la " +
-                        "cámara de tu celular. Para comenzar el escaneo, presiona el botón de " +
-                        "bajar volumen. Cuando sientas que el celular vibra, te diré el valor del " +
-                        "billete detectado. Si deseas escanear otro billete, simplemente toca " +
-                        "cualquier parte de la pantalla y repite los pasos. Cada vez que quieras " +
-                        "acceder a esta herramienta, desliza tu dedo hacia la derecha desde el " +
-                        "menú principal. Desliza hacia la izquierda para continuar.",
+                getString(R.string.intro2Title),
+                getString(R.string.intro2),
                 R.raw.intro_2
             ),
             ScreenItem(
-                "Historial de Billetes",
-                "Además, puedes acceder al historial de billetes escaneados, donde " +
-                        "encontraras el valor y la fecha de cada escaneo. Para abrir el historial, " +
-                        "desliza el dedo hacia la izquierda en el menú principal. Si deseas borrar " +
-                        "el historial, solo toca la pantalla cinco veces. Desde el historial " +
-                        "también puedes compartir un archivo de texto con todos los billetes que " +
-                        "has escaneado simplemente deslizando hacia la derecha. " +
-                        "Deslize a la izquierda para continuar.",
+                getString(R.string.historialDeBilletes),
+                getString(R.string.intro3),
                 R.raw.intro_3
             ),
             ScreenItem(
-                "¡Listo!",
-                "¡Genial! Ahora conoces cómo navegar entre las herramientas de esta " +
-                        "aplicación. Para retroceder en cualquier momento, simplemente desliza " +
-                        "el dedo hacia la izquierda. Si alguna vez necesitas un repaso, puedes " +
-                        "volver al tutorial desde el menú principal deslizando hacia arriba." +
-                        "Si quieres compartir tu opinión sobre la aplicación o sugerir nuevas " +
-                        "herramientas, contáctanos deslizando hacia abajo. " +
-                        "¡Ya estamos preparados! Toque dos veces para empezar.",
+                getString(R.string.intro4Title),
+                getString(R.string.intro4),
                 R.raw.intro_4
             )
         )

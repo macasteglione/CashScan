@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">CashScan</string>
+    <string name="title_activity_count_bills">CountBillsActivity</string>
+    <string name="title_activity_count_bill">CountBillActivity</string>
+    <string name="title_activity_scan_bill">ScanBillActivity</string>
+
+    <!-- Manifest -->
+    <string name="escanearBilletes">Scanner des Billets</string>
+    <string name="historialDeBilletes">Historique des Billets</string>
+    <string name="tutorial">Tutoriel</string>
+
+    <!-- activityCount -->
+    <string name="billete">Billet</string>
+    <string name="fecha">Date</string>
+    <string name="borrar_historial">Effacer l\'Historique</string>
+    <string name="guardar_y_compartir_historial">Enregistrer et Partager l\'Historique</string>
+
+    <!-- activityIntro -->
+    <string name="siguiente">Suivant</string>
+    <string name="empezar">Commencer</string>
+    <string name="saltar">Passer</string>
+
+    <!-- activityMain -->
+    <string name="escanear">Scanner</string>
+    <string name="historial">Historique</string>
+    <string name="feedback">Retour</string>
+    <string name="menu_principal">Menu Principal</string>
+
+    <!-- CountBillActivity -->
+    <string name="totalBilletes">Total: €</string>
+    <string name="totalBilletesArchivo">Total des Billets: €</string>
+    <string name="valorBillete">Billet: €</string>
+    <string name="fechaBillete">Date: </string>
+    <string name="compartirHistorial">Partager l\'historique des billets</string>
+
+    <!-- MainActivity -->
+    <string name="enviarCorreo">Envoyer un Email</string>
+
+    <!-- ScanBillActivity -->
+    <string name="billeteDetectado">Billet détecté: €</string>
+    <string name="noSeDetectoBillete">Aucun billet détecté dans l\'image.</string>
+    <string name="errorProcesarImagen">Erreur lors du traitement de l\'image.</string>
+    <string name="escaneando">Scan en cours…</string>
+    <string name="esperaProcesoImagen">Veuillez patienter pendant le traitement de l\'image.</string>
+    <string name="resultadoClasificacion">Résultat de la Classification</string>
+
+    <!-- TutorialActivity -->
+    <string name="intro1">Cette application est conçue pour vous aider à identifier et organiser des billets rapidement et facilement. Avant de commencer, je vais vous montrer comment naviguer dans l\'application en utilisant uniquement des gestes pour profiter pleinement de ses fonctionnalités de manière intuitive. Glissez vers la gauche pour continuer.</string>
+    <string name="intro2">Bien joué! Avec Cash Scan, vous pouvez identifier un billet à l\'aide de l\'appareil photo de votre téléphone. Pour lancer le scan, appuyez sur le bouton de volume bas. Lorsque vous sentez le téléphone vibrer, je vous indiquerai la valeur du billet détecté. Si vous souhaitez scanner un autre billet, touchez simplement n\'importe quelle partie de l\'écran et répétez les étapes. Chaque fois que vous voulez accéder à cet outil, faites glisser votre doigt vers la droite depuis le menu principal. Glissez vers la gauche pour continuer.</string>
+    <string name="intro3">De plus, vous pouvez accéder à l\'historique des billets scannés, où vous trouverez la valeur et la date de chaque scan. Pour ouvrir l\'historique, glissez votre doigt vers la gauche dans le menu principal. Si vous souhaitez effacer l\'historique, touchez simplement l\'écran cinq fois. Depuis l\'historique, vous pouvez également partager un fichier texte contenant tous les billets scannés en glissant vers la droite. Glissez vers la gauche pour continuer.</string>
+    <string name="intro4">Génial! Vous savez maintenant comment naviguer entre les outils de cette application. Pour revenir en arrière à tout moment, faites glisser votre doigt vers la gauche. Si vous avez besoin d\'une révision, vous pouvez revenir au tutoriel depuis le menu principal en glissant vers le haut. Si vous souhaitez partager votre avis sur l\'application ou suggérer de nouveaux outils, contactez-nous en glissant vers le bas. Nous sommes prêts! Touchez deux fois pour commencer.</string>
+    <string name="intro1Title">Bienvenue!</string>
+    <string name="intro2Title">Scanner de Billets</string>
+    <string name="intro4Title">C\'est parti!</string>
+</resources>
