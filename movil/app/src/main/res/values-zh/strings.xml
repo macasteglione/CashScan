@@ -38,9 +38,9 @@
 
     <!-- ScanBillActivity -->
     <string name="billeteDetectado">检测到钞票: ¥</string>
-    <string name="noSeDetectoBillete">未在图片中检测到钞票。</string>
-    <string name="errorProcesarImagen">处理图片时出错。</string>
-    <string name="escaneando">正在扫描…</string>
+    <string name="noSeDetectoBillete">未在图片中检测到钞票。</string> <!-- voice -->
+    <string name="errorProcesarImagen">处理图片时出错。</string> <!-- voice -->
+    <string name="escaneando">正在扫描…</string> <!-- voice -->
     <string name="esperaProcesoImagen">请稍候，正在处理图片。</string>
     <string name="resultadoClasificacion">分类结果</string>
 

@@ -38,9 +38,9 @@
 
     <!-- ScanBillActivity -->
     <string name="billeteDetectado">Nota detectada: R$</string>
-    <string name="noSeDetectoBillete">Nenhuma nota detectada na imagem.</string>
-    <string name="errorProcesarImagen">Erro ao processar a imagem.</string>
-    <string name="escaneando">Escaneando…</string>
+    <string name="noSeDetectoBillete">Nenhuma nota detectada na imagem.</string> <!-- voice -->
+    <string name="errorProcesarImagen">Erro ao processar a imagem.</string> <!-- voice -->
+    <string name="escaneando">Escaneando…</string> <!-- voice -->
     <string name="esperaProcesoImagen">Por favor, aguarde enquanto a imagem é processada.</string>
     <string name="resultadoClasificacion">Resultado da Classificação</string>
 

@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.viewpager.widget.ViewPager
 import com.example.reconocimiento_billetes.domain.ScreenItem
 import com.example.reconocimiento_billetes.presentation.IntroViewPagerAdapter
+import com.example.reconocimiento_billetes.presentation.getLocalizedAudioResId
 import com.google.android.material.tabs.TabLayout
 
 class TutorialActivity : AppCompatActivity() {
@@ -47,22 +48,22 @@ class TutorialActivity : AppCompatActivity() {
             ScreenItem(
                 getString(R.string.intro1Title),
                 getString(R.string.intro1),
-                R.raw.intro_1
+                getLocalizedAudioResId(this, "intro_1")
             ),
             ScreenItem(
                 getString(R.string.intro2Title),
                 getString(R.string.intro2),
-                R.raw.intro_2
+                getLocalizedAudioResId(this, "intro_2")
             ),
             ScreenItem(
                 getString(R.string.historialDeBilletes),
                 getString(R.string.intro3),
-                R.raw.intro_3
+                getLocalizedAudioResId(this, "intro_3")
             ),
             ScreenItem(
                 getString(R.string.intro4Title),
                 getString(R.string.intro4),
-                R.raw.intro_4
+                getLocalizedAudioResId(this, "intro_4")
             )
         )
 

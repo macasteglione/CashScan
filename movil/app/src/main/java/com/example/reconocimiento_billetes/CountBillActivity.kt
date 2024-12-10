@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.reconocimiento_billetes.data.SQLiteHelper
 import com.example.reconocimiento_billetes.domain.BillData
 import com.example.reconocimiento_billetes.presentation.BillsAdapter
+import com.example.reconocimiento_billetes.presentation.getLocalizedAudioResId
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.abs
@@ -92,8 +93,9 @@ class CountBillActivity : AppCompatActivity() {
     }
 
     private fun initializeComponents() {
-        mediaPlayer = MediaPlayer.create(this, R.raw.historial_billetes)
-        deleteSoundPlayer = MediaPlayer.create(this, R.raw.borrar_historial)
+        mediaPlayer = MediaPlayer.create(this, getLocalizedAudioResId(this, "historial_billetes"))
+        deleteSoundPlayer =
+            MediaPlayer.create(this, getLocalizedAudioResId(this, "borrar_historial"))
         mediaPlayer.start()
 
         db = SQLiteHelper(this)

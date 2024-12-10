@@ -49,6 +49,7 @@ import com.chaquo.python.android.AndroidPlatform
 import com.example.reconocimiento_billetes.data.SQLiteHelper
 import com.example.reconocimiento_billetes.ml.Billetesv20
 import com.example.reconocimiento_billetes.presentation.CameraPreview
+import com.example.reconocimiento_billetes.presentation.getLocalizedAudioResId
 import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -72,7 +73,7 @@ class ScanBillActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.escaneo_billetes)
+        mediaPlayer = MediaPlayer.create(this, getLocalizedAudioResId(this, "escaneo_billetes"))
         mediaPlayer?.start()
 
         if (!hasCameraPermission())
@@ -297,7 +298,7 @@ class ScanBillActivity : AppCompatActivity() {
 
     private fun errorMsg() {
         showResultDialog(getString(R.string.errorProcesarImagen))
-        mediaPlayer = MediaPlayer.create(this, R.raw.error)
+        mediaPlayer = MediaPlayer.create(this, getLocalizedAudioResId(this, "error"))
         mediaPlayer?.start()
     }
 
@@ -315,7 +316,7 @@ class ScanBillActivity : AppCompatActivity() {
         scanningDialog = dialogBuilder.create()
         scanningDialog?.show()
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.escaneando)
+        mediaPlayer = MediaPlayer.create(this, getLocalizedAudioResId(this, "escaneando"))
         mediaPlayer?.start()
     }
 
@@ -342,16 +343,16 @@ class ScanBillActivity : AppCompatActivity() {
 
     private fun playSound(denomination: String) {
         val audioResId = when (denomination.toIntOrNull()) {
-            10 -> R.raw.answer_10
-            20 -> R.raw.answer_20
-            50 -> R.raw.answer_50
-            100 -> R.raw.answer_100
-            200 -> R.raw.answer_200
-            500 -> R.raw.answer_500
-            1000 -> R.raw.answer_1000
-            2000 -> R.raw.answer_2000
-            10000 -> R.raw.answer_10000
-            else -> R.raw.no_se_detecto
+            10 -> getLocalizedAudioResId(this, "answer_10")
+            20 -> getLocalizedAudioResId(this, "answer_20")
+            50 -> getLocalizedAudioResId(this, "answer_50")
+            100 -> getLocalizedAudioResId(this, "answer_100")
+            200 -> getLocalizedAudioResId(this, "answer_200")
+            500 -> getLocalizedAudioResId(this, "answer_500")
+            1000 -> getLocalizedAudioResId(this, "answer_1000")
+            2000 -> getLocalizedAudioResId(this, "answer_2000")
+            10000 -> getLocalizedAudioResId(this, "answer_10000")
+            else -> getLocalizedAudioResId(this, "no_se_detecto")
         }
 
         audioResId.let {

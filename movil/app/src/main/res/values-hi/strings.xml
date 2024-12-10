@@ -38,9 +38,9 @@
 
     <!-- ScanBillActivity -->
     <string name="billeteDetectado">नोट पहचाना गया: ₹</string>
-    <string name="noSeDetectoBillete">चित्र में कोई नोट नहीं पहचाना गया।</string>
-    <string name="errorProcesarImagen">चित्र प्रोसेस करते समय त्रुटि।</string>
-    <string name="escaneando">स्कैन कर रहा है…</string>
+    <string name="noSeDetectoBillete">चित्र में कोई नोट नहीं पहचाना गया।</string> <!-- voice -->
+    <string name="errorProcesarImagen">चित्र प्रोसेस करते समय त्रुटि।</string> <!-- voice -->
+    <string name="escaneando">स्कैन कर रहा है…</string> <!-- voice -->
     <string name="esperaProcesoImagen">कृपया प्रतीक्षा करें, चित्र प्रोसेस हो रहा है।</string>
     <string name="resultadoClasificacion">वर्गीकरण का परिणाम</string>
 

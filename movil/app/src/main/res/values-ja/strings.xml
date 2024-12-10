@@ -38,9 +38,9 @@
 
     <!-- ScanBillActivity -->
     <string name="billeteDetectado">検出された紙幣: ¥</string>
-    <string name="noSeDetectoBillete">画像に紙幣が検出されませんでした。</string>
-    <string name="errorProcesarImagen">画像処理中にエラーが発生しました。</string>
-    <string name="escaneando">スキャン中…</string>
+    <string name="noSeDetectoBillete">画像に紙幣が検出されませんでした。</string> <!-- voice -->
+    <string name="errorProcesarImagen">画像処理中にエラーが発生しました。</string> <!-- voice -->
+    <string name="escaneando">スキャン中…</string> <!-- voice -->
     <string name="esperaProcesoImagen">画像処理中ですので、しばらくお待ちください。</string>
     <string name="resultadoClasificacion">分類結果</string>
 

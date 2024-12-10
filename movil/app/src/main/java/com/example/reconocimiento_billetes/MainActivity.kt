@@ -11,6 +11,7 @@ import android.widget.RelativeLayout
 import androidx.activity.ComponentActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import com.example.reconocimiento_billetes.presentation.getLocalizedAudioResId
 
 class MainActivity : ComponentActivity() {
 
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
         window.statusBarColor = ContextCompat.getColor(this, R.color.green)
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.menu_principal)
+        mediaPlayer = MediaPlayer.create(this, getLocalizedAudioResId(this, "menu_principal"))
 
         findViewById<CardView>(R.id.ScanButton).setOnClickListener {
             startActivity(Intent(this, ScanBillActivity::class.java))

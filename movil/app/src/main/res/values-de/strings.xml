@@ -7,7 +7,7 @@
     <!-- Manifest -->
     <string name="escanearBilletes">Banknoten scannen</string>
     <string name="historialDeBilletes">Banknotenhistorie</string>
-    <string name="tutorial">Tutorial</string>
+    <string name="tutorial">Lehrgang</string>
 
     <!-- activityCount -->
     <string name="billete">Banknote</string>
@@ -23,7 +23,7 @@
     <!-- activityMain -->
     <string name="escanear">Scannen</string>
     <string name="historial">Historie</string>
-    <string name="feedback">Feedback</string>
+    <string name="feedback">Rückmeldung</string>
     <string name="menu_principal">Hauptmenü</string>
 
     <!-- CountBillActivity -->
@@ -38,9 +38,9 @@
 
     <!-- ScanBillActivity -->
     <string name="billeteDetectado">Banknote erkannt: €</string>
-    <string name="noSeDetectoBillete">Keine Banknote im Bild erkannt.</string>
-    <string name="errorProcesarImagen">Fehler bei der Bildverarbeitung.</string>
-    <string name="escaneando">Scannen…</string>
+    <string name="noSeDetectoBillete">Keine Banknote im Bild erkannt.</string> <!-- voice -->
+    <string name="errorProcesarImagen">Fehler bei der Bildverarbeitung.</string> <!-- voice -->
+    <string name="escaneando">Scannen…</string> <!-- voice -->
     <string name="esperaProcesoImagen">Bitte warten, während das Bild verarbeitet wird.</string>
     <string name="resultadoClasificacion">Klassifikationsergebnis</string>
 

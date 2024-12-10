@@ -38,9 +38,9 @@
 
     <!-- ScanBillActivity -->
     <string name="billeteDetectado">Обнаружена банкнота: ₽</string>
-    <string name="noSeDetectoBillete">Банкнота на изображении не обнаружена.</string>
-    <string name="errorProcesarImagen">Ошибка обработки изображения.</string>
-    <string name="escaneando">Сканирование…</string>
+    <string name="noSeDetectoBillete">Банкнота на изображении не обнаружена.</string> <!-- voice -->
+    <string name="errorProcesarImagen">Ошибка обработки изображения.</string> <!-- voice -->
+    <string name="escaneando">Сканирование…</string> <!-- voice -->
     <string name="esperaProcesoImagen">Пожалуйста, подождите, пока изображение обрабатывается.</string>
     <string name="resultadoClasificacion">Результат классификации</string>
 
