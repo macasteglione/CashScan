@@ -34,7 +34,7 @@ class CountBillActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
 
     private var x1: Float = 0f
-    private val swipeThreshold = 500
+    private val swipeThreshold = 300
 
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.reconocimiento_billetes"
-        minSdk = 24
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -37,14 +37,8 @@ android {
         )
 
         ndk {
-            abiFilters += listOf("arm64-v8a", "x86_64")
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64")
         }
-    }
-
-    flavorDimensions += "pyVersion"
-    productFlavors {
-        create("py310") { dimension = "pyVersion" }
-        create("py311") { dimension = "pyVersion" }
     }
 
     buildTypes {
@@ -79,7 +73,7 @@ android {
 
 chaquopy {
     defaultConfig {
-        buildPython("C:\\Users\\maty\\AppData\\Local\\Programs\\Python\\Python313\\python.exe")
+        buildPython("C:\\Users\\maty\\AppData\\Local\\Programs\\Python\\Python311\\python.exe")
         version = "3.8"
 
         pip {
@@ -91,11 +85,6 @@ chaquopy {
         getByName("main") {
             srcDir("src/main/python")
         }
-    }
-
-    productFlavors {
-        getByName("py310") { version = "3.10" }
-        getByName("py311") { version = "3.11" }
     }
 }
 

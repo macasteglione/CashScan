@@ -44,8 +44,8 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/baseline_camera_alt_24" />
 
@@ -55,7 +55,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="@string/escanear"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -80,8 +80,8 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/baseline_history_24" />
 
@@ -91,7 +91,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="@string/historial"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -116,8 +116,8 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/baseline_menu_book_24" />
 
@@ -127,7 +127,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="@string/tutorial"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -152,8 +152,8 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/baseline_feedback_24" />
 
@@ -163,7 +163,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="@string/feedback"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -177,6 +177,6 @@
         android:layout_marginTop="30dp"
         android:text="@string/menu_principal"
         android:textColor="@color/white"
-        android:textSize="36sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 </RelativeLayout>
