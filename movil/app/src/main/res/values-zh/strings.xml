@@ -8,6 +8,7 @@
     <string name="escanearBilletes">扫描钞票</string>
     <string name="historialDeBilletes">钞票历史记录</string>
     <string name="tutorial">教程</string>
+    <string name="config">选项</string>
 
     <!-- activityCount -->
     <string name="billete">钞票</string>
@@ -52,4 +53,15 @@
     <string name="intro1Title">欢迎！</string>
     <string name="intro2Title">钞票扫描器</string>
     <string name="intro4Title">准备好了！</string>
+
+    <!-- activityConfig -->
+    <string name="confirmarSeleccion">确认</string>
+    <string name="eligeModelo">请选择要在应用程序中使用的模型。</string>
+    <string name="seleccionarModelo">选择模型</string>
+
+    <string-array name="model_names">
+        <item>ARS（阿根廷比索）</item>
+        <item>BRL（巴西雷亚尔）</item>
+        <item>USD（美元）</item>
+    </string-array>
 </resources>

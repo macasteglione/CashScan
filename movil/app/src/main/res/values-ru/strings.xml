@@ -8,6 +8,7 @@
     <string name="escanearBilletes">Сканировать банкноты</string>
     <string name="historialDeBilletes">История банкнот</string>
     <string name="tutorial">Учебное пособие</string>
+    <string name="config">Настройки</string>
 
     <!-- activityCount -->
     <string name="billete">Банкнота</string>
@@ -52,4 +53,15 @@
     <string name="intro1Title">Добро пожаловать!</string>
     <string name="intro2Title">Сканер банкнот</string>
     <string name="intro4Title">Готово!</string>
+
+    <!-- activityConfig -->
+    <string name="confirmarSeleccion">Подтвердить</string>
+    <string name="eligeModelo">Пожалуйста, выберите модель для использования в приложении.</string>
+    <string name="seleccionarModelo">Выбрать модель</string>
+
+    <string-array name="model_names">
+        <item>ARS (Аргентинское песо)</item>
+        <item>BRL (Бразильский реал)</item>
+        <item>USD (Американский доллар)</item>
+    </string-array>
 </resources>

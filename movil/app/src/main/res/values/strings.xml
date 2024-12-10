@@ -8,6 +8,7 @@
     <string name="escanearBilletes">Scan Bills</string>
     <string name="historialDeBilletes">Bill History</string>
     <string name="tutorial">Tutorial</string>
+    <string name="config">Options</string>
 
     <!-- activityCount -->
     <string name="billete">Bill</string>
@@ -52,4 +53,15 @@
     <string name="intro1Title">Welcome!</string>
     <string name="intro2Title">Bill Scanner</string>
     <string name="intro4Title">Ready!</string>
+
+    <!-- activityConfig -->
+    <string name="confirmarSeleccion">Confirm</string>
+    <string name="eligeModelo">Please choose the model to use in the application.</string>
+    <string name="seleccionarModelo">Select Model</string>
+
+    <string-array name="model_names">
+        <item>ARS (Argentine Peso)</item>
+        <item>BRL (Brazilian Real)</item>
+        <item>USD (US Dollar)</item>
+    </string-array>
 </resources>

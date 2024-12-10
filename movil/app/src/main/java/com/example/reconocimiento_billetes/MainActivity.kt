@@ -3,7 +3,6 @@ package com.example.reconocimiento_billetes
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -26,12 +25,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val selectedModelIndex = intent.getIntExtra("selectedModelIndex", 0)
+        val modelNames = resources.getStringArray(R.array.model_names)
+
         window.statusBarColor = ContextCompat.getColor(this, R.color.green)
 
         mediaPlayer = MediaPlayer.create(this, getLocalizedAudioResId(this, "menu_principal"))
 
         findViewById<CardView>(R.id.ScanButton).setOnClickListener {
-            startActivity(Intent(this, ScanBillActivity::class.java))
+            val intent = Intent(this, ScanBillActivity::class.java)
+            intent.putExtra(
+                "selectedModel",
+                modelNames[selectedModelIndex].split(" ")[0].lowercase()
+            )
+            startActivity(intent)
         }
 
         findViewById<CardView>(R.id.HistoryButton).setOnClickListener {
@@ -43,13 +51,9 @@ class MainActivity : ComponentActivity() {
         }
 
         findViewById<CardView>(R.id.FeedbackButton).setOnClickListener {
-            val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse(
-                    "mailto:${Uri.encode("matiascasteglione2002@gmail.com")}" +
-                            "?subject=${Uri.encode("Feedback")}"
-                )
-            }
-            startActivity(Intent.createChooser(intent, getString(R.string.enviarCorreo)))
+            val intent = Intent(this, ConfigActivity::class.java)
+            intent.putExtra("selectedModelIndex", selectedModelIndex)
+            startActivity(intent)
         }
 
         val touchListener = View.OnTouchListener { _, event ->
@@ -69,18 +73,7 @@ class MainActivity : ComponentActivity() {
                         startActivity(Intent(this, CountBillActivity::class.java))
 
                     if (deltaY > thresholdHeight) {
-                        val intent = Intent(Intent.ACTION_SENDTO).apply {
-                            data = Uri.parse(
-                                "mailto:${Uri.encode("matiascasteglione2002@gmail.com")}" +
-                                        "?subject=${Uri.encode("Feedback")}"
-                            )
-                        }
-                        startActivity(
-                            Intent.createChooser(
-                                intent,
-                                getString(R.string.enviarCorreo)
-                            )
-                        )
+                        startActivity(Intent(this, ConfigActivity::class.java))
                     } else if (deltaY < -thresholdHeight)
                         startActivity(Intent(this, TutorialActivity::class.java))
                 }

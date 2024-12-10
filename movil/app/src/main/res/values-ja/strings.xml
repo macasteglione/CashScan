@@ -8,6 +8,7 @@
     <string name="escanearBilletes">紙幣をスキャン</string>
     <string name="historialDeBilletes">紙幣履歴</string>
     <string name="tutorial">チュートリアル</string>
+    <string name="config">設定</string>
 
     <!-- activityCount -->
     <string name="billete">紙幣</string>
@@ -52,4 +53,15 @@
     <string name="intro1Title">ようこそ！</string>
     <string name="intro2Title">紙幣スキャナー</string>
     <string name="intro4Title">準備完了！</string>
+
+    <!-- activityConfig -->
+    <string name="confirmarSeleccion">確認する</string>
+    <string name="eligeModelo">アプリで使用するモデルを選択してください。</string>
+    <string name="seleccionarModelo">モデルを選択</string>
+
+    <string-array name="model_names">
+        <item>ARS（アルゼンチン・ペソ）</item>
+        <item>BRL（ブラジル・レアル）</item>
+        <item>USD（アメリカドル）</item>
+    </string-array>
 </resources>

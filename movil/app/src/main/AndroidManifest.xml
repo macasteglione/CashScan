@@ -46,6 +46,10 @@
             android:exported="true"
             android:label="@string/tutorial" />
         <activity
+            android:name=".ConfigActivity"
+            android:exported="true"
+            android:label="@string/config" />
+        <activity
             android:name=".IntroActivity"
             android:exported="true"
             android:theme="@style/Theme.App.SlashScreen">

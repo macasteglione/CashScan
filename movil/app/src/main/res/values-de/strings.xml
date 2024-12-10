@@ -8,6 +8,7 @@
     <string name="escanearBilletes">Banknoten scannen</string>
     <string name="historialDeBilletes">Banknotenhistorie</string>
     <string name="tutorial">Lehrgang</string>
+    <string name="config">Optionen</string>
 
     <!-- activityCount -->
     <string name="billete">Banknote</string>
@@ -52,4 +53,15 @@
     <string name="intro1Title">Willkommen!</string>
     <string name="intro2Title">Banknotenscanner</string>
     <string name="intro4Title">Bereit!</string>
+
+    <!-- activityConfig -->
+    <string name="confirmarSeleccion">Bestätigen</string>
+    <string name="eligeModelo">Bitte wählen Sie das Modell aus, das in der Anwendung verwendet werden soll.</string>
+    <string name="seleccionarModelo">Modell auswählen</string>
+
+    <string-array name="model_names">
+        <item>ARS (Argentinischer Peso)</item>
+        <item>BRL (Brasilianischer Real)</item>
+        <item>USD (US-Dollar)</item>
+    </string-array>
 </resources>

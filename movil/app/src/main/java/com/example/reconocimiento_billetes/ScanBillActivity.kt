@@ -47,9 +47,10 @@ import androidx.core.content.ContextCompat
 import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
 import com.example.reconocimiento_billetes.data.SQLiteHelper
-import com.example.reconocimiento_billetes.ml.Billetesv20
 import com.example.reconocimiento_billetes.presentation.CameraPreview
 import com.example.reconocimiento_billetes.presentation.getLocalizedAudioResId
+import com.example.reconocimiento_billetes.presentation.loadClassNames
+import com.example.reconocimiento_billetes.presentation.loadModel
 import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -58,7 +59,6 @@ import java.io.FileOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.Calendar
-import java.util.Locale
 import kotlin.math.min
 
 class ScanBillActivity : AppCompatActivity() {
@@ -68,6 +68,7 @@ class ScanBillActivity : AppCompatActivity() {
     private var scanningDialog: AlertDialog? = null
     private lateinit var vibrator: Vibrator
     private lateinit var controller: LifecycleCameraController
+    private lateinit var selectedModel: String
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,13 +77,11 @@ class ScanBillActivity : AppCompatActivity() {
         mediaPlayer = MediaPlayer.create(this, getLocalizedAudioResId(this, "escaneo_billetes"))
         mediaPlayer?.start()
 
-        if (!hasCameraPermission())
-            ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.CAMERA), 0
-            )
+        if (!hasCameraPermission()) ActivityCompat.requestPermissions(
+            this, arrayOf(Manifest.permission.CAMERA), 0
+        )
 
-        if (!Python.isStarted())
-            Python.start(AndroidPlatform(this))
+        if (!Python.isStarted()) Python.start(AndroidPlatform(this))
 
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
@@ -91,6 +90,8 @@ class ScanBillActivity : AppCompatActivity() {
                 CameraController.IMAGE_CAPTURE
             )
         }
+
+        selectedModel = intent.getStringExtra("selectedModel").toString()
 
         setContent {
             ReconocimientobilletesTheme {
@@ -102,50 +103,38 @@ class ScanBillActivity : AppCompatActivity() {
 
                 val scaffoldState = rememberBottomSheetScaffoldState()
 
-                BottomSheetScaffold(
-                    scaffoldState = scaffoldState,
+                BottomSheetScaffold(scaffoldState = scaffoldState,
                     sheetPeekHeight = 0.dp,
-                    sheetContent = {}
-                ) { padding ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding)
-                            .pointerInput(Unit) {
-                                detectDragGestures(
-                                    onDragEnd = {
-                                        if (offsetX > -thresholdWidth) {
-                                            offsetX = 0f
-                                        }
-                                    },
-                                    onDragCancel = {
-                                        offsetX = 0f
-                                    }
-                                ) { _, dragAmount ->
-                                    offsetX += dragAmount.x
-                                    if (offsetX < -thresholdWidth) finish()
+                    sheetContent = {}) { padding ->
+                    Box(modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+                        .pointerInput(Unit) {
+                            detectDragGestures(onDragEnd = {
+                                if (offsetX > -thresholdWidth) {
+                                    offsetX = 0f
                                 }
+                            }, onDragCancel = {
+                                offsetX = 0f
+                            }) { _, dragAmount ->
+                                offsetX += dragAmount.x
+                                if (offsetX < -thresholdWidth) finish()
                             }
-                    ) {
+                        }) {
                         CameraPreview(
-                            controller = controller,
-                            modifier = Modifier
-                                .fillMaxSize()
+                            controller = controller, modifier = Modifier.fillMaxSize()
                         )
 
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .align(Alignment.BottomCenter)
-                                .padding(16.dp),
-                            horizontalArrangement = Arrangement.SpaceAround
+                                .padding(16.dp), horizontalArrangement = Arrangement.SpaceAround
                         ) {
-                            IconButton(
-                                onClick = {
-                                    showScanningDialog()
-                                    takePhoto(controller)
-                                }
-                            ) {
+                            IconButton(onClick = {
+                                showScanningDialog()
+                                takePhoto(controller)
+                            }) {
                                 Icon(
                                     imageVector = Icons.Default.PhotoCamera,
                                     contentDescription = "Take photo"
@@ -183,8 +172,7 @@ class ScanBillActivity : AppCompatActivity() {
         controller.enableTorch(true)
         SystemClock.sleep(2000)
 
-        controller.takePicture(
-            ContextCompat.getMainExecutor(this),
+        controller.takePicture(ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageCapturedCallback() {
                 override fun onCaptureSuccess(image: ImageProxy) {
                     super.onCaptureSuccess(image)
@@ -195,13 +183,7 @@ class ScanBillActivity : AppCompatActivity() {
                     }
 
                     var bitmap = Bitmap.createBitmap(
-                        image.toBitmap(),
-                        0,
-                        0,
-                        image.width,
-                        image.height,
-                        matrix,
-                        true
+                        image.toBitmap(), 0, 0, image.width, image.height, matrix, true
                     )
 
                     val dimension = min(bitmap.width, bitmap.height)
@@ -215,7 +197,7 @@ class ScanBillActivity : AppCompatActivity() {
                         fos.flush()
                         fos.close()
 
-                        val filePath = tempFile.absolutePath
+                        /*val filePath = tempFile.absolutePath
 
                         val py = Python.getInstance()
                         val myModule = py.getModule("main")
@@ -226,18 +208,18 @@ class ScanBillActivity : AppCompatActivity() {
                                 "API_URL" to getString(R.string.API_URL),
                                 "API_KEY" to getString(R.string.API_KEY)
                             )
-                        )
+                        )*/
 
-                        //val result = clasificadorModelo(bitmap)
+                        val result = clasificadorModelo(bitmap, selectedModel)
 
                         scanningDialog?.dismiss()
                         if (result != null) {
                             showResultDialog("${getString(R.string.billeteDetectado)}$result")
-                            playSound(result.toString())
+                            playDenominationSound(result.toString(), selectedModel)
                             guardarBaseDeDatos(result.toString())
                         } else {
                             showResultDialog(getString(R.string.noSeDetectoBillete))
-                            playSound(result.toString())
+                            playDenominationSound(result.toString(), selectedModel)
                         }
 
                         tempFile.delete()
@@ -249,12 +231,11 @@ class ScanBillActivity : AppCompatActivity() {
                         image.close()
                     }
                 }
-            }
-        )
+            })
     }
 
-    private fun clasificadorModelo(image: Bitmap): String? {
-        val model = Billetesv20.newInstance(this)
+    private fun clasificadorModelo(image: Bitmap, modelName: String): String? {
+        val model = loadModel(modelName, this)
 
         val inputFeature0 =
             TensorBuffer.createFixedSize(intArrayOf(1, imageSize, imageSize, 3), DataType.FLOAT32)
@@ -263,7 +244,7 @@ class ScanBillActivity : AppCompatActivity() {
         byteBuffer.order(ByteOrder.nativeOrder())
 
         val intValues = IntArray(imageSize * imageSize)
-        image.getPixels(intValues, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight())
+        image.getPixels(intValues, 0, image.width, 0, 0, image.width, image.height)
         var pixel = 0
 
         for (i in 0 until imageSize)
@@ -288,13 +269,12 @@ class ScanBillActivity : AppCompatActivity() {
                 maxPos = i
             }
 
-        val classes =
-            arrayOf("10000", "2000", "1000", "500", "200", "100", "50", "20", "10").reversed()
+        val classes = loadClassNames(this, modelName)
         model.close()
 
-        return if (maxConfidence >= .85) classes[maxPos]
-        else return null
+        return if (maxConfidence >= .85) classes[maxPos] else null
     }
+
 
     private fun errorMsg() {
         showResultDialog(getString(R.string.errorProcesarImagen))
@@ -327,7 +307,10 @@ class ScanBillActivity : AppCompatActivity() {
 
     private fun getCurrentDateTime(): String {
         val currentDateTime = Calendar.getInstance().time
-        val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+        val dateFormat = java.text.DateFormat.getDateTimeInstance(
+            java.text.DateFormat.DEFAULT,
+            java.text.DateFormat.DEFAULT
+        )
         return dateFormat.format(currentDateTime)
     }
 
@@ -341,19 +324,12 @@ class ScanBillActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun playSound(denomination: String) {
-        val audioResId = when (denomination.toIntOrNull()) {
-            10 -> getLocalizedAudioResId(this, "answer_10")
-            20 -> getLocalizedAudioResId(this, "answer_20")
-            50 -> getLocalizedAudioResId(this, "answer_50")
-            100 -> getLocalizedAudioResId(this, "answer_100")
-            200 -> getLocalizedAudioResId(this, "answer_200")
-            500 -> getLocalizedAudioResId(this, "answer_500")
-            1000 -> getLocalizedAudioResId(this, "answer_1000")
-            2000 -> getLocalizedAudioResId(this, "answer_2000")
-            10000 -> getLocalizedAudioResId(this, "answer_10000")
-            else -> getLocalizedAudioResId(this, "no_se_detecto")
-        }
+    private fun playDenominationSound(denomination: String, modelName: String) {
+        var audioResId = getLocalizedAudioResId(this, "no_se_detecto")
+        val localizedAudioResId =
+            getLocalizedAudioResId(this, "answer_${denomination}_${modelName}")
+
+        if (localizedAudioResId != 0) audioResId = localizedAudioResId
 
         audioResId.let {
             mediaPlayer?.release()

@@ -8,6 +8,7 @@
     <string name="escanearBilletes">Escanear Billetes</string>
     <string name="historialDeBilletes">Historial de Billetes</string>
     <string name="tutorial">Tutorial</string>
+    <string name="config">Opciones</string>
 
     <!-- activityCount -->
     <string name="billete">Billete</string>
@@ -52,4 +53,15 @@
     <string name="intro1Title">¡Bienvenido!</string>
     <string name="intro2Title">Escaner de Billetes</string>
     <string name="intro4Title">¡Listo!</string>
+
+    <!-- activityConfig -->
+    <string name="confirmarSeleccion">Confirmar</string>
+    <string name="eligeModelo">Por favor, elige el modelo para usar en la aplicación.</string>
+    <string name="seleccionarModelo">Seleccionar Modelo</string>
+
+    <string-array name="model_names">
+        <item>ARS (Peso Argentino)</item>
+        <item>BRL (Real Brasileño)</item>
+        <item>USD (Dólar Estadounidense)</item>
+    </string-array>
 </resources>

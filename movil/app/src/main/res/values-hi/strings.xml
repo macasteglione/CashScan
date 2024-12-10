@@ -8,6 +8,7 @@
     <string name="escanearBilletes">नोट स्कैन करें</string>
     <string name="historialDeBilletes">नोट इतिहास</string>
     <string name="tutorial">ट्यूटोरियल</string>
+    <string name="config">विकल्प</string>
 
     <!-- activityCount -->
     <string name="billete">नोट</string>
@@ -52,4 +53,15 @@
     <string name="intro1Title">स्वागत है!</string>
     <string name="intro2Title">नोट स्कैनर</string>
     <string name="intro4Title">तैयार!</string>
+
+    <!-- activityConfig -->
+    <string name="confirmarSeleccion">पुष्टि करें</string>
+    <string name="eligeModelo">कृपया उस मॉडल का चयन करें जिसका ऐप में उपयोग करना है।</string>
+    <string name="seleccionarModelo">मॉडल चुनें</string>
+
+    <string-array name="model_names">
+        <item>ARS (अर्जेंटीना पेसो)</item>
+        <item>BRL (ब्राज़ीलियन रियल)</item>
+        <item>USD (अमेरिकी डॉलर)</item>
+    </string-array>
 </resources>
