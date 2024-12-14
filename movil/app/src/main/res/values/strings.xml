@@ -47,12 +47,14 @@
 
     <!-- TutorialActivity -->
     <string name="intro1">This app is designed to help you identify and organize bills quickly and easily. Before you start, I\'d like to show you how to navigate the app using only gestures, so you can take full advantage of its features intuitively. Swipe left to continue.</string>
-    <string name="intro2">Great! In Cash Scan, you can identify a bill using your phone\'s camera. To start scanning, press the volume-down button. When you feel the phone vibrate, I\'ll tell you the value of the detected bill. If you want to scan another bill, just tap anywhere on the screen and repeat the steps. Whenever you want to access this tool, swipe right from the main menu. Swipe left to continue.</string>
-    <string name="intro3">Additionally, you can access the history of scanned bills, where you\'ll find the value and date of each scan. To open the history, swipe left in the main menu. If you want to clear the history, just tap the screen five times. From the history, you can also share a text file with all the scanned bills by simply swiping right. Swipe left to continue.</string>
-    <string name="intro4">Awesome! Now you know how to navigate through the tools of this app. To go back at any time, just swipe left. If you ever need a refresher, you can return to the tutorial from the main menu by swiping up. If you\'d like to share your feedback about the app or suggest new tools, contact us by swiping down. We\'re all set! Double-tap to start.</string>
+    <string name="intro2">The application is designed to scan bills in Argentine pesos, but you can change the currency to be scanned from the settings. To access, scroll down from the main menu. Once inside, swipe to the right to browse the list of available currencies until you find the one you need. Then double tap the screen to confirm. Swipe left to continue.</string>
+    <string name="intro3">Great! In Cash Scan, you can identify a bill using your phone\'s camera. To start scanning, press the volume-down button. When you feel the phone vibrate, I\'ll tell you the value of the detected bill. If you want to scan another bill, just tap anywhere on the screen and repeat the steps. Whenever you want to access this tool, swipe right from the main menu. Swipe left to continue.</string>
+    <string name="intro4">Additionally, you can access the history of scanned bills, where you\'ll find the value and date of each scan. To open the history, swipe left in the main menu. If you want to clear the history, just tap the screen five times. From the history, you can also share a text file with all the scanned bills by simply swiping right. Swipe left to continue.</string>
+    <string name="intro5">Awesome! Now you know how to navigate through the tools of this app. To go back at any time, just swipe left. If you ever need a refresher, you can return to the tutorial from the main menu by swiping up. If you\'d like to share your feedback about the app or suggest new tools, contact us by swiping down. We\'re all set! Double-tap to start.</string>
     <string name="intro1Title">Welcome!</string>
-    <string name="intro2Title">Bill Scanner</string>
-    <string name="intro4Title">Ready!</string>
+    <string name="intro2Title">Multi-Currency</string>
+    <string name="intro3Title">Scan your bill</string>
+    <string name="intro5Title">Ready!</string>
 
     <!-- activityConfig -->
     <string name="confirmarSeleccion">Confirm</string>

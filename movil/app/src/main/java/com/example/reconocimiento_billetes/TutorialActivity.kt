@@ -12,14 +12,16 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.viewpager.widget.ViewPager
 import com.example.reconocimiento_billetes.domain.ScreenItem
 import com.example.reconocimiento_billetes.presentation.IntroViewPagerAdapter
 import com.example.reconocimiento_billetes.presentation.getLocalizedAudioResId
 import com.google.android.material.tabs.TabLayout
 
+/**
+ * TutorialActivity muestra una secuencia de pantallas introductorias con audio y animaciones.
+ * Permite navegar entre pantallas y realizar acciones como saltar, continuar o finalizar el tutorial.
+ */
 class TutorialActivity : AppCompatActivity() {
 
     private lateinit var screenPager: ViewPager
@@ -27,12 +29,17 @@ class TutorialActivity : AppCompatActivity() {
     private lateinit var tabIndicator: TabLayout
     private lateinit var btnNext: Button
     private lateinit var btnGetStarted: Button
-    private var position = 0
-    private lateinit var btnAnim: Animation
     private lateinit var tvSkip: TextView
-    private var mediaPlayer: MediaPlayer? = null
+    private lateinit var btnAnim: Animation
     private lateinit var gestureDetector: GestureDetector
 
+    private var position = 0
+    private var mediaPlayer: MediaPlayer? = null
+
+    /**
+     * Método de inicialización de la actividad.
+     * Configura los elementos de la vista, la navegación y la reproducción de audio.
+     */
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +48,8 @@ class TutorialActivity : AppCompatActivity() {
         btnNext = findViewById(R.id.btn_next)
         btnGetStarted = findViewById(R.id.btn_get_started)
         tabIndicator = findViewById(R.id.tab_indicator)
-        btnAnim = AnimationUtils.loadAnimation(applicationContext, R.anim.button_animation)
         tvSkip = findViewById(R.id.tv_skip)
+        btnAnim = AnimationUtils.loadAnimation(applicationContext, R.anim.button_animation)
 
         val mList = listOf(
             ScreenItem(
@@ -56,14 +63,19 @@ class TutorialActivity : AppCompatActivity() {
                 getLocalizedAudioResId(this, "intro_2")
             ),
             ScreenItem(
-                getString(R.string.historialDeBilletes),
+                getString(R.string.intro3Title),
                 getString(R.string.intro3),
                 getLocalizedAudioResId(this, "intro_3")
             ),
             ScreenItem(
-                getString(R.string.intro4Title),
+                getString(R.string.historialDeBilletes),
                 getString(R.string.intro4),
                 getLocalizedAudioResId(this, "intro_4")
+            ),
+            ScreenItem(
+                getString(R.string.intro5Title),
+                getString(R.string.intro5),
+                getLocalizedAudioResId(this, "intro_5")
             )
         )
 
@@ -72,8 +84,10 @@ class TutorialActivity : AppCompatActivity() {
         screenPager.adapter = introViewPagerAdapter
         tabIndicator.setupWithViewPager(screenPager)
 
+        // Reproduce el audio para la primera pantalla
         playAudioForCurrentScreenItem(mList[0])
 
+        // Configura el comportamiento al cambiar de pantalla en el ViewPager
         screenPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
@@ -96,7 +110,6 @@ class TutorialActivity : AppCompatActivity() {
                 position++
                 screenPager.currentItem = position
             }
-
             if (position == mList.size - 1) loadLastScreen()
         }
 
@@ -124,7 +137,6 @@ class TutorialActivity : AppCompatActivity() {
                     backToIntroActivity()
                     return true
                 }
-
                 return false
             }
         })
@@ -135,12 +147,20 @@ class TutorialActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Reproduce el audio correspondiente al ítem actual del tutorial.
+     * @param screenItem El ítem que contiene la información de la pantalla actual.
+     */
     private fun playAudioForCurrentScreenItem(screenItem: ScreenItem) {
         mediaPlayer?.release()
         mediaPlayer = MediaPlayer.create(this, screenItem.audio)
         mediaPlayer?.start()
     }
 
+    /**
+     * Configura la interfaz al llegar a la última pantalla del tutorial.
+     * Cambia la visibilidad de los botones y oculta el indicador de tabulador.
+     */
     private fun loadLastScreen() {
         btnNext.visibility = View.INVISIBLE
         btnGetStarted.visibility = View.VISIBLE
@@ -149,12 +169,18 @@ class TutorialActivity : AppCompatActivity() {
         btnGetStarted.animation = btnAnim
     }
 
+    /**
+     * Navega hacia la actividad principal (IntroActivity) cuando se finaliza el tutorial.
+     */
     private fun backToIntroActivity() {
         val intent = Intent(this, IntroActivity::class.java)
         startActivity(intent)
-        finish()
+        finish()  // Finaliza la actividad actual
     }
 
+    /**
+     * Libera los recursos del reproductor de medios cuando la actividad es destruida.
+     */
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer?.release()

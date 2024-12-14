@@ -23,6 +23,11 @@ import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.abs
 
+/**
+ * Actividad que permite gestionar el historial de billetes contados.
+ * Muestra la lista de billetes contados, permite eliminar el historial,
+ * compartir el historial y manejar interacciones como los toques rápidos para borrar el historial.
+ */
 class CountBillActivity : AppCompatActivity() {
 
     private lateinit var mediaPlayer: MediaPlayer
@@ -37,6 +42,10 @@ class CountBillActivity : AppCompatActivity() {
     private var x1: Float = 0f
     private val swipeThreshold = 300
 
+    /**
+     * Método que se ejecuta al crear la actividad. Inicializa los componentes,
+     * configura el RecyclerView, los botones y los eventos de toque.
+     */
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +61,7 @@ class CountBillActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.deleteButton).setOnClickListener {
-            borrarHistorial()
+            deleteHistory()
         }
 
         findViewById<Button>(R.id.shareButton).setOnClickListener {
@@ -92,6 +101,9 @@ class CountBillActivity : AppCompatActivity() {
             "${getString(R.string.totalBilletes)}${db.getTotalAmount()}"
     }
 
+    /**
+     * Inicializa los componentes como los reproductores de audio y la base de datos.
+     */
     private fun initializeComponents() {
         mediaPlayer = MediaPlayer.create(this, getLocalizedAudioResId(this, "historial_billetes"))
         deleteSoundPlayer =
@@ -101,12 +113,20 @@ class CountBillActivity : AppCompatActivity() {
         db = SQLiteHelper(this)
     }
 
-    private fun borrarHistorial() {
+    /**
+     * Elimina todos los billetes del historial de la base de datos
+     * y actualiza la interfaz de usuario.
+     */
+    private fun deleteHistory() {
         db.deleteAllBills()
         updateUI()
         deleteSoundPlayer.start()
     }
 
+    /**
+     * Actualiza la interfaz de usuario con los billetes más recientes
+     * y muestra el total de dinero.
+     */
     @SuppressLint("SetTextI18n")
     private fun updateUI() {
         val bills = db.getAllBills().reversed()
@@ -115,18 +135,24 @@ class CountBillActivity : AppCompatActivity() {
             "${getString(R.string.totalBilletes)}${db.getTotalAmount()}"
     }
 
+    /**
+     * Maneja el conteo de toques rápidos. Si se tocan más de 4 veces en un corto periodo,
+     * elimina el historial.
+     */
     private fun handleTap() {
         tapCount++
         handler.removeCallbacksAndMessages(null)
 
         if (tapCount >= 5) {
-            borrarHistorial()
+            deleteHistory()
             tapCount = 0
-        } else {
-            handler.postDelayed({ tapCount = 0 }, tapTimeout)
-        }
+        } else handler.postDelayed({ tapCount = 0 }, tapTimeout)
     }
 
+    /**
+     * Comparte el historial de billetes mediante un archivo.
+     * Guarda el historial en un archivo y lo comparte mediante una intención.
+     */
     private fun shareHistory() {
         val bills = db.getAllBills().reversed()
         val totalAmount = db.getTotalAmount()
@@ -134,13 +160,9 @@ class CountBillActivity : AppCompatActivity() {
         if (file != null) shareHistoryFile(file)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mediaPlayer.release()
-        deleteSoundPlayer.release()
-        handler.removeCallbacksAndMessages(null)
-    }
-
+    /**
+     * Guarda el historial de billetes en un archivo de texto en el almacenamiento interno.
+     */
     private fun saveHistoryToFile(
         bills: List<BillData>,
         totalAmount: Int
@@ -167,6 +189,9 @@ class CountBillActivity : AppCompatActivity() {
         return file
     }
 
+    /**
+     * Comparte el archivo de historial utilizando un intent.
+     */
     private fun shareHistoryFile(file: File) {
         val uri: Uri = FileProvider.getUriForFile(
             this,
@@ -181,5 +206,15 @@ class CountBillActivity : AppCompatActivity() {
         }
 
         startActivity(Intent.createChooser(intent, getString(R.string.compartirHistorial)))
+    }
+
+    /**
+     * Libera los recursos utilizados por los reproductores de audio y el handler.
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
+        deleteSoundPlayer.release()
+        handler.removeCallbacksAndMessages(null)
     }
 }

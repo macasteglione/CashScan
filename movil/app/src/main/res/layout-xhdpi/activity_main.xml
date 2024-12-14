@@ -133,7 +133,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/FeedbackButton"
+            android:id="@+id/ConfigButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="2"

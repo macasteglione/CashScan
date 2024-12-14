@@ -47,12 +47,15 @@
 
     <!-- TutorialActivity -->
     <string name="intro1">Este aplicativo foi desenvolvido para ajudá-lo a identificar e organizar notas de maneira rápida e fácil. Antes de começar, gostaria de mostrar como navegar no aplicativo usando apenas gestos, para que você possa aproveitar todas as funcionalidades de forma intuitiva. Deslize para a esquerda para continuar.</string>
-    <string name="intro2">Muito bem! No Cash Scan, você pode identificar uma nota usando a câmera do seu celular. Para iniciar a digitalização, pressione o botão de diminuir o volume. Quando sentir o celular vibrar, direi o valor da nota detectada. Se quiser escanear outra nota, basta tocar em qualquer parte da tela e repetir os passos. Sempre que quiser acessar essa ferramenta, deslize o dedo para a direita no menu principal. Deslize para a esquerda para continuar.</string>
-    <string name="intro3">Além disso, você pode acessar o histórico de notas escaneadas, onde encontrará o valor e a data de cada escaneamento. Para abrir o histórico, deslize o dedo para a esquerda no menu principal. Se quiser apagar o histórico, basta tocar na tela cinco vezes. No histórico, você também pode compartilhar um arquivo de texto com todas as notas escaneadas simplesmente deslizando para a direita. Deslize para a esquerda para continuar.</string>
-    <string name="intro4">Ótimo! Agora você sabe como navegar pelas ferramentas deste aplicativo. Para voltar a qualquer momento, basta deslizar o dedo para a esquerda. Se precisar de uma revisão, pode voltar ao tutorial no menu principal deslizando para cima. Se quiser compartilhar sua opinião sobre o aplicativo ou sugerir novas ferramentas, entre em contato deslizando para baixo. Estamos prontos! Toque duas vezes para começar.</string>
+    <string name="intro2">O aplicativo foi projetado para digitalizar cédulas em pesos argentinos, mas você pode alterar a moeda a ser digitalizada nas configurações. Para acessá-las, role para baixo a partir do menu principal. Uma vez lá dentro, deslize para a direita para navegar pela lista de moedas disponíveis até encontrar a que você precisa. Em seguida, toque duas vezes na tela para confirmar. Deslize para a esquerda para continuar.</string>
+    <string name="intro3">Muito bem! No Cash Scan, você pode identificar uma nota usando a câmera do seu celular. Para iniciar a digitalização, pressione o botão de diminuir o volume. Quando sentir o celular vibrar, direi o valor da nota detectada. Se quiser escanear outra nota, basta tocar em qualquer parte da tela e repetir os passos. Sempre que quiser acessar essa ferramenta, deslize o dedo para a direita no menu principal. Deslize para a esquerda para continuar.</string>
+    <string name="intro4">Além disso, você pode acessar o histórico de notas escaneadas, onde encontrará o valor e a data de cada escaneamento. Para abrir o histórico, deslize o dedo para a esquerda no menu principal. Se quiser apagar o histórico, basta tocar na tela cinco vezes. No histórico, você também pode compartilhar um arquivo de texto com todas as notas escaneadas simplesmente deslizando para a direita. Deslize para a esquerda para continuar.</string>
+    <string name="intro5">Ótimo! Agora você sabe como navegar pelas ferramentas deste aplicativo. Para voltar a qualquer momento, basta deslizar o dedo para a esquerda. Se precisar de uma revisão, pode voltar ao tutorial no menu principal deslizando para cima. Se quiser compartilhar sua opinião sobre o aplicativo ou sugerir novas ferramentas, entre em contato deslizando para baixo. Estamos prontos! Toque duas vezes para começar.</string>
     <string name="intro1Title">Bem-vindo!</string>
-    <string name="intro2Title">Scanner de Notas</string>
-    <string name="intro4Title">Pronto!</string>
+    <string name="intro2Title">Múltiplas moedas</string>
+    <string name="intro3Title">Scanner de Notas</string>
+    <string name="intro5Title">Pronto!</string>
+
     <!-- activityConfig -->
     <string name="confirmarSeleccion">Confirmar</string>
     <string name="eligeModelo">Por favor, escolha o modelo para usar no aplicativo.</string>

@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.reconocimiento_billetes"
-        minSdk = 21
+        minSdk = 21 // Version minima de android sdk que se soporta
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -37,7 +37,11 @@ android {
         )
 
         ndk {
-            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64")
+            abiFilters += listOf(
+                "arm64-v8a",
+                "armeabi-v7a",
+                "x86_64"
+            ) // Para agregar compatibilidad con arquitecturas de dispositivos moviles
         }
     }
 
@@ -73,9 +77,10 @@ android {
 
 chaquopy {
     defaultConfig {
-        buildPython("C:\\Users\\maty\\AppData\\Local\\Programs\\Python\\Python311\\python.exe")
+        buildPython("C:\\Users\\maty\\AppData\\Local\\Programs\\Python\\Python311\\python.exe") // Ubicacion de python
         version = "3.8"
 
+        // Para instalar librerias de Python
         pip {
             install("requests")
         }
@@ -83,7 +88,7 @@ chaquopy {
 
     sourceSets {
         getByName("main") {
-            srcDir("src/main/python")
+            srcDir("src/main/python") // Ubicacion de los archivos python
         }
     }
 }
@@ -114,13 +119,13 @@ dependencies {
     implementation(libs.accompanist.pager)
     implementation(libs.androidx.core.splashscreen)
 
-    // The following line is optional, as the core library is included indirectly by camera-camera2
+    // Dependencias para camerax
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.video)
 
-    // If you want to additionally use the CameraX View class
+    // Dependencias para usar el analizador de imagenes
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.extensions)
     implementation(libs.androidx.material.icons.extended)
