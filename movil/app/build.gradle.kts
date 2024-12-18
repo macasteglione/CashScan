@@ -6,8 +6,10 @@ plugins {
     id("com.chaquo.python")
 }
 
-val api_key = gradleLocalProperties(rootDir, providers).getProperty("API_KEY", "")
-val api_url = gradleLocalProperties(rootDir, providers).getProperty("API_URL", "")
+val apiKey: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY", "")
+val apiUrlArs: String = gradleLocalProperties(rootDir, providers).getProperty("API_URL_ARS", "")
+val apiUrlUsd: String = gradleLocalProperties(rootDir, providers).getProperty("API_URL_USD", "")
+val apiUrlBrl: String = gradleLocalProperties(rootDir, providers).getProperty("API_URL_BRL", "")
 
 android {
     namespace = "com.example.reconocimiento_billetes"
@@ -16,6 +18,7 @@ android {
     defaultConfig {
         applicationId = "com.example.reconocimiento_billetes"
         minSdk = 21 // Version minima de android sdk que se soporta
+        //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -28,12 +31,22 @@ android {
         resValue(
             "string",
             "API_KEY",
-            "\"" + api_key + "\""
+            "\"" + apiKey + "\""
         )
         resValue(
             "string",
-            "API_URL",
-            "\"" + api_url + "\""
+            "API_URL_USD",
+            "\"" + apiUrlUsd + "\""
+        )
+        resValue(
+            "string",
+            "API_URL_ARS",
+            "\"" + apiUrlArs + "\""
+        )
+        resValue(
+            "string",
+            "API_URL_BRL",
+            "\"" + apiUrlBrl + "\""
         )
 
         ndk {

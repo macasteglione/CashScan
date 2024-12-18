@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reconocimiento_billetes.data.SQLiteHelper
 import com.example.reconocimiento_billetes.domain.BillData
-import com.example.reconocimiento_billetes.presentation.BillsAdapter
+import com.example.reconocimiento_billetes.adapters.BillsAdapter
 import com.example.reconocimiento_billetes.presentation.getLocalizedAudioResId
 import java.io.File
 import java.io.FileOutputStream

@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.reconocimiento_billetes.domain.ScreenItem
-import com.example.reconocimiento_billetes.presentation.IntroViewPagerAdapter
+import com.example.reconocimiento_billetes.adapters.IntroViewPagerAdapter
 import com.example.reconocimiento_billetes.presentation.getLocalizedAudioResId
 import com.google.android.material.tabs.TabLayout
 

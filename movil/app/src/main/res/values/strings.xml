@@ -4,6 +4,9 @@
     <string name="title_activity_count_bill">CountBillActivity</string>
     <string name="title_activity_scan_bill">ScanBillActivity</string>
 
+    <string name="apiKey">V0JV6bkDyq6us26QOomX</string>
+    <string name="apiUrlArs">https://detect.roboflow.com/guidobilletes/1</string>
+
     <!-- Manifest -->
     <string name="escanearBilletes">Scan Bills</string>
     <string name="historialDeBilletes">Bill History</string>

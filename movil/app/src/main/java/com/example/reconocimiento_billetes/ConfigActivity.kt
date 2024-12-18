@@ -10,7 +10,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.reconocimiento_billetes.presentation.ModelListAdapter
+import com.example.reconocimiento_billetes.adapters.ModelListAdapter
 import com.example.reconocimiento_billetes.presentation.getLocalizedAudioResId
 
 /**
@@ -69,10 +69,7 @@ class ConfigActivity : AppCompatActivity() {
 
         selectModelButton.setOnClickListener {
             selectedModelIndex?.let { index ->
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("selectedModelIndex", index)
-                startActivity(intent)
-                finish()
+                backToMainActivity(index)
             }
         }
 
@@ -108,10 +105,7 @@ class ConfigActivity : AppCompatActivity() {
 
                     if (isDoubleTap()) {
                         selectedModelIndex?.let { index ->
-                            val intent = Intent(this, MainActivity::class.java)
-                            intent.putExtra("selectedModelIndex", index)
-                            startActivity(intent)
-                            finish()
+                            backToMainActivity(index)
                         }
                     }
                 }
@@ -130,6 +124,14 @@ class ConfigActivity : AppCompatActivity() {
         selectedModelIndex = selectedModelIndex?.takeIf { it < modelListAdapter.itemCount } ?: 0
         modelListAdapter.setSelectedPosition(selectedModelIndex ?: 0)
         playSelectionSound()
+    }
+
+    private fun backToMainActivity(index: Int) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("selectedModelIndex", index)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        finish()
     }
 
     /**

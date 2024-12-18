@@ -9,6 +9,7 @@ import android.media.ThumbnailUtils
 import android.os.Bundle
 import android.os.SystemClock
 import android.os.Vibrator
+import android.util.Log
 import android.view.KeyEvent
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
@@ -45,20 +46,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
+import com.example.reconocimiento_billetes.factory.ConcreteModelFactory
 import com.example.reconocimiento_billetes.presentation.CameraPreview
 import com.example.reconocimiento_billetes.presentation.getLocalizedAudioResId
 import com.example.reconocimiento_billetes.presentation.guardarBaseDeDatos
 import com.example.reconocimiento_billetes.presentation.hasCameraPermission
-import com.example.reconocimiento_billetes.presentation.loadClassNames
-import com.example.reconocimiento_billetes.presentation.loadModel
 import com.example.reconocimiento_billetes.presentation.vibrateDevice
 import com.example.reconocimiento_billetes.ui.theme.ReconocimientobilletesTheme
-import org.tensorflow.lite.DataType
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.File
 import java.io.FileOutputStream
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 import kotlin.math.min
 
 /**
@@ -188,11 +184,9 @@ class ScanBillActivity : AppCompatActivity() {
                     super.onCaptureSuccess(image)
                     controller.enableTorch(false)
 
-                    // Procesar la imagen capturada
                     val matrix = Matrix().apply {
                         postRotate(image.imageInfo.rotationDegrees.toFloat())
                     }
-
                     var bitmap = Bitmap.createBitmap(
                         image.toBitmap(),
                         0,
@@ -207,14 +201,16 @@ class ScanBillActivity : AppCompatActivity() {
                     bitmap = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, false)
 
                     try {
-                        // Guardar la imagen temporalmente
                         val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)
                         val fos = FileOutputStream(tempFile)
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
                         fos.flush()
                         fos.close()
+                        val filePath = tempFile.absolutePath
 
-                        val classificationResult = modelClassifier(bitmap, selectedModel)
+                        val classificationResult =
+                            ConcreteModelFactory().createModel(selectedModel).process(filePath)
+                        Log.d("classificationResult", "$classificationResult")
 
                         // Mostrar resultados del escaneo
                         scanningDialog?.dismiss()
@@ -226,8 +222,6 @@ class ScanBillActivity : AppCompatActivity() {
                             showResultDialog(getString(R.string.noSeDetectoBillete))
                             playDenominationSound(classificationResult.toString(), selectedModel)
                         }
-
-                        tempFile.delete()
                     } catch (e: Exception) {
                         e.printStackTrace()
                         scanningDialog?.dismiss()
@@ -237,57 +231,6 @@ class ScanBillActivity : AppCompatActivity() {
                     }
                 }
             })
-    }
-
-    /**
-     * Clasificar la imagen usando el modelo especificado.
-     */
-    private fun modelClassifier(image: Bitmap, modelName: String): String? {
-        val model = loadModel(modelName, this)
-
-        // Preparar la imagen para la entrada del modelo
-        val inputFeature0 =
-            TensorBuffer.createFixedSize(intArrayOf(1, imageSize, imageSize, 3), DataType.FLOAT32)
-        val byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3).apply {
-            order(ByteOrder.nativeOrder())
-        }
-
-        // Convertir la imagen en datos que el modelo pueda procesar
-        val intValues = IntArray(imageSize * imageSize)
-        image.getPixels(intValues, 0, image.width, 0, 0, image.width, image.height)
-        var pixel = 0
-
-        for (i in 0 until imageSize) {
-            for (j in 0 until imageSize) {
-                val `val` = intValues[pixel++]
-                byteBuffer.putFloat(((`val` shr 16) and 0xFF) * (1f / 1))
-                byteBuffer.putFloat(((`val` shr 8) and 0xFF) * (1f / 1))
-                byteBuffer.putFloat((`val` and 0xFF) * (1f / 1))
-            }
-        }
-
-        inputFeature0.loadBuffer(byteBuffer)
-
-        // Obtener las predicciones del modelo
-        val outputs = model.process(inputFeature0)
-        val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-        val confidences = outputFeature0.floatArray
-
-        // Encontrar la clase con la mayor confianza
-        var maxPos = 0
-        var maxConfidence = 0f
-        for (i in confidences.indices) {
-            if (confidences[i] > maxConfidence) {
-                maxConfidence = confidences[i]
-                maxPos = i
-            }
-        }
-
-        // Cargar los nombres de las clases y devolver el resultado
-        val classes = loadClassNames(this, modelName)
-        model.close()
-
-        return if (maxConfidence >= .85) classes[maxPos] else null
     }
 
     /**
